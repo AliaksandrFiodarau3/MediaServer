@@ -1,10 +1,9 @@
 <script id="artistList" type="text/x-handlebars-template">
-
     <br>
     <br>
     <br>
     <div>
-        <h1 class="page-header">Artists</h1>
+        <h1 class="page-header"><fmt:message key="admin.table.title.artists"/></h1>
         <div class="row placeholders">
             {{#each artists}}
             <div class="col-xs-12 col-sm-2 placeholder">

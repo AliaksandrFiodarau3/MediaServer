@@ -6,9 +6,7 @@ import by.epam.bean.User;
 import by.epam.constant.Error;
 import by.epam.dao.SqlFactory;
 import by.epam.exeption.ServiceException;
-import by.epam.exeption.ValidateException;
 import by.epam.exeption.dao.DAOException;
-import by.epam.util.Validation;
 import org.apache.log4j.Logger;
 
 import java.sql.Date;

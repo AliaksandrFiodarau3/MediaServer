@@ -3,7 +3,7 @@ package by.epam.controller.filter;
 import by.epam.constant.Attribute;
 import by.epam.constant.CommandName;
 import by.epam.constant.Parameter;
-import org.apache.log4j.Logger;
+import by.epam.constant.Path;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -14,12 +14,12 @@ import java.util.Set;
 
 public class AccessFilter implements Filter {
 
-    private static final Logger LOGGER = Logger.getLogger(AccessFilter.class);
-
     private static final char OLD_CHAR = '-';
     private static final char NEW_CHAR = '_';
 
     private Set<CommandName> commandSetForUnauthorizedUser = new HashSet<>();
+    private Set<CommandName> commandSetForAdmin = new HashSet<>();
+    private Set<CommandName> commandSetForUser = new HashSet<>();
 
 
     /**
@@ -30,42 +30,11 @@ public class AccessFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
-        System.out.println("AccessFilter");
-
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-
-        String root = (String) httpRequest.getSession().getAttribute(Attribute.ATTRIBUTE_USER_ROLE);
-
-        String command = httpRequest.getParameter(Parameter.PARMETER_COMMAND);
-
-
-        if ((root == null ) && command != null) {
-
-            try {
-                CommandName commandName = CommandName.valueOf(command.toUpperCase().replace(OLD_CHAR, NEW_CHAR));
-                boolean isPermited = commandSetForUnauthorizedUser.contains(commandName);
-
-                if (!isPermited) {
-                    LOGGER.info( "Unathorized attempt to execute command: " + commandName);
-                    httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
-                } else {
-                    filterChain.doFilter(request, response);
-                }
-
-            } catch (IllegalArgumentException e) {
-                LOGGER.info(e);
-                httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
-            }
-        } else {
-            filterChain.doFilter(request, response);
-        }
-      /*  HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-        HttpSession session = req.getSession();
-
-        User user = (User) session.getAttribute(Attribute.ATTRIBUTE_USER);
+        String login = (String) req.getSession().getAttribute(Attribute.ATTRIBUTE_USER_LOGIN);
+        Boolean root = (Boolean) req.getSession().getAttribute(Attribute.ATTRIBUTE_USER_ROLE);
 
         String command = req.getParameter(Parameter.PARMETER_COMMAND);
 
@@ -73,28 +42,24 @@ public class AccessFilter implements Filter {
 
             command = command.replace(OLD_CHAR, NEW_CHAR);
             CommandName commandName = CommandName.valueOf(command.toUpperCase());
-
-            if (user == null) {
-                if (commandGuestList.contains(commandName)) {
+            if (login != null) {
+                if (root && commandSetForAdmin.contains(commandName)) {
                     filterChain.doFilter(req, resp);
-                } else {
-                    request.getRequestDispatcher(Path.PATH_TO_INDEX_PAGE).forward(request, response);
+                }
+
+                if (!root && commandSetForUser.contains(commandName)) {
+                    filterChain.doFilter(req, resp);
                 }
             } else {
-                if (user.isAdminRoot() && commandAdminList.contains(commandName)) {
+                if (commandSetForUnauthorizedUser.contains(commandName)) {
                     filterChain.doFilter(req, resp);
-                }
-                if (!user.isAdminRoot() && commandSetForUnauthorizedUser.contains(commandName)) {
-                    filterChain.doFilter(req, resp);
-                }
-                else{
-                    request.getRequestDispatcher(Path.PATH_TO_ERROR_PAGE).forward(request, response);
+                } else {
+                    resp.sendRedirect(Path.PATH_TO_INDEX_PAGE);
                 }
             }
-        }else{
-            ((HttpServletResponse) response).sendRedirect(Path.PATH_TO_HOME_PAGE);
+        } else {
+            filterChain.doFilter(req, resp);
         }
-        filterChain.doFilter(req, resp);*/
     }
 
 
@@ -104,7 +69,10 @@ public class AccessFilter implements Filter {
 
     public void init(FilterConfig filterConfig) throws ServletException {
 
-       /* commandAdminList = new ArrayList<>();*/
+
+        /**
+         * Guest commands
+         * */
 
         commandSetForUnauthorizedUser.add(CommandName.HOME);
         commandSetForUnauthorizedUser.add(CommandName.SIGN_IN);
@@ -115,57 +83,76 @@ public class AccessFilter implements Filter {
         commandSetForUnauthorizedUser.add(CommandName.CHECK_LOGIN);
 
 
-       /* /////////////////////////////////////////////////
+        /**
+         * Admin commands
+         * */
 
-        commandAdminList.add(CommandName.CHANGE_LOCALE);
-        commandAdminList.add(CommandName.SIGN_OUT);
+        commandSetForAdmin.add(CommandName.HOME);
+        commandSetForAdmin.add(CommandName.CHANGE_LOCALE);
+        commandSetForAdmin.add(CommandName.SIGN_OUT);
+        commandSetForAdmin.add(CommandName.SIGN_IN);
+        commandSetForAdmin.add(CommandName.SIGN_UP);
 
-        commandAdminList.add(CommandName.ADD_ALBUM);
-        commandAdminList.add(CommandName.ADD_ARTIST);
-        commandAdminList.add(CommandName.ADD_BONUS);
-        commandAdminList.add(CommandName.ADD_GENRE);
-        commandAdminList.add(CommandName.ADD_ORDER);
-        commandAdminList.add(CommandName.ADD_SONG);
-        commandAdminList.add(CommandName.ADD_USER);
+        commandSetForAdmin.add(CommandName.ADD_ALBUM);
+        commandSetForAdmin.add(CommandName.ADD_ARTIST);
+        commandSetForAdmin.add(CommandName.ADD_BONUS);
+        commandSetForAdmin.add(CommandName.ADD_GENRE);
+        commandSetForAdmin.add(CommandName.ADD_ORDER);
+        commandSetForAdmin.add(CommandName.ADD_SONG);
+        commandSetForAdmin.add(CommandName.ADD_USER);
 
-        commandAdminList.add(CommandName.SHOW_ALBUM);
-        commandAdminList.add(CommandName.SHOW_ARTIST);
-        commandAdminList.add(CommandName.SHOW_BONUS);
-        commandAdminList.add(CommandName.SHOW_GENRE);
-        commandAdminList.add(CommandName.SHOW_ORDER);
-        commandAdminList.add(CommandName.SHOW_SONG);
-        commandAdminList.add(CommandName.SHOW_USER);
+        commandSetForAdmin.add(CommandName.SHOW_ALBUM);
+        commandSetForAdmin.add(CommandName.SHOW_ARTIST);
+        commandSetForAdmin.add(CommandName.SHOW_BONUS);
+        commandSetForAdmin.add(CommandName.SHOW_GENRE);
+        commandSetForAdmin.add(CommandName.SHOW_ORDER);
+        commandSetForAdmin.add(CommandName.SHOW_SONG);
+        commandSetForAdmin.add(CommandName.SHOW_USER);
+        commandSetForAdmin.add(CommandName.SHOW_GOODS);
 
-        commandAdminList.add(CommandName.EDIT_ALBUM);
-        commandAdminList.add(CommandName.EDIT_ARTIST);
-        commandAdminList.add(CommandName.EDIT_BONUS);
-        commandAdminList.add(CommandName.EDIT_GENRE);
-        commandAdminList.add(CommandName.EDIT_ORDER);
-        commandAdminList.add(CommandName.EDIT_SONG);
-        commandAdminList.add(CommandName.EDIT_USER);
+        commandSetForAdmin.add(CommandName.EDIT_ALBUM);
+        commandSetForAdmin.add(CommandName.EDIT_ARTIST);
+        commandSetForAdmin.add(CommandName.EDIT_BONUS);
+        commandSetForAdmin.add(CommandName.EDIT_GENRE);
+        commandSetForAdmin.add(CommandName.EDIT_ORDER);
+        commandSetForAdmin.add(CommandName.EDIT_SONG);
+        commandSetForAdmin.add(CommandName.EDIT_USER);
 
-        commandAdminList.add(CommandName.DELETE_ALBUM);
-        commandAdminList.add(CommandName.DELETE_ARTIST);
-        commandAdminList.add(CommandName.DELETE_BONUS);
-        commandAdminList.add(CommandName.DELETE_GENRE);
-        commandAdminList.add(CommandName.DELETE_ORDER);
-        commandAdminList.add(CommandName.DELETE_SONG);
-        commandAdminList.add(CommandName.DELETE_USER);
+        commandSetForAdmin.add(CommandName.DELETE_ALBUM);
+        commandSetForAdmin.add(CommandName.DELETE_ARTIST);
+        commandSetForAdmin.add(CommandName.DELETE_GOOD);
+        commandSetForAdmin.add(CommandName.DELETE_BONUS);
+        commandSetForAdmin.add(CommandName.DELETE_GENRE);
+        commandSetForAdmin.add(CommandName.DELETE_ORDER);
+        commandSetForAdmin.add(CommandName.DELETE_SONG);
+        commandSetForAdmin.add(CommandName.DELETE_USER);
 
+        /**
+         * User commands
+         * */
 
-        *//*commandSetForUnauthorizedUser = new ArrayList<>();*//*
+        commandSetForUser.add(CommandName.HOME);
+        commandSetForUser.add(CommandName.CHANGE_LOCALE);
+        commandSetForUser.add(CommandName.SIGN_OUT);
+        commandSetForUser.add(CommandName.SIGN_IN);
+        commandSetForUser.add(CommandName.SIGN_UP);
 
-        commandSetForUnauthorizedUser.add(CommandName.CHANGE_LOCALE);
-        commandAdminList.add(CommandName.SIGN_OUT);
+        commandSetForUser.add(CommandName.SHOW_ALBUM);
+        commandSetForUser.add(CommandName.SHOW_ARTIST);
+        commandSetForUser.add(CommandName.SHOW_BONUS);
+        commandSetForUser.add(CommandName.SHOW_GENRE);
+        commandSetForUser.add(CommandName.SHOW_ORDER);
+        commandSetForUser.add(CommandName.SHOW_SONG);
+        commandSetForUser.add(CommandName.SHOW_USER);
+        commandSetForUser.add(CommandName.SHOW_COMMENT);
 
-        commandSetForUnauthorizedUser.add(CommandName.ALBUM_SHOW);
-        commandSetForUnauthorizedUser.add(CommandName.ARTIST_SHOW);
+        commandSetForUser.add(CommandName.ADD_GOOD);
+        commandSetForUser.add(CommandName.BUY);
+        commandSetForUser.add(CommandName.DELETE_USER_GOOD);
+        commandSetForUser.add(CommandName.SEND_MESSAGE);
+        commandSetForUser.add(CommandName.SHOW_USER_GOODS);
+        commandSetForUser.add(CommandName.USE_BONUS);
 
-
-       *//* commandGuestList = new ArrayList<>();*//*
-
-        commandGuestList.add(CommandName.CHANGE_LOCALE);
-        commandGuestList.add(CommandName.SIGN_IN);*/
 
     }
 
@@ -174,8 +161,8 @@ public class AccessFilter implements Filter {
      */
 
     public void destroy() {
-       // commandAdminList = null;
+        commandSetForUser = null;
         commandSetForUnauthorizedUser = null;
-      //  commandGuestList = null;
+        commandSetForAdmin = null;
     }
 }

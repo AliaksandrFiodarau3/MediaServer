@@ -36,8 +36,6 @@ public class Messanger {
             bundle = ResourceBundle.getBundle(String.valueOf(Resourse.EN_MESSAGES));
         }
 
-        System.out.println(bundle.getString(message));
-
         out.print(bundle.getString(message));
 
 

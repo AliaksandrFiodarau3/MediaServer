@@ -7,9 +7,6 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a id="showGoods" href="#"><i class="glyphicon glyphicon-shopping-cart"></i><fmt:message key="admin.link.cart"/></a>
-            </li>
-            <li>
                 <a href="#" data-toggle="modal"data-target="#profileModal"><i class="glyphicon glyphicon-cog"></i><fmt:message key="admin.link.setting"/></a>
             </li>
             <li><a href="Controller?command=sign-out"><i class="glyphicon glyphicon-log-out"></i>

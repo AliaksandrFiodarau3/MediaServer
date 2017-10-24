@@ -22,7 +22,6 @@ public class HomePage implements Command {
 
         String root = String.valueOf(request.getSession().getAttribute(Attribute.ATTRIBUTE_USER_ROLE));
 
-        System.out.println(root);
         switch (root) {
             case "true":
                 response.sendRedirect(Path.PATH_TO_ADMIN_PAGE);

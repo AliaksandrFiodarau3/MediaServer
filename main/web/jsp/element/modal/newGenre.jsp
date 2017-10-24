@@ -1,12 +1,10 @@
 <!-- Modal -->
-
 <div id="newGenre" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
         <div class="modal-content">
             <div class="modal-header">
                 <center>
-                    <h1>New genre</h1>
+                    <h1><fmt:message key="admin.table.title.add.genre"/></h1>
                 </center>
             </div>
             <!-- Add new user form -->
@@ -27,7 +25,8 @@
                             <label for="descriptionGenre" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.description"/>:</label>
                             <div class="col-sm-5">
-                                <input name="descriptionGenre" id="descriptionGenre" placeholder="<fmt:message key="label.description"/>"
+                                <input name="descriptionGenre" id="descriptionGenre"
+                                       placeholder="<fmt:message key="label.description"/>"
                                        class="form-control" required>
                             </div>
                         </div>
@@ -40,21 +39,17 @@
                                        class="form-control" required>
                             </div>
                         </div>
-                        <c:if test="${errorMessage != null}">
-                            <div class="form-group row">
-                                <div class="has-error alert alert-danger" role="alert">
-                                        ${errorMessage}
-                                </div>
-                            </div>
-                        </c:if>
                     </div>
                 </div>
 
+                <div id=error></div>
+
                 <div class="modal-footer">
                     <center>
-                        <button id="submit" type="submit" class="btn btn-success">Sign</button>
-                        <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
-                        <div id=error></div>
+                        <button id="submit" type="submit" class="btn btn-success">
+                            <fmt:message key="admin.table.sign"/></button>
+                        <button class="btn btn-default" type="button" data-dismiss="modal">
+                            <fmt:message key="admin.table.close"/></button>
                     </center>
                 </div>
             </form>

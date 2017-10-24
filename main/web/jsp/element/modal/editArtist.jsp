@@ -7,7 +7,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <center>
-                    <h1>Edit Artist</h1>
+                    <h1><fmt:message key="admin.table.edit"/></h1>
                 </center>
             </div>
             <!-- Edit form -->
@@ -43,12 +43,13 @@
                         </div>
                     </div>
                 </div>
+                <div id=error></div>
 
                 <div class="modal-footer">
                     <center>
-                        <button type="submit" class="btn btn-success">Sign</button>
-                        <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
-                        <div id=error></div>
+                        <button type="submit" class="btn btn-success"><fmt:message key="admin.table.sign"/></button>
+                        <button class="btn btn-default" type="button" data-dismiss="modal"><fmt:message key="admin.table.close"/></button>
+
                     </center>
                 </div>
             </form>

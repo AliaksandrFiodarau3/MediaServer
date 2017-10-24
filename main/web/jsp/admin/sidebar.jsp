@@ -7,16 +7,16 @@
     <li>
         <a id="users" class="item" href="#users">
             <span class="glyphicon glyphicon-user"></span>
-            Users</a>
+            <fmt:message key="admin.link.user"/></a>
     </li>
     <li>
         <a id="bonuses" class="item" href="#bonuses">
             <span class="glyphicon glyphicon-gift"></span>
-            Bonuses</a>
+            <fmt:message key="admin.link.bonus"/></a>
     </li>
     <li>
         <a id="genres" class="item" href="#genres">
             <span class="glyphicon glyphicon-music"></span>
-            Music</a>
+            <fmt:message key="admin.link.music"/></a>
     </li>
 </ul>

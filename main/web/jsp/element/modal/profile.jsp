@@ -15,18 +15,11 @@
                     <img src="${photoUser}"
                          name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
                     <h3 class="media-heading">${nameUser} ${surnameUser}</h3>
-                    <span><strong>Bonuses: </strong></span>
-
-                    <c:forEach var="bonus" items="${bonuses}">
-
-                        <span class="label label-info">${bonus.title}</span>
-
-                    </c:forEach>
                 </center>
                 <hr>
                 <center>
-                    <p class="text-center"><strong>E-mail: </strong> ${emailUser}</p>
-                    <p class="text-center"><strong>Login: </strong> ${loginUser}</p>
+                    <p class="text-center"><strong><fmt:message key="admin.table.user.email"/>: </strong> ${emailUser}</p>
+                    <p class="text-center"><strong><fmt:message key="admin.table.user.login"/>: </strong> ${loginUser}</p>
                 </center>
             </div>
             <div class="modal-footer">

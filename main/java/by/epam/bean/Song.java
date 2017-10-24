@@ -8,7 +8,7 @@ public class Song extends Model {
     private String title;
     private Time duration;
     private int price;
-    private int id = super.id;
+
 
     public Song() {
     }
@@ -62,7 +62,6 @@ public class Song extends Model {
         Song song = (Song) o;
 
         if (getPrice() != song.getPrice()) return false;
-        if (getId() != song.getId()) return false;
         if (getAlbum() != null ? !getAlbum().equals(song.getAlbum()) : song.getAlbum() != null) return false;
         if (getTitle() != null ? !getTitle().equals(song.getTitle()) : song.getTitle() != null) return false;
         return getDuration() != null ? getDuration().equals(song.getDuration()) : song.getDuration() == null;
@@ -75,7 +74,6 @@ public class Song extends Model {
         result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
         result = 31 * result + (getDuration() != null ? getDuration().hashCode() : 0);
         result = 31 * result + getPrice();
-        result = 31 * result + getId();
         return result;
     }
 

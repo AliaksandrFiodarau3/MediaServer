@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Set;
 
 public class ShowGoods implements Command {
 
@@ -36,7 +35,7 @@ public class ShowGoods implements Command {
         try {
             Order order = ServiceFactory.getOrderTableService().getById(Integer.parseInt(id));
 
-            List<OrderSong> goods = ServiceFactory.getGoodService().getByOrder(order.getId());
+            List<OrderSong> goods = ServiceFactory.getGoodTableService().getByOrder(order.getId());
 
             out.print("{\"goods\": " + mapper.writeValueAsString(goods) + "}");
 

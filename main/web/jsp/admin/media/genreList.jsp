@@ -2,9 +2,9 @@
     <br>
     <br>
     <br>
-    <h1 class="page-header">Genres</h1>
+    <h1 class="page-header"><fmt:message key="admin.table.title.genres"/></h1>
     <a data-toggle="modal" data-target="#newGenre" href="#" onfocus="inputGenre('{{title}}')" class="btn btn-primary btn-xs pull-right"><b>+</b>
-        Add new genre</a>
+        <fmt:message key="admin.table.add.genre"/></a>
     <div class="row placeholders">
         {{#each genres}}
         <div class="col-xs-12 col-sm-2 placeholder">

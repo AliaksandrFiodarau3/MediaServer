@@ -3,17 +3,17 @@
     <br>
     <br>
     <br>
-    <h1 class="page-header">Bonuses</h1>
-    <a href="#" data-toggle="modal" data-target="#newBonus" class="btn btn-primary btn-xs pull-right"><b>+</b> Add new bonus</a>
+    <h1 class="page-header"><fmt:message key="admin.table.title.bonuses"/></h1>
+    <a href="#" data-toggle="modal" data-target="#newBonus" class="btn btn-primary btn-xs pull-right"><b>+</b><fmt:message key="admin.table.add.bonus"/></a>
     <table class="table">
         <thead>
         <tr>
-            <th class="text-center">Id</th>
-            <th class="text-center">Title</th>
-            <th class="text-center">Description</th>
-            <th class="text-center">Discount</th>
-            <th class="text-center">Code</th>
-            <th class="text-center">Actions</th>
+            <th class="text-center">#</th>
+            <th class="text-center"><fmt:message key="admin.table.bonuses.title"/></th>
+            <th class="text-center"><fmt:message key="admin.table.bonus.description"/></th>
+            <th class="text-center"><fmt:message key="admin.table.bonus.discount"/></th>
+            <th class="text-center"><fmt:message key="admin.table.bonuses.code"/></th>
+            <th class="text-center"><fmt:message key="admin.table.bonuses.actions"/></th>
         </tr>
         </thead>
         <tbody>
@@ -26,7 +26,7 @@
             <td class="text-center">{{code}}</td>
             <td class="text-center">
                 <a onclick="deleteBonus('{{id}}')" href="#" class="btn btn-danger btn-xs">
-                    <span class="glyphicon glyphicon-remove"></span> Del
+                    <span class="glyphicon glyphicon-remove"></span><fmt:message key="admin.table.delete"/>
                 </a>
             </td>
         </tr>

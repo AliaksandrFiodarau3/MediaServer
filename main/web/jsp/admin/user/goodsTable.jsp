@@ -3,14 +3,14 @@
     <br>
     <br>
     <br>
-    <h1 class="page-header">Goods</h1>
+    <h1 class="page-header"><fmt:message key="admin.table.title.goods"/></h1>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th class="text-center">Number</th>
-                <th class="text-center">Song</th>
-                <th class="text-center">Price</th>
-                <th class="text-center">Actions</th>
+                <th class="text-center"><fmt:message key="admin.table.goods.number"/></th>
+                <th class="text-center"><fmt:message key="admin.table.goods.song"/></th>
+                <th class="text-center"><fmt:message key="admin.table.goods.price"/></th>
+                <th class="text-center"><fmt:message key="admin.table.goods.actions"/></th>
             </tr>
             </thead>
             <tbody>
@@ -22,7 +22,7 @@
                 <td class="text-center">
                     <a id="delete" data-userId="{{id}}" href="#" class="btn btn-danger btn-xs"
                        onclick="deleteGood('{{id}}')">
-                        <span class="glyphicon glyphicon-remove"></span> Del
+                        <span class="glyphicon glyphicon-remove"></span> <fmt:message key="admin.table.delete"/>
                     </a>
                 </td>
             </tr>

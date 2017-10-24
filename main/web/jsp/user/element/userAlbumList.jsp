@@ -3,7 +3,7 @@
     <br>
     <br>
     <div>
-        <h1 class="page-header">Albums</h1>
+        <h1 class="page-header"><fmt:message key="admin.table.title.albums"/></h1>
         <div class="row placeholders">
             {{#each albums}}
             <div class="col-xs-12 col-sm-2 placeholder">
@@ -31,29 +31,4 @@
             {{/each}}
         </div>
     </div>
-
-<%--    <div class="container-fluid">
-        <div class="card">
-            <ul>
-                <div class="row">
-                    {{#each albums}}
-                    <li class="col-md-2 block img-figure">
-                        <div class="product-item">
-                            <div class="pi-img-wrapper">
-                                <img class="img-responsive round" src="{{image}}">
-                                <div>
-                                    <a href="#" class="btn" onclick="showSong('{{title}}')">
-                                        <span class="glyphicon glyphicon-search"/></a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    {{/each}}
-                </div>
-            </ul>
-        </div>
-    </div>--%>
-
-
-
 </script>

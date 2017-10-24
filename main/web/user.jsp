@@ -38,7 +38,6 @@
 <%@include file='jsp/user/element/userGoodsList.jsp' %>
 <%@include file='jsp/user/element/userCommentShow.jsp' %>
 
-<%@include file='jsp/element/modal/order.jsp' %>
 <%@include file='jsp/element/modal/profile.jsp' %>
 
 <script src="js/framework/jquery-3.2.1.js"></script>

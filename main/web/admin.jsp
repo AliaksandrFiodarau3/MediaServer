@@ -18,13 +18,13 @@
 </head>
 <body>
 <header>
-    <%@include file='jsp/element/admin/headerAdmin.jsp' %>
+    <%@include file='jsp/admin/headerAdmin.jsp' %>
 </header>
 
 <div class="container-fluid">
     <div class="row">
         <div class="sidebar">
-            <%@include file='jsp/element/admin/sidebar.jsp' %>
+            <%@include file='jsp/admin/sidebar.jsp' %>
         </div>
         <div class=" col-sm-offset-3 col-md-offset-2 main">
             <div id="content"></div>
@@ -32,21 +32,22 @@
     </div>
 </div>
 
-<%@include file='jsp/element/admin/user/goodsTable.jsp' %>
-<%@include file='jsp/element/admin/user/userTable.jsp' %>
-<%@include file='jsp/element/admin/user/orderTable.jsp' %>
-<%@include file='jsp/element/admin/bonus/bonusTable.jsp' %>
-<%@include file='jsp/element/admin/media/genreList.jsp' %>
-<%@include file='jsp/element/admin/media/artistList.jsp' %>
-<%@include file='jsp/element/admin/media/albumList.jsp' %>
-<%@include file='jsp/element/admin/media/songTable.jsp' %>
+<%@include file='jsp/admin/user/goodsTable.jsp' %>
+<%@include file='jsp/admin/user/userTable.jsp' %>
+<%@include file='jsp/admin/user/orderTable.jsp' %>
+<%@include file='jsp/admin/bonus/bonusTable.jsp' %>
+<%@include file='jsp/admin/media/genreList.jsp' %>
+<%@include file='jsp/admin/media/artistList.jsp' %>
+<%@include file='jsp/admin/media/albumList.jsp' %>
+<%@include file='jsp/admin/media/songTable.jsp' %>
 
-<%@include file='jsp/element/modal/order.jsp' %>
+
 <%@include file='jsp/element/modal/editUser.jsp' %>
 <%@include file='jsp/element/modal/editArtist.jsp' %>
 <%@include file='jsp/element/modal/newUser.jsp' %>
 <%@include file='jsp/element/modal/newGenre.jsp' %>
 <%@include file='jsp/element/modal/newArtist.jsp' %>
+
 <%@include file='jsp/element/modal/newSong.jsp' %>
 <%@include file='jsp/element/modal/newAlbum.jsp' %>
 <%@include file='jsp/element/modal/newBonus.jsp' %>

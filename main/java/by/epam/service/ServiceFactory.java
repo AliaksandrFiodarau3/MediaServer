@@ -68,7 +68,7 @@ public class ServiceFactory {
         return genreInstance;
     }
 
-      public static GoodTableService getGoodService() {
+      public static GoodTableService getGoodTableService() {
 
         if (goodInstance == null) {
             goodInstance = new GoodTableService();

@@ -3,9 +3,9 @@
     <br>
     <br>
     <div>
-        <h1 class="page-header">Albums</h1>
+        <h1 class="page-header"><fmt:message key="admin.table.title.albums"/></h1>
         <a data-toggle="modal" data-target="#newAlbum" href="#" class="btn btn-primary btn-xs pull-right"  onfocus="inputArtist('{{artist.title}}')"><b>+</b>
-            Add new album</a>
+            <fmt:message key="admin.table.add.album"/></a>
         <div class="row placeholders">
             {{#each albums}}
             <div class="col-xs-12 col-sm-2 placeholder">

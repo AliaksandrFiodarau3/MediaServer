@@ -1,15 +1,14 @@
 <script id="userGoodsTable" type="text/x-handlebars-template">
         <li>
             <div class="panel panel-default">
-                <!--SHIPPING METHOD-->
-                <div class="panel-heading text-center"><h4>Your Cart</h4></div>
+                <div class="panel-heading text-center"><h4><fmt:message key="goods.title"/></h4></div>
                 <div class="panel-body">
                     <table class="table borderless">
                         <thead>
                         <tr>
-                            <td><strong>Your Cart: # item</strong></td>
-                            <td></td>
-                            <td></td>
+                            <td><strong><fmt:message key="goods.title"/></strong></td>
+                            <td><fmt:message key="admin.table.song.price"/></td>
+                            <td><fmt:message key="admin.table.delete"/></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -24,14 +23,14 @@
                                                                                   style="width: 72px; height: 72px;">
                                     </a>
                                     <div class="media-body">
-                                        <h5 class="media-heading"><strong>Song</strong> {{song.title}}</h5>
-                                        <h5 class="media-heading"><strong>Album</strong> {{song.album.title}} </h5>
+                                        <h5 class="media-heading"><strong><fmt:message key="goods.song"/></strong> {{song.title}}</h5>
+                                        <h5 class="media-heading"><strong><fmt:message key="goods.album"/></strong> {{song.album.title}} </h5>
                                     </div>
                                 </div>
                             </td>
                             <td class="text-right">{{song.price}}$</td>
                             <td class="text-right">
-                                <button type="button" class="btn btn-danger" onclick="removeSong('{{song.id}}')">Remove</button>
+                                <button type="button" class="btn btn-danger" onclick="removeSong('{{song.id}}')"><fmt:message key="admin.table.delete"/></button>
                             </td>
                         </tr>
                         {{/each}}
@@ -47,7 +46,7 @@
                                        class="form-control form-control-plaintext" required>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="useBonus()">Add</button>
+                        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="useBonus()"><fmt:message key="admin.table.add"/></button>
                     </div>
                     <hr>
                     <div class="panel-body">
@@ -60,7 +59,7 @@
                             <div class="pull-right"><span>$</span><span>{{order.price}}</span></div>
                             <hr>
                         </div>
-                        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="Buy()">Buy</button>
+                        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="Buy()"><fmt:message key="admin.table.buy"/></button>
                     </div>
                 </div>
             </div>

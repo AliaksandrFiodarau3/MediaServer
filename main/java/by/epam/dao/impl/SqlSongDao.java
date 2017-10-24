@@ -120,7 +120,9 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
         SqlFactory factory = SqlFactory.getInstance();
 
         try {
-            song.setId(rs.getInt(SONG_ID));
+            int id = rs.getInt(SONG_ID);
+            song.setId(id);
+
             Album album = (Album) factory.getAlbumDao().getById(rs.getInt(ALBUM_ID));
             song.setAlbum(album);
             song.setTitle(rs.getString(SONG_TITLE));
@@ -153,7 +155,7 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
                 song = parseResult(rs);
                 list.add((Song) song);
             }
-        }  catch (SQLException e) {
+        } catch (SQLException e) {
             LOGGER.error(SQL_EXEPTION, e);
             throw new DAOException(SQL_EXEPTION);
         } catch (ConnectionPoolException e) {

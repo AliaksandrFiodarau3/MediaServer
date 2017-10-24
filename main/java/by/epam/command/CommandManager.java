@@ -30,6 +30,7 @@ public class CommandManager {
 
     private CommandManager() {
 
+        //Guest commands
 
         commands.put(CommandName.CHECK_EMAIL, new CheckEmail());
         commands.put(CommandName.CHECK_LOGIN, new CheckLogin());
@@ -42,13 +43,14 @@ public class CommandManager {
         commands.put(CommandName.CHANGE_LOCALE, new LocaleChange());
 
         //User commands
-/*
-        commands.put(CommandName.ALBUM_SHOW, new UserAlbumShow());
-        commands.put(CommandName.ARTIST_SHOW, new UserArtistShow());*/
+
         commands.put(CommandName.SHOW_COMMENT, new ShowComments());
         commands.put(CommandName.SEND_MESSAGE, new SendMessage());
-        //commands.put(CommandName.SONG_SHOW, new UserSongShow());
         commands.put(CommandName.ADD_GOOD, new GoodAdd());
+        commands.put(CommandName.SHOW_USER_GOODS, new ShowUserGoods());
+        commands.put(CommandName.DELETE_USER_GOOD, new DeleteUserGood());
+        commands.put(CommandName.USE_BONUS, new UseBonus());
+        commands.put(CommandName.BUY, new Buy());
 
         //Admin commands (CRUD)
 
@@ -68,7 +70,6 @@ public class CommandManager {
 
         commands.put(CommandName.SHOW_GENRE, new ShowGenres());
         commands.put(CommandName.SHOW_ORDER, new ShowOrders());
-        commands.put(CommandName.SHOW_USER_GOODS, new ShowUserGoods());
         commands.put(CommandName.SHOW_GOODS, new ShowGoods());
         commands.put(CommandName.SHOW_SONG, new ShowSongs());
         commands.put(CommandName.SHOW_USER, new ShowUsers());
@@ -91,10 +92,9 @@ public class CommandManager {
         commands.put(CommandName.DELETE_SONG, new SongDelete());
         commands.put(CommandName.DELETE_USER, new UserDelete());
         commands.put(CommandName.DELETE_GOOD, new GoodDelete());
-        commands.put(CommandName.DELETE_USER_GOOD, new DeleteGoodService());
 
-        commands.put(CommandName.USE_BONUS, new UseBonus());
-        commands.put(CommandName.BUY, new Buy());
+
+
     }
 
     /**
@@ -111,7 +111,6 @@ public class CommandManager {
         CommandName commandName = CommandName.valueOf(name.toUpperCase());
 
         Command command = commands.get(commandName);
-        System.out.println(commandName);
         return command;
     }
 }

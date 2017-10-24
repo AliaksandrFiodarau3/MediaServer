@@ -11,8 +11,8 @@ import java.io.IOException;
 
 public interface Command {
 
-    static String VALIDATION_ERROR = "Validation is error.";
-    static String DB_ERROR = "Error in data base.";
+     String VALIDATION_ERROR = "Validation is error.";
+     String DB_ERROR = "Error in data base.";
 
     /**
      *

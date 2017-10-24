@@ -6,7 +6,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <center>
-                    <h1>New song</h1>
+                    <h1><fmt:message key="admin.table.title.add.song"/></h1>
                 </center>
             </div>
             <!-- Add new user form -->
@@ -40,21 +40,15 @@
                                        class="form-control" required>
                             </div>
                         </div>
-                        <c:if test="${errorMessage != null}">
-                            <div class="form-group row">
-                                <div class="has-error alert alert-danger" role="alert">
-                                        ${errorMessage}
-                                </div>
-                            </div>
-                        </c:if>
                     </div>
                 </div>
 
+                <div id=error></div>
+
                 <div class="modal-footer">
                     <center>
-                        <button id="submit" type="submit" class="btn btn-success">Sign</button>
-                        <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
-                        <div id=error></div>
+                        <button id="submit" type="submit" class="btn btn-success"><fmt:message key="admin.table.sign"/></button>
+                        <button class="btn btn-default" type="button" data-dismiss="modal"><fmt:message key="admin.table.close"/></button>
                     </center>
                 </div>
             </form>

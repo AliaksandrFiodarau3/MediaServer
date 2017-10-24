@@ -1,10 +1,8 @@
 <script id="genreList" type="text/x-handlebars-template">
-
-
     <br>
     <br>
     <br>
-    <h1 class="page-header">Genres</h1>
+    <h1 class="page-header"><fmt:message key="admin.table.title.genres"/></h1>
     <div class="row placeholders">
         {{#each genres}}
         <div class="col-xs-12 col-sm-2 placeholder">
@@ -31,29 +29,4 @@
         </div>
         {{/each}}
     </div>
-
-
-    <%--<div class="container-fluid">
-        <div class="card">
-            <ul>
-                <div class="row">
-                    {{#each genres}}
-                    <li class="col-md-2 block img-figure">
-                        <div class="product-item">
-                            <div href="#" class="pi-img-wrapper" onclick="showArtist('{{title}}')">
-                                <img class="img-responsive round" src="{{image}}" >
-                                <div>
-                                    &lt;%&ndash;<a href="#" class="btn" onclick="showArtist('{{title}}')">
-                                        <span class="glyphicon glyphicon-search"/></a>&ndash;%&gt;
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    {{/each}}
-                </div>
-            </ul>
-        </div>
-    </div>--%>
-
-
 </script>

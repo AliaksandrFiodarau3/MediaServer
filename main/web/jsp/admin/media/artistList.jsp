@@ -3,9 +3,9 @@
     <br>
     <br>
     <div>
-        <h1 class="page-header">Artists</h1>
+        <h1 class="page-header"><fmt:message key="admin.table.title.artists"/></h1>
         <a data-toggle="modal" data-target="#newArtist" href="#" class="btn btn-primary btn-xs pull-right" onfocus="inputGenre('{{genre.title}}')"><b>+</b>
-            Add new artist</a>
+            <fmt:message key="admin.table.add.artist"/></a>
         <div class="row placeholders">
             {{#each artists}}
             <div class="col-xs-12 col-sm-2 placeholder">
