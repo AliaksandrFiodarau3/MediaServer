@@ -1,0 +1,15 @@
+**/.settings
+
+**/target
+
+**/.classpath
+
+**/.project
+
+**/.idea
+
+**/logs
+
+**/test-log
+
+*.iml
