@@ -1,15 +1,15 @@
-**/.settings
+*.class
 
-**/target
+# BlueJ files
+*.ctxt
 
-**/.classpath
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
 
-**/.project
+# Package Files #
+*.jar
+*.war
+*.ear
 
-**/.idea
-
-**/logs
-
-**/test-log
-
-*.iml
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
