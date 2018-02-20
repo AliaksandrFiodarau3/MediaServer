@@ -1,0 +1,50 @@
+[33mcommit ad443df68bb71dab6f663d06b3a8de2cd5d02173[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/issue_2[m[33m, [m[1;31morigin/issue1[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32missue_2[m[33m, [m[1;32missue1[m[33m)[m
+Author: Aliaksandr_Fiodarau3@epam.com <aliaksandr_fiodarau3@epam.com>
+Date:   Mon Feb 19 16:16:00 2018 +0300
+
+    Maven structure
+
+[33mcommit 83112a11a30e1738150e4749b35552fa67475b59[m
+Merge: 53dd378 e36cdeb
+Author: Alexandr <Fedorov.Alexandr25@gmail.com>
+Date:   Tue Oct 24 17:14:14 2017 +0300
+
+    Merge branch 'master' of https://github.com/cxFaust/MediaServer
+
+[33mcommit 53dd3780eed08043f8e054254f342391bdede457[m
+Author: Alexandr <Fedorov.Alexandr25@gmail.com>
+Date:   Tue Oct 24 17:14:10 2017 +0300
+
+    Final task
+
+[33mcommit e36cdeb74189493ed0e9750859e24d94628bedc8[m
+Author: AlexandrFedorov <bu.pups@gmail.com>
+Date:   Tue Oct 24 11:29:13 2017 +0300
+
+    Update README.md
+
+[33mcommit 9bf1db837b3b6319175841bc13a66f7b04238a13[m
+Author: AlexandrFedorov <bu.pups@gmail.com>
+Date:   Tue Oct 24 11:28:31 2017 +0300
+
+    Update README.md
+
+[33mcommit 93912630b35a645750c09e6e8e10626cfadecf70[m
+Author: AlexandrFedorov <bu.pups@gmail.com>
+Date:   Tue Oct 24 11:27:41 2017 +0300
+
+    Update README.md
+
+[33mcommit 5c5838d24571451e0673dce1d175dfbdf714f95d[m
+Author: Alexandr <Fedorov.Alexandr25@gmail.com>
+Date:   Tue Oct 24 11:09:10 2017 +0300
+
+    Media Server
+    
+    Task for EPAM
+
+[33mcommit 55e62929982fc02d0c20561542541c26e3331e23[m
+Author: Alexandr <Fedorov.Alexandr25@gmail.com>
+Date:   Tue Oct 24 11:06:23 2017 +0300
+
+    Initial commit
