@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <display-name>MediaServer</display-name>
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>home</servlet-name>
+        <jsp-file>/WEB-INF/page/home.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>home</servlet-name>
+        <url-pattern>/home/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>user</servlet-name>
+        <jsp-file>/WEB-INF/page/user.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>user</servlet-name>
+        <url-pattern>/user/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>admin</servlet-name>
+        <jsp-file>/WEB-INF/page/admin.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>admin</servlet-name>
+        <url-pattern>/admin/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Controller</servlet-name>
+        <servlet-class>com.epam.mediaserver.controller.Controller</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Controller</servlet-name>
+        <url-pattern>/Controller</url-pattern>
+    </servlet-mapping>
+
+   <!-- <filter>
+        <filter-name>AuthorizationFilter</filter-name>
+        <filter-class>by.epam.controller.filter.AuthorizationFilter</filter-class>
+        <init-param>
+            <param-name>avoid-urls</param-name>
+            <param-value>home.jsp</param-value>
+        </init-param>
+    </filter>-->
+<!--
+    <filter-mapping>
+        <filter-name>AuthorizationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>-->
+
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>
+            com.epam.mediaserver.controller.filter.EncodingFilter
+        </filter-class>
+
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <context-param>
+        <param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
+        <param-value>en_US</param-value>
+    </context-param>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>503</error-code>
+        <location>/404.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.io.IOException</exception-type>
+        <location>/404.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>javax.servlet.ServletException</exception-type>
+        <location>/404.jsp</location>
+    </error-page>
+</web-app>
