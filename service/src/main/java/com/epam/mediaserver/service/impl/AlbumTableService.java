@@ -7,13 +7,14 @@ import com.epam.mediaserver.entity.Album;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
 import com.epam.mediaserver.exeption.DAOException;
+import com.epam.mediaserver.service.AlbumService;
 import com.epam.mediaserver.util.Validation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class AlbumTableService {
+public class AlbumTableService implements AlbumService{
 
     private static final Logger LOGGER = LogManager.getLogger(AlbumTableService.class);
 
