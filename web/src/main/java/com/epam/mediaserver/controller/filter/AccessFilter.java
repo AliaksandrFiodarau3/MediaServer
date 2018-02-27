@@ -7,6 +7,7 @@ import com.epam.mediaserver.constant.Path;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -36,11 +37,12 @@ public class AccessFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
         throws IOException, ServletException {
 
+
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
         String login = (String) req.getSession().getAttribute(Attribute.ATTRIBUTE_USER_LOGIN);
-        Boolean root = (Boolean) req.getSession().getAttribute(Attribute.ATTRIBUTE_USER_ROLE);
+        String root = (String) req.getSession().getAttribute(Attribute.ATTRIBUTE_USER_ROLE);
 
         String command = req.getParameter(Parameter.PARMETER_COMMAND);
 
@@ -49,12 +51,15 @@ public class AccessFilter implements Filter {
             command = command.replace(OLD_CHAR, NEW_CHAR);
             CommandName commandName = CommandName.valueOf(command.toUpperCase());
             if (login != null) {
-                if (root && commandSetForAdmin.contains(commandName)) {
+                if (Objects.deepEquals(root, "true") && commandSetForAdmin.contains(commandName)) {
+                    System.out.println(root.toString());
                     filterChain.doFilter(req, resp);
                 }
 
-                if (!root && commandSetForUser.contains(commandName)) {
+                if (Objects.deepEquals(root, "false") && commandSetForUser.contains(commandName)) {
+                    System.out.println(root.toString());
                     filterChain.doFilter(req, resp);
+
                 }
             } else {
                 if (commandSetForUnauthorizedUser.contains(commandName)) {
