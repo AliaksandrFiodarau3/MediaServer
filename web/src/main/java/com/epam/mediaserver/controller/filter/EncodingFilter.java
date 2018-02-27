@@ -15,7 +15,7 @@ import javax.servlet.ServletResponse;
 public class EncodingFilter implements Filter {
 
 
-    private String encoding = "utf-8";
+    private static String encoding = "utf-8";
 
     /**
      * Method is used to set encoding for the request and response objects
@@ -28,14 +28,13 @@ public class EncodingFilter implements Filter {
 
         request.setCharacterEncoding(encoding);
         filterChain.doFilter(request, response);
-
     }
 
     /**
      * @see Filter#init(FilterConfig)
      */
 
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig){
         String encodingParam = filterConfig.getInitParameter("encoding");
         if (encodingParam != null) {
             encoding = encodingParam;

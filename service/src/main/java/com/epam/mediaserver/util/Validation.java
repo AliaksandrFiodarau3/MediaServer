@@ -4,6 +4,7 @@ import com.epam.mediaserver.constant.Validate;
 import com.epam.mediaserver.exception.ValidateException;
 
 import java.sql.Time;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,7 +20,7 @@ public class Validation {
 
     public static boolean userCheck(String login, String password, String name, String surname, String email) {
 
-        if (login == null || login.isEmpty()) {
+        if (Objects.isNull(login) || login.isEmpty()) {
             return false;
         }
 
@@ -28,7 +29,7 @@ public class Validation {
             return false;
         }
 
-        if (password == null || password.isEmpty()) {
+        if (Objects.isNull(password) || password.isEmpty()) {
             return false;
         }
 
@@ -37,7 +38,7 @@ public class Validation {
             return false;
         }
 
-        if (name == null || name.isEmpty()) {
+        if (Objects.isNull(name) || name.isEmpty()) {
             return false;
         }
 
@@ -45,7 +46,7 @@ public class Validation {
             return false;
         }
 
-        if (surname == null || surname.isEmpty()) {
+        if (Objects.isNull(surname) || surname.isEmpty()) {
             return false;
         }
 
@@ -53,7 +54,7 @@ public class Validation {
             return false;
         }
 
-        if (email == null || email.isEmpty()) {
+        if (Objects.isNull(email) || email.isEmpty()) {
             return false;
         }
 
@@ -75,7 +76,7 @@ public class Validation {
             return false;
         }
 
-        if (login == null || login.isEmpty()) {
+        if (Objects.isNull(login) || login.isEmpty()) {
             return false;
         }
 
@@ -84,7 +85,7 @@ public class Validation {
             return false;
         }
 
-        if (name == null || name.isEmpty()) {
+        if (Objects.isNull(name) || name.isEmpty()) {
             return false;
         }
 
@@ -92,7 +93,7 @@ public class Validation {
             return false;
         }
 
-        if (surname == null || surname.isEmpty()) {
+        if (Objects.isNull(surname) || surname.isEmpty()) {
             return false;
         }
 
@@ -100,7 +101,7 @@ public class Validation {
             return false;
         }
 
-        if (email == null || email.isEmpty()) {
+        if (Objects.isNull(email) || email.isEmpty()) {
             return false;
         }
 
@@ -144,19 +145,19 @@ public class Validation {
 
     public static boolean albumCheck(String title, String year, String description, String image) {
 
-        if (title == null) {
+        if (Objects.isNull(title)) {
             return false;
         }
-        if (year == null) {
+        if (Objects.isNull(year)) {
             return false;
         }
         if (!checkField(Validate.FIELD_YEAR, year)) {
             return false;
         }
-        if (description == null) {
+        if (Objects.isNull(description)) {
             return false;
         }
-        if (image == null) {
+        if (Objects.isNull(image)) {
             return false;
         }
 
@@ -169,15 +170,15 @@ public class Validation {
 
     public static boolean artistCheck(String title, String description, String image) {
 
-        if (title == null) {
+        if (Objects.isNull(title)) {
             return false;
         }
 
-        if (description == null) {
+        if (Objects.isNull(description)) {
             return false;
         }
 
-        if (image == null) {
+        if (Objects.isNull(image)) {
             return false;
         }
         return true;
@@ -189,18 +190,18 @@ public class Validation {
 
     public static boolean bonusCheck(String title, String description, String discount, String code) {
 
-        if (title == null) {
+        if (Objects.isNull(title)) {
             return false;
         }
 
-        if (description == null) {
+        if (Objects.isNull(description)) {
             return false;
         }
 
-        if (discount == null) {
+        if (Objects.isNull(discount)) {
             return false;
         }
-        if (code == null) {
+        if (Objects.isNull(code)) {
             return false;
         }
 
@@ -214,11 +215,11 @@ public class Validation {
 
     public static boolean genreCheck(String title, String description) {
 
-        if (title == null) {
+        if (Objects.isNull(title)) {
             return false;
         }
 
-        if (description == null) {
+        if (Objects.isNull(description)) {
             return false;
         }
 
@@ -235,7 +236,7 @@ public class Validation {
             return false;
         }
 
-        if (user == null) {
+        if (Objects.isNull(user)) {
             return false;
         }
 
@@ -248,7 +249,7 @@ public class Validation {
             return false;
         }
 
-        if (user == null) {
+        if (Objects.isNull(user)) {
             return false;
         }
 
@@ -264,25 +265,22 @@ public class Validation {
      * Validate form for add new song
      */
 
-    public static boolean songCheck(String title, String album, String duration, String price)
-        throws ValidateException {
+    public static boolean songCheck(String title, String album, String duration, String price) {
 
-        if (title == null) {
+        if (Objects.isNull(title)) {
             return false;
         }
 
-        if (album == null) {
+        if (Objects.isNull(album)) {
             return false;
         }
 
-        if (price == null) {
+        if (Objects.isNull(price)) {
             return false;
         }
 
-        try {
-            Time.valueOf(duration);
-        } catch (Exception e) {
-            throw new ValidateException(e.getMessage());
+        if (Objects.isNull(Time.valueOf(duration))) {
+            return false;
         }
 
         return true;
