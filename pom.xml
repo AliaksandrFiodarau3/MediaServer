@@ -20,6 +20,7 @@
         <servlet.version>3.1.0</servlet.version>
         <log4j.version>2.10.0</log4j.version>
         <javax.version>7.0</javax.version>
+        <jackson.version>2.5.3</jackson.version>
         <junit.version>4.12</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
@@ -41,16 +42,6 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${servlet.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>jstl</groupId>
-            <artifactId>jstl</artifactId>
-            <version>${jstl.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>${javax.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
