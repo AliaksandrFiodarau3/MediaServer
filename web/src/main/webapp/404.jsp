@@ -10,7 +10,7 @@
 <div style="width:500px; margin:20px auto;">
     <img src="../../img/404.gif">
     <p style="font-size:18px; font-weight:bold; font-style: italic;">Hmm, the page you're looking for cannot be
-        found. </p>
+        found.</p>
     <p style="font-size:12px; font-weight:bold;">Whatever you're looking for has been moved, removed or never existed.
         <a href="index"
            style="color:#c60; font-size:11px; font-weight:bold; text-decoration:none;"> &lt;&lt; Home Page</a>

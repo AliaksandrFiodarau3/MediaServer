@@ -41,7 +41,7 @@ public class Messanger {
 
     }
 
-    public static String sendMessage(String message) throws IOException {
+    public static String sendMessage(String message) {
 
         ResourceBundle bundle = ResourceBundle.getBundle(Resourse.MESSAGE);
 

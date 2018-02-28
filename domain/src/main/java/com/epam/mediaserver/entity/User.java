@@ -13,6 +13,18 @@ public class User extends Model {
     public User() {
     }
 
+    public User(int id, String login, long password, String name, String surname, String email, String photo,
+                boolean adminRoot) {
+        super(id);
+        this.login = login;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.photo = photo;
+        this.adminRoot = adminRoot;
+    }
+
     public User(String login, long password, String name, String surname, String email, boolean adminRoot) {
         this.login = login;
         this.password = password;

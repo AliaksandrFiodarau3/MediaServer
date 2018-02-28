@@ -10,8 +10,10 @@ import com.epam.mediaserver.exception.ValidateException;
 import com.epam.mediaserver.exeption.ConnectionPoolException;
 import com.epam.mediaserver.exeption.DAOException;
 import com.epam.mediaserver.service.ServiceFactory;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.BeforeClass;
+
+
 
 public class UserServiceTest {
 
@@ -24,7 +26,8 @@ public class UserServiceTest {
     boolean adminRoot = true;
     private ConnectionPool connectionPool;
 
-    @Before
+
+    @BeforeClass
     public void createPool() throws ConnectionPoolException {
         connectionPool = ConnectionPool.getInstance();
         connectionPool.initPoolDate();

@@ -7,6 +7,7 @@ import com.epam.mediaserver.entity.Song;
 import com.epam.mediaserver.entity.User;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exeption.DAOException;
+import com.epam.mediaserver.service.CommentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +15,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
-public class CommentTableService {
+public class CommentTableService implements CommentService{
 
     private static final Logger LOGGER = LogManager.getLogger(CommentTableService.class);
 
