@@ -264,8 +264,7 @@ public class Validation {
      * Validate form for add new song
      */
 
-    public static boolean songCheck(String title, String album, String duration, String price)
-        throws ValidateException {
+    public static boolean songCheck(String title, String album, String duration, String price) {
 
         if (title == null) {
             return false;
@@ -282,7 +281,7 @@ public class Validation {
         try {
             Time.valueOf(duration);
         } catch (Exception e) {
-            throw new ValidateException(e.getMessage());
+            return false;
         }
 
         return true;

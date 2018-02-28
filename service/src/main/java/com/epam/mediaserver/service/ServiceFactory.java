@@ -17,7 +17,7 @@ public class ServiceFactory {
     private static AlbumTableService albumInstance;
     private static ArtistTableService artistInstance;
     private static BonusTableService bonusInstance;
-    private static CommentTableService commentInstance;
+    private static CommentService commentInstance;
     private static GenreTableService genreInstance;
     private static GoodTableService goodInstance;
     private static OrderTableService orderTableInstance;
@@ -53,7 +53,7 @@ public class ServiceFactory {
         return artistInstance;
     }
 
-    public static BonusTableService getBonusService() {
+    public static BonusService getBonusService() {
 
         if (bonusInstance == null) {
             bonusInstance = new BonusTableService();
@@ -61,7 +61,7 @@ public class ServiceFactory {
         return bonusInstance;
     }
 
-    public static CommentTableService getCommentService() {
+    public static CommentService getCommentService() {
 
         if (commentInstance == null) {
             commentInstance = new CommentTableService();

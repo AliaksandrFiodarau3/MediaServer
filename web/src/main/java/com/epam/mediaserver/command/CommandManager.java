@@ -126,7 +126,7 @@ public class CommandManager {
         commands.put(CommandName.DELETE_SONG, new SongDelete());
         commands.put(CommandName.DELETE_USER, new UserDelete());
         commands.put(CommandName.DELETE_GOOD, new GoodDelete());
-    }
+    }//http://localhost:8080/Controller?command=delete-song&id=14
 
     public static CommandManager getInstance() {
         return instance;
@@ -144,7 +144,6 @@ public class CommandManager {
         name = name.replace(OLD_CHAR, NEW_CHAR);
         CommandName commandName = CommandName.valueOf(name.toUpperCase());
 
-        System.out.println(name);
         Command command = commands.get(commandName);
         return command;
     }

@@ -6,13 +6,14 @@ import com.epam.mediaserver.entity.Bonus;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
 import com.epam.mediaserver.exeption.DAOException;
+import com.epam.mediaserver.service.BonusService;
 import com.epam.mediaserver.util.Validation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class BonusTableService {
+public class BonusTableService implements BonusService{
 
     private static final Logger LOGGER = LogManager.getLogger(BonusTableService.class);
 
