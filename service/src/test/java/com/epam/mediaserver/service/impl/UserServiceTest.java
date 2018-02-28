@@ -12,7 +12,7 @@ import com.epam.mediaserver.exeption.DAOException;
 import com.epam.mediaserver.service.ServiceFactory;
 
 import org.junit.BeforeClass;
-
+import org.junit.Test;
 
 
 public class UserServiceTest {
