@@ -8,23 +8,7 @@ import java.util.List;
 
 public interface SongDao {
 
-    /**
-     * Method return a String with query by album {@link Album} title
-     *
-     * @return String
-     * @throws DAOException if database error was detected
-     */
 
-    String getByAlbumQuery();
-
-    /**
-     * Method return a String with query by song {@link Song} title
-     *
-     * @return String
-     * @throws DAOException if database error was detected
-     */
-
-    String getByNameQuery();
 
     /**
      * Method receives a String of album {@link Album} and return list song {@link Song}

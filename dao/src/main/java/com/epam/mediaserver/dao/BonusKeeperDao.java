@@ -7,13 +7,7 @@ import java.util.List;
 
 public interface BonusKeeperDao {
 
-    /**
-     * Method receives a String with select query by user login
-     *
-     * @return String
-     */
 
-    String getSelectQueryByUser();
 
     /**
      * Method receives id of user and find equal fields in table t_bonus_keeper

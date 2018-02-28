@@ -74,16 +74,6 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
     }
 
     @Override
-    public String getByAlbumQuery() {
-        return BY_ALBUM_QUERY;
-    }
-
-    @Override
-    public String getByNameQuery() {
-        return BY_NAME_QUERY;
-    }
-
-    @Override
     protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(query);
 
@@ -137,8 +127,8 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
             song.setPrice(rs.getInt(SONG_PRICE));
 
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION);
+            throw new DAOException(SQL_EXCEPTION);
         }
         return song;
     }
@@ -155,7 +145,7 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
         Model song = null;
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getByAlbumQuery());
+            ps = con.prepareStatement(BY_ALBUM_QUERY);
             ps.setString(1, album);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -163,17 +153,17 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
                 list.add((Song) song);
             }
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
 
@@ -190,24 +180,24 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
 
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getByNameQuery());
+            ps = con.prepareStatement(BY_NAME_QUERY);
             ps.setString(1, name);
             rs = ps.executeQuery();
             if (rs.next()) {
                 song = (Song) parseResult(rs);
             }
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
         return song;

@@ -28,10 +28,8 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
 
     private static final Logger LOGGER = LogManager.getLogger(SqlAlbumDao.class);
 
-    private static final String
-        CREATE_QUERY =
+    private static final String CREATE_QUERY =
         "INSERT INTO t_album (artist_id, album_year, album_description, album_image ,album_title) VALUES (?,?,?,?,?);";
-    //INSERT INTO t_artist (genre_id, artist_description, artist_image, artist_title) VALUES (?,?,?,?);
     private static final String SELECT_QUERY = "SELECT * FROM t_album;";
     private static final String SELECT_QUERY_WITH_ID = "select * from t_album where album_id = ?;";
     private static final String UPDATE_QUERY =
@@ -39,9 +37,10 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
         "where album_title = ?;";
     private static final String DELETE_QUERY = "DELETE FROM t_album WHERE album_title = ?;";
 
-    private static final String BY_ARTIST_QUERY = "select * from t_album " +
-                                                  "where artist_id = (select artist_id from t_artist where artist_title = ?);";
-    private static final String BY_NAME_QUERY = "select * from t_album where album_title = ?;";
+    private static final String BY_ARTIST_QUERY = "SELECT * FROM t_album " +
+                                                  "WHERE artist_id = (SELECT artist_id FROM t_artist WHERE artist_title = ?);";
+    private static final String BY_NAME_QUERY = "SELECT * FROM t_album WHERE album_title = ?;";
+
 
     private static final String ALBUM_ID = "album_id";
     private static final String ARTIST_ID = "artist_id";
@@ -76,28 +75,21 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
     }
 
     @Override
-    public String getByArtistQuery() {
-        return BY_ARTIST_QUERY;
-    }
-
-    @Override
-    public String getByNameQuery() {
-        return BY_NAME_QUERY;
-    }
-
-    @Override
     protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
 
-        PreparedStatement ps = con.prepareStatement(query);
+        int counter;
 
-        Album album = (Album) model;
-        ps.setInt(1, album.getArtist().getId());
-        ps.setInt(2, album.getYear());
-        ps.setString(3, album.getDescription());
-        ps.setString(4, album.getImage());
-        ps.setString(5, album.getTitle());
+        try (PreparedStatement ps = con.prepareStatement(query)) {
+            Album album = (Album) model;
+            ps.setInt(1, album.getArtist().getId());
+            ps.setInt(2, album.getYear());
+            ps.setString(3, album.getDescription());
+            ps.setString(4, album.getImage());
+            ps.setString(5, album.getTitle());
 
-        return ps.executeUpdate();
+            counter = ps.executeUpdate();
+        }
+        return counter;
     }
 
     @Override
@@ -107,12 +99,17 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
 
     @Override
     protected int preparedStatementForDelete(Connection con, Model model, String query) throws SQLException {
-        PreparedStatement ps = con.prepareStatement(getDeleteQuery());
-        Album album = (Album) model;
 
-        ps.setString(1, album.getTitle());
+        int counter;
 
-        return ps.executeUpdate();
+        try (PreparedStatement ps = con.prepareStatement(getDeleteQuery())) {
+            Album album = (Album) model;
+            ps.setString(1, album.getTitle());
+
+            counter = ps.executeUpdate();
+        }
+
+        return counter;
     }
 
     @Override
@@ -130,8 +127,8 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
             album.setDescription(rs.getString(ALBUM_DESCRIPTION));
             album.setImage(rs.getString(ALBUM_IMAGE));
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION);
+            throw new DAOException(SQL_EXCEPTION);
         }
 
         return album;
@@ -149,7 +146,7 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
 
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getByArtistQuery());
+            ps = con.prepareStatement(BY_ARTIST_QUERY);
             ps.setString(1, artist);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -157,17 +154,17 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
                 list.add((Album) album);
             }
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION);
+            throw new DAOException(SQL_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
 
@@ -184,7 +181,7 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
         Album album = null;
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getByNameQuery());
+            ps = con.prepareStatement(BY_NAME_QUERY);
             ps.setString(1, title);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -192,17 +189,17 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
             }
 
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION);
+            throw new DAOException(SQL_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
 

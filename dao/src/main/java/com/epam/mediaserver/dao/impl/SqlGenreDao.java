@@ -54,11 +54,6 @@ public class SqlGenreDao extends AbstractModelDao implements GenreDao {
     }
 
     @Override
-    public String getSelectQueryWithName() {
-        return SELECT_QUERY_WITH_NAME;
-    }
-
-    @Override
     protected String getUpdateQuery() {
         return UPDATE_QUERY;
     }
@@ -118,7 +113,7 @@ public class SqlGenreDao extends AbstractModelDao implements GenreDao {
         Genre genre = null;
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getSelectQueryWithName());
+            ps = con.prepareStatement(SELECT_QUERY_WITH_NAME);
             ps.setString(1, title);
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -126,17 +121,17 @@ public class SqlGenreDao extends AbstractModelDao implements GenreDao {
             }
 
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
 

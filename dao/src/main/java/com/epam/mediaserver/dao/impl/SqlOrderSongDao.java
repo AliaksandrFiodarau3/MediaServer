@@ -54,10 +54,6 @@ public class SqlOrderSongDao extends AbstractModelDao {
         return SELECT_QUERY_WITH_ID;
     }
 
-    protected String getSelectQueryByOrder() {
-        return SELECT_QUERY_BY_ORDER;
-    }
-
     @Override
     protected String getUpdateQuery() {
         return UPDATE_QUERY;
@@ -112,7 +108,7 @@ public class SqlOrderSongDao extends AbstractModelDao {
         try {
             con = ConnectionPool.takeConnection();
 
-            ps = con.prepareStatement(getSelectQueryByOrder());
+            ps = con.prepareStatement(SELECT_QUERY_BY_ORDER);
             ps.setInt(1, orderId);
             rs = ps.executeQuery();
 
@@ -122,17 +118,17 @@ public class SqlOrderSongDao extends AbstractModelDao {
             }
 
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
 
@@ -151,8 +147,8 @@ public class SqlOrderSongDao extends AbstractModelDao {
             orderSong.setOrder(order);
 
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION);
+            throw new DAOException(SQL_EXCEPTION);
         }
 
         return orderSong;

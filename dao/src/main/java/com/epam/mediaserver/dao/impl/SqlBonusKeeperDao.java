@@ -66,11 +66,6 @@ public class SqlBonusKeeperDao extends AbstractModelDao implements BonusKeeperDa
     }
 
     @Override
-    public String getSelectQueryByUser() {
-        return SELECT_QUERY_BY_USER;
-    }
-
-    @Override
     protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(query);
 
@@ -111,8 +106,8 @@ public class SqlBonusKeeperDao extends AbstractModelDao implements BonusKeeperDa
             bonusKeeper.setBonus(bonus);
             bonusKeeper.setUser(user);
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION);
+            throw new DAOException(SQL_EXCEPTION);
         }
 
         return bonusKeeper;
@@ -130,7 +125,7 @@ public class SqlBonusKeeperDao extends AbstractModelDao implements BonusKeeperDa
         try {
             con = ConnectionPool.takeConnection();
 
-            ps = con.prepareStatement(getSelectQueryByUser());
+            ps = con.prepareStatement(SELECT_QUERY_BY_USER);
             ps.setInt(1, id);
 
             rs = ps.executeQuery();
@@ -141,17 +136,17 @@ public class SqlBonusKeeperDao extends AbstractModelDao implements BonusKeeperDa
             }
 
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
 

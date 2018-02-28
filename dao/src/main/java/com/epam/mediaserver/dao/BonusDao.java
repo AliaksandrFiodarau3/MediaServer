@@ -10,13 +10,6 @@ import com.epam.mediaserver.exeption.DAOException;
 
 public interface BonusDao {
 
-    /**
-     * Method receives a String with select query by name
-     *
-     * @return String
-     */
-
-    String getSelectQueryByCode();
 
     /**
      * Method receives a field with a title of bonus

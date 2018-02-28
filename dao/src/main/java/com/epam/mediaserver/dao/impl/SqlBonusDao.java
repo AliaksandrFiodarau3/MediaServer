@@ -30,8 +30,7 @@ public class SqlBonusDao extends AbstractModelDao implements BonusDao {
     private static final String SELECT_QUERY = "Select * FROM t_bonus";
     private static final String SELECT_QUERY_WITH_ID = "SELECT * From t_bonus WHERE bonus_id = ?";
     private static final String SELECT_QUERY_BY_CODE = "SELECT * From t_bonus WHERE bonus_code = ?";
-    private static final String
-        UPDATE_QUERY =
+    private static final String UPDATE_QUERY =
         "UPDATE t_bonus SET bonus_description = ?, bonus_discount = ?, bonus_code = ? WHERE bonus_title= ?;";
     private static final String DELETE_QUERY = "DELETE FROM t_bonus WHERE bonus_title=?;";
 
@@ -55,11 +54,6 @@ public class SqlBonusDao extends AbstractModelDao implements BonusDao {
     @Override
     public String getSelectQueryWithID() {
         return SELECT_QUERY_WITH_ID;
-    }
-
-    @Override
-    public String getSelectQueryByCode() {
-        return SELECT_QUERY_BY_CODE;
     }
 
     @Override
@@ -129,24 +123,24 @@ public class SqlBonusDao extends AbstractModelDao implements BonusDao {
 
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getSelectQueryByCode());
+            ps = con.prepareStatement(SELECT_QUERY_BY_CODE);
             ps.setString(1, code);
             rs = ps.executeQuery();
             if (rs.next()) {
                 bonus = (Bonus) parseResult(rs);
             }
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
         return bonus;

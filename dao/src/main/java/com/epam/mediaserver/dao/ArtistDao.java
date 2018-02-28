@@ -10,13 +10,7 @@ import com.epam.mediaserver.exeption.DAOException;
 
 public interface ArtistDao {
 
-    /**
-     * Method return a String with query
-     *
-     * @return String
-     */
 
-    String getByNameQuery();
 
     /**
      * Method receives a entity of artist {@link Artist}

@@ -38,8 +38,7 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
     private static final String DELETE_QUERY =
         "DELETE FROM t_comment " +
         "WHERE comment_text = ? and user_id = ? and song_id = ? and  comment_time = ? and comment_date = ?;";
-    private static final String
-        BY_COMMENT_QUERY =
+    private static final String BY_COMMENT_QUERY =
         "select * from t_comment where song_id = (select song_id from t_song where song_title = ?);";
 
     private static final String USER_ID = "user_id";
@@ -73,12 +72,6 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
     protected String getDeleteQuery() {
         return DELETE_QUERY;
     }
-
-    @Override
-    public String getByCommentQuery() {
-        return BY_COMMENT_QUERY;
-    }
-
 
     @Override
     protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
@@ -123,8 +116,8 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
             comment.setCommentTime(rs.getTime(COMMENT_TIME));
             comment.setCommentDate(rs.getDate(COMMENT_DATE));
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION);
+            throw new DAOException(SQL_EXCEPTION);
         }
 
         return comment;
@@ -142,7 +135,7 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
         Model comment = null;
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getByCommentQuery());
+            ps = con.prepareStatement(BY_COMMENT_QUERY);
             ps.setString(1, song);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -150,17 +143,17 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
                 list.add((Comment) comment);
             }
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION);
+            throw new DAOException(SQL_EXCEPTION);
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
 

@@ -7,13 +7,6 @@ import java.util.List;
 
 public interface CommentDao {
 
-    /**
-     * Method return a String with query
-     *
-     * @return String
-     */
-
-    String getByCommentQuery();
 
     /**
      * Method receives title of song and find equal fields in table t_comment

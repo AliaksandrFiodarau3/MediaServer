@@ -60,10 +60,6 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
         return SELECT_QUERY_WITH_ID;
     }
 
-    protected String getSelectQueryByGenre() {
-        return SELECT_QUERY_BY_GENRE;
-    }
-
     @Override
     protected String getUpdateQuery() {
         return UPDATE_QUERY;
@@ -74,7 +70,7 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
         return DELETE_QUERY;
     }
 
-    @Override
+
     public String getByNameQuery() {
         return BY_NAME_QUERY;
     }
@@ -130,8 +126,8 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
             artist.setDescription(rs.getString(ARTIST_DESCRIPTION));
             artist.setImage(rs.getString(ARTIST_IMAGE));
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION);
+            throw new DAOException(SQL_EXCEPTION);
         }
 
         return artist;
@@ -148,7 +144,7 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
         try {
             con = ConnectionPool.takeConnection();
 
-            ps = con.prepareStatement(getSelectQueryByGenre());
+            ps = con.prepareStatement(SELECT_QUERY_BY_GENRE);
 
             ps.setString(1, genre);
 
@@ -160,17 +156,17 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
             }
 
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
 
@@ -187,24 +183,24 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
 
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getByNameQuery());
+            ps = con.prepareStatement(BY_NAME_QUERY);
             ps.setString(1, title);
             rs = ps.executeQuery();
             if (rs.next()) {
                 artist = (Artist) parseResult(rs);
             }
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION);
+            throw new DAOException(SQL_EXCEPTION);
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
 

@@ -21,10 +21,10 @@ import java.util.List;
 
 public abstract class AbstractModelDao<T extends Model> {
 
-    protected static final String OPEN_CONNECTION_EXEPTION = "Connection is not open";
-    protected static final String CLOSE_CONNECTION_EXEPTION = "Connection not closed";
-    protected static final String PERSIST_EXEPTION = "Persist Exception";
-    protected static final String SQL_EXEPTION = "SQL Exception";
+    protected static final String OPEN_CONNECTION_EXCEPTION = "Connection is not open";
+    protected static final String CLOSE_CONNECTION_EXCEPTION = "Connection not closed";
+    protected static final String PERSIST_EXCEPTION = "Persist Exception";
+    protected static final String SQL_EXCEPTION = "SQL Exception";
     private static final Logger LOGGER = LogManager.getLogger();
 
 
@@ -115,31 +115,21 @@ public abstract class AbstractModelDao<T extends Model> {
 
     public void add(T model) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
 
-        try {
-            con = ConnectionPool.takeConnection();
+        try (Connection con = ConnectionPool.takeConnection();){
+
             int counter = 0;
             counter = preparedStatementForCreate(con, model, getCreateQuery());
             if (counter != 1) {
-                LOGGER.error(PERSIST_EXEPTION);
-                throw new DAOException(PERSIST_EXEPTION);
+                LOGGER.error(PERSIST_EXCEPTION);
+                throw new DAOException(PERSIST_EXCEPTION);
             }
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
-            }
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         }
     }
 
@@ -151,35 +141,26 @@ public abstract class AbstractModelDao<T extends Model> {
 
     public T getById(int id) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
         T model = null;
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(getSelectQueryWithID())) {
 
-        try {
-            con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getSelectQueryWithID());
             ps.setInt(1, id);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                model = parseResult(rs);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    model = parseResult(rs);
+                }
             }
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
-        } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } catch (PersistException e) {
-            LOGGER.error(PERSIST_EXEPTION);
-            throw new DAOException(PERSIST_EXEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
-            }
+            LOGGER.error(PERSIST_EXCEPTION);
+            throw new DAOException(PERSIST_EXCEPTION);
+        } catch (SQLException e) {
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         }
         return model;
     }
@@ -192,32 +173,18 @@ public abstract class AbstractModelDao<T extends Model> {
 
     public void update(T model) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            con = ConnectionPool.takeConnection();
-
+        try (Connection con = ConnectionPool.takeConnection()){
             int counter = preparedStatementForUpdate(con, model, getUpdateQuery());
-
             if (counter != 1) {
-                LOGGER.error(PERSIST_EXEPTION);
-                throw new DAOException(PERSIST_EXEPTION);
+                LOGGER.error(PERSIST_EXCEPTION);
+                throw new DAOException(PERSIST_EXCEPTION);
             }
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
-            }
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         }
     }
 
@@ -229,32 +196,21 @@ public abstract class AbstractModelDao<T extends Model> {
 
     public void delete(T model) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+        try (Connection con = ConnectionPool.takeConnection()){
 
-        try {
-            con = ConnectionPool.takeConnection();
             int counter = preparedStatementForDelete(con, model, getDeleteQuery());
 
             if (counter != 1) {
-                LOGGER.error(PERSIST_EXEPTION);
-                throw new DAOException(PERSIST_EXEPTION);
+                LOGGER.error(PERSIST_EXCEPTION);
+                throw new DAOException(PERSIST_EXCEPTION);
             }
 
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
-            }
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         }
     }
 
@@ -266,17 +222,11 @@ public abstract class AbstractModelDao<T extends Model> {
 
     public List<T> getAll() throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
         List<T> list = new ArrayList<T>();
 
-        try {
-            con = ConnectionPool.takeConnection();
-
-            ps = con.prepareStatement(getSelectQuery());
-            rs = ps.executeQuery();
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(getSelectQuery());
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 T model = parseResult(rs);
@@ -284,23 +234,15 @@ public abstract class AbstractModelDao<T extends Model> {
             }
 
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         } catch (PersistException e) {
-            LOGGER.error(PERSIST_EXEPTION, e);
-            throw new DAOException(PERSIST_EXEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
-            }
+            LOGGER.error(PERSIST_EXCEPTION, e);
+            throw new DAOException(PERSIST_EXCEPTION);
         }
-
         return list;
     }
 }
