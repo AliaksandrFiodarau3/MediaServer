@@ -66,11 +66,6 @@ public class SqlBonusKeeperDao extends AbstractModelDao implements BonusKeeperDa
     }
 
     @Override
-    public String getSelectQueryByUser() {
-        return SELECT_QUERY_BY_USER;
-    }
-
-    @Override
     protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(query);
 
@@ -130,7 +125,7 @@ public class SqlBonusKeeperDao extends AbstractModelDao implements BonusKeeperDa
         try {
             con = ConnectionPool.takeConnection();
 
-            ps = con.prepareStatement(getSelectQueryByUser());
+            ps = con.prepareStatement(SELECT_QUERY_BY_USER);
             ps.setInt(1, id);
 
             rs = ps.executeQuery();

@@ -151,19 +151,18 @@ public abstract class AbstractModelDao<T extends Model> {
 
     public T getById(int id) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+
         T model = null;
 
-        try {
-            con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getSelectQueryWithID());
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                model = parseResult(rs);
-            }
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(getSelectQueryWithID())) {
+
+                ps.setInt(1, id);
+                try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    model = parseResult(rs);
+                }
+                }
         } catch (ConnectionPoolException e) {
             LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
             throw new DAOException(OPEN_CONNECTION_EXEPTION);
@@ -173,13 +172,6 @@ public abstract class AbstractModelDao<T extends Model> {
         } catch (PersistException e) {
             LOGGER.error(PERSIST_EXEPTION);
             throw new DAOException(PERSIST_EXEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
-            }
         }
         return model;
     }

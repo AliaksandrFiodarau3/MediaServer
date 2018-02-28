@@ -5,22 +5,7 @@ import com.epam.mediaserver.exeption.DAOException;
 
 public interface UserDao {
 
-    /**
-     * Method return a String with authorization query
-     *
-     * @return String
-     */
 
-    String getAuthorizationQuery();
-
-    /**
-     * Method return a String with query for add user photo
-     *
-     * @return String
-     */
-
-
-    String setPhotoQuery();
 
     /**
      * Method add user photo in Data Base
@@ -31,18 +16,9 @@ public interface UserDao {
      * @throws DAOException if database error was detected
      */
 
-    void setPhoto(String photo, String login) throws DAOException, DAOException;
+    void setPhoto(String photo, String login) throws DAOException;
 
-    /*    *//**
-     * Method return a String with query for change user rights
-     *
-     * @return String
-     *//*
-
-
-    String setRootQuery();
-
-    *//**
+    /**
      * Method add user photo in Data Base
      *
      * @param id for search a field in the database by user ID
@@ -77,10 +53,6 @@ public interface UserDao {
      */
 
     User registration(String login, long password, String email, String name, String surname) throws DAOException;
-
-    String getLoginQuery();
-
-    String getEmailQuery();
 
     boolean checkLogin(String login) throws DAOException;
 

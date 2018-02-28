@@ -60,10 +60,6 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
         return SELECT_QUERY_WITH_ID;
     }
 
-    protected String getSelectQueryByGenre() {
-        return SELECT_QUERY_BY_GENRE;
-    }
-
     @Override
     protected String getUpdateQuery() {
         return UPDATE_QUERY;
@@ -74,7 +70,7 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
         return DELETE_QUERY;
     }
 
-    @Override
+
     public String getByNameQuery() {
         return BY_NAME_QUERY;
     }
@@ -148,7 +144,7 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
         try {
             con = ConnectionPool.takeConnection();
 
-            ps = con.prepareStatement(getSelectQueryByGenre());
+            ps = con.prepareStatement(SELECT_QUERY_BY_GENRE);
 
             ps.setString(1, genre);
 
@@ -187,7 +183,7 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
 
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getByNameQuery());
+            ps = con.prepareStatement(BY_NAME_QUERY);
             ps.setString(1, title);
             rs = ps.executeQuery();
             if (rs.next()) {

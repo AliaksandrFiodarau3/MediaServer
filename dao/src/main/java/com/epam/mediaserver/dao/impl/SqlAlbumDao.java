@@ -28,10 +28,8 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
 
     private static final Logger LOGGER = LogManager.getLogger(SqlAlbumDao.class);
 
-    private static final String
-        CREATE_QUERY =
+    private static final String CREATE_QUERY =
         "INSERT INTO t_album (artist_id, album_year, album_description, album_image ,album_title) VALUES (?,?,?,?,?);";
-    //INSERT INTO t_artist (genre_id, artist_description, artist_image, artist_title) VALUES (?,?,?,?);
     private static final String SELECT_QUERY = "SELECT * FROM t_album;";
     private static final String SELECT_QUERY_WITH_ID = "select * from t_album where album_id = ?;";
     private static final String UPDATE_QUERY =
@@ -42,6 +40,7 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
     private static final String BY_ARTIST_QUERY = "select * from t_album " +
                                                   "where artist_id = (select artist_id from t_artist where artist_title = ?);";
     private static final String BY_NAME_QUERY = "select * from t_album where album_title = ?;";
+
 
     private static final String ALBUM_ID = "album_id";
     private static final String ARTIST_ID = "artist_id";
@@ -73,16 +72,6 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
     @Override
     protected String getDeleteQuery() {
         return DELETE_QUERY;
-    }
-
-    @Override
-    public String getByArtistQuery() {
-        return BY_ARTIST_QUERY;
-    }
-
-    @Override
-    public String getByNameQuery() {
-        return BY_NAME_QUERY;
     }
 
     @Override
@@ -149,7 +138,7 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
 
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getByArtistQuery());
+            ps = con.prepareStatement(BY_ARTIST_QUERY);
             ps.setString(1, artist);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -184,7 +173,7 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
         Album album = null;
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getByNameQuery());
+            ps = con.prepareStatement(BY_NAME_QUERY);
             ps.setString(1, title);
             rs = ps.executeQuery();
             if (rs.next()) {

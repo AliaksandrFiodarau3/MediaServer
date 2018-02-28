@@ -12,21 +12,6 @@ import java.util.List;
 
 public interface AlbumDao {
 
-    /**
-     * Method return a String with query
-     *
-     * @return String
-     */
-
-    String getByArtistQuery();
-
-    /**
-     * Method return a String with query
-     *
-     * @return String
-     */
-
-    String getByNameQuery();
 
     /**
      * Method receives a entity of album {@link Album}

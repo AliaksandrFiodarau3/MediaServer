@@ -5,13 +5,6 @@ import com.epam.mediaserver.exeption.DAOException;
 
 public interface GenreDao {
 
-    /**
-     * Method return a String with select query with title genre
-     *
-     * @return String
-     */
-
-    String getSelectQueryWithName();
 
     /**
      * Method return entity of genre {@link Genre} by title genre

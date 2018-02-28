@@ -54,10 +54,6 @@ public class SqlOrderSongDao extends AbstractModelDao {
         return SELECT_QUERY_WITH_ID;
     }
 
-    protected String getSelectQueryByOrder() {
-        return SELECT_QUERY_BY_ORDER;
-    }
-
     @Override
     protected String getUpdateQuery() {
         return UPDATE_QUERY;
@@ -112,7 +108,7 @@ public class SqlOrderSongDao extends AbstractModelDao {
         try {
             con = ConnectionPool.takeConnection();
 
-            ps = con.prepareStatement(getSelectQueryByOrder());
+            ps = con.prepareStatement(SELECT_QUERY_BY_ORDER);
             ps.setInt(1, orderId);
             rs = ps.executeQuery();
 

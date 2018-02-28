@@ -38,8 +38,7 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
     private static final String DELETE_QUERY =
         "DELETE FROM t_comment " +
         "WHERE comment_text = ? and user_id = ? and song_id = ? and  comment_time = ? and comment_date = ?;";
-    private static final String
-        BY_COMMENT_QUERY =
+    private static final String BY_COMMENT_QUERY =
         "select * from t_comment where song_id = (select song_id from t_song where song_title = ?);";
 
     private static final String USER_ID = "user_id";
@@ -73,12 +72,6 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
     protected String getDeleteQuery() {
         return DELETE_QUERY;
     }
-
-    @Override
-    public String getByCommentQuery() {
-        return BY_COMMENT_QUERY;
-    }
-
 
     @Override
     protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
@@ -142,7 +135,7 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
         Model comment = null;
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getByCommentQuery());
+            ps = con.prepareStatement(BY_COMMENT_QUERY);
             ps.setString(1, song);
             rs = ps.executeQuery();
             while (rs.next()) {

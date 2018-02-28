@@ -12,7 +12,7 @@ import com.epam.mediaserver.exeption.DAOException;
 import com.epam.mediaserver.service.ServiceFactory;
 
 import org.junit.BeforeClass;
-
+import org.junit.Test;
 
 
 public class UserServiceTest {
@@ -35,7 +35,7 @@ public class UserServiceTest {
     }
 
     public void add(String login, String password, String name, String surname, String email)
-        throws ServiceException, ValidateException, DAOException {
+        throws ServiceException, ValidateException {
 
         ServiceFactory.getUserService().add(login, password, name, surname, email);
     }
@@ -68,7 +68,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void test() throws ValidateException, DAOException, ServiceException, ConnectionPoolException {
+    public void test() throws ValidateException, DAOException, ServiceException {
 
         add(login, password, name, surname, email);
 

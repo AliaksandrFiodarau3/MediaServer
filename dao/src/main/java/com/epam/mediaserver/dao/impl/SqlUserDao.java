@@ -71,27 +71,6 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     }
 
     @Override
-    public String getAuthorizationQuery() {
-        return BY_AUTHORIZATION_QUERY;
-    }
-
-    @Override
-    public String setPhotoQuery() {
-        return SET_PHOTO_QUERY;
-    }
-
-    @Override
-    public String getLoginQuery() {
-        return CHECK_LOGIN_QUERY;
-    }
-
-    @Override
-    public String getEmailQuery() {
-        return CHECK_EMAIL_QUERY;
-    }
-
-
-    @Override
     public void setPhoto(String photo, String login) throws DAOException {
 
         Connection con = null;
@@ -99,7 +78,7 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
         ResultSet rs = null;
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(setPhotoQuery());
+            ps = con.prepareStatement(SET_PHOTO_QUERY);
 
             ps.setString(1, photo);
             ps.setString(2, login);
@@ -201,7 +180,7 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
 
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getAuthorizationQuery());
+            ps = con.prepareStatement(BY_AUTHORIZATION_QUERY);
             ps.setString(1, login);
 
             rs = ps.executeQuery();
@@ -249,7 +228,7 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
 
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getLoginQuery());
+            ps = con.prepareStatement(CHECK_LOGIN_QUERY);
             ps.setString(1, login);
 
             rs = ps.executeQuery();
@@ -285,7 +264,7 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
 
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getEmailQuery());
+            ps = con.prepareStatement(CHECK_EMAIL_QUERY);
             ps.setString(1, email);
 
             rs = ps.executeQuery();

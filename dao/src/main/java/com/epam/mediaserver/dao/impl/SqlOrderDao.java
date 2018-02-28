@@ -61,14 +61,6 @@ public class SqlOrderDao extends AbstractModelDao {
         return SELECT_QUERY_WITH_ID;
     }
 
-    protected String getSelectQueryByUser() {
-        return SELECT_QUERY_BY_USER;
-    }
-
-    protected String getSelectQueryByNumber() {
-        return SELECT_QUERY_BY_NUMBER;
-    }
-
     @Override
     protected String getUpdateQuery() {
         return UPDATE_QUERY;
@@ -134,7 +126,7 @@ public class SqlOrderDao extends AbstractModelDao {
         try {
             con = ConnectionPool.takeConnection();
 
-            ps = con.prepareStatement(getSelectQueryByNumber());
+            ps = con.prepareStatement(SELECT_QUERY_BY_NUMBER);
             ps.setInt(1, number);
             rs = ps.executeQuery();
 
@@ -171,7 +163,7 @@ public class SqlOrderDao extends AbstractModelDao {
         try {
             con = ConnectionPool.takeConnection();
 
-            ps = con.prepareStatement(getSelectQueryByUser());
+            ps = con.prepareStatement(SELECT_QUERY_BY_USER);
             ps.setInt(1, userId);
             rs = ps.executeQuery();
 

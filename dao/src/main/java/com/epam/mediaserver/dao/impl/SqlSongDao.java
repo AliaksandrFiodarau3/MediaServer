@@ -74,16 +74,6 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
     }
 
     @Override
-    public String getByAlbumQuery() {
-        return BY_ALBUM_QUERY;
-    }
-
-    @Override
-    public String getByNameQuery() {
-        return BY_NAME_QUERY;
-    }
-
-    @Override
     protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(query);
 
@@ -155,7 +145,7 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
         Model song = null;
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getByAlbumQuery());
+            ps = con.prepareStatement(BY_ALBUM_QUERY);
             ps.setString(1, album);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -190,7 +180,7 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
 
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getByNameQuery());
+            ps = con.prepareStatement(BY_NAME_QUERY);
             ps.setString(1, name);
             rs = ps.executeQuery();
             if (rs.next()) {

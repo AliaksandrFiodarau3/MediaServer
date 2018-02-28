@@ -54,11 +54,6 @@ public class SqlGenreDao extends AbstractModelDao implements GenreDao {
     }
 
     @Override
-    public String getSelectQueryWithName() {
-        return SELECT_QUERY_WITH_NAME;
-    }
-
-    @Override
     protected String getUpdateQuery() {
         return UPDATE_QUERY;
     }
@@ -118,7 +113,7 @@ public class SqlGenreDao extends AbstractModelDao implements GenreDao {
         Genre genre = null;
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getSelectQueryWithName());
+            ps = con.prepareStatement(SELECT_QUERY_WITH_NAME);
             ps.setString(1, title);
             rs = ps.executeQuery();
             if (rs.next()) {

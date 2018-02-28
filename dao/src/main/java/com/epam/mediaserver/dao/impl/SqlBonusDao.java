@@ -30,8 +30,7 @@ public class SqlBonusDao extends AbstractModelDao implements BonusDao {
     private static final String SELECT_QUERY = "Select * FROM t_bonus";
     private static final String SELECT_QUERY_WITH_ID = "SELECT * From t_bonus WHERE bonus_id = ?";
     private static final String SELECT_QUERY_BY_CODE = "SELECT * From t_bonus WHERE bonus_code = ?";
-    private static final String
-        UPDATE_QUERY =
+    private static final String UPDATE_QUERY =
         "UPDATE t_bonus SET bonus_description = ?, bonus_discount = ?, bonus_code = ? WHERE bonus_title= ?;";
     private static final String DELETE_QUERY = "DELETE FROM t_bonus WHERE bonus_title=?;";
 
@@ -55,11 +54,6 @@ public class SqlBonusDao extends AbstractModelDao implements BonusDao {
     @Override
     public String getSelectQueryWithID() {
         return SELECT_QUERY_WITH_ID;
-    }
-
-    @Override
-    public String getSelectQueryByCode() {
-        return SELECT_QUERY_BY_CODE;
     }
 
     @Override
@@ -129,7 +123,7 @@ public class SqlBonusDao extends AbstractModelDao implements BonusDao {
 
         try {
             con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(getSelectQueryByCode());
+            ps = con.prepareStatement(SELECT_QUERY_BY_CODE);
             ps.setString(1, code);
             rs = ps.executeQuery();
             if (rs.next()) {
