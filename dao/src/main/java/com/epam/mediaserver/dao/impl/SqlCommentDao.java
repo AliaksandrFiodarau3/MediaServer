@@ -116,8 +116,8 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
             comment.setCommentTime(rs.getTime(COMMENT_TIME));
             comment.setCommentDate(rs.getDate(COMMENT_DATE));
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION);
+            throw new DAOException(SQL_EXCEPTION);
         }
 
         return comment;
@@ -143,17 +143,17 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
                 list.add((Comment) comment);
             }
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION);
+            throw new DAOException(SQL_EXCEPTION);
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
 

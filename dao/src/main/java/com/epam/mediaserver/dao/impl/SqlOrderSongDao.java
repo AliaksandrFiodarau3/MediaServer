@@ -118,17 +118,17 @@ public class SqlOrderSongDao extends AbstractModelDao {
             }
 
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
 
@@ -147,8 +147,8 @@ public class SqlOrderSongDao extends AbstractModelDao {
             orderSong.setOrder(order);
 
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION);
+            throw new DAOException(SQL_EXCEPTION);
         }
 
         return orderSong;

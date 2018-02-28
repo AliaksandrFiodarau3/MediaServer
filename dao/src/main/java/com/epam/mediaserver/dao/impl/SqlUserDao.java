@@ -86,23 +86,23 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
             int counter = ps.executeUpdate();
 
             if (counter != 1) {
-                throw new PersistException(PERSIST_EXEPTION);
+                throw new PersistException(PERSIST_EXCEPTION);
             }
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         } catch (PersistException e) {
-            LOGGER.error(PERSIST_EXEPTION, e);
-            throw new DAOException(PERSIST_EXEPTION);
+            LOGGER.error(PERSIST_EXCEPTION, e);
+            throw new DAOException(PERSIST_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
     }
@@ -189,17 +189,17 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
             user = parseResult(rs);
 
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
 
@@ -241,17 +241,17 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
             }
 
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
     }
@@ -278,17 +278,17 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
             }
 
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXEPTION, e);
-            throw new DAOException(SQL_EXEPTION);
+            LOGGER.error(SQL_EXCEPTION, e);
+            throw new DAOException(SQL_EXCEPTION);
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXEPTION);
+            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
+            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
         } finally {
             try {
                 ConnectionPool.closeConnection(con, ps, rs);
             } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXEPTION);
+                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
+                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
             }
         }
     }
