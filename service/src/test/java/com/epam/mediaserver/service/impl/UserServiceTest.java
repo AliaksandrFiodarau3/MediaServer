@@ -10,8 +10,10 @@ import com.epam.mediaserver.exception.ValidateException;
 import com.epam.mediaserver.exeption.ConnectionPoolException;
 import com.epam.mediaserver.exeption.DAOException;
 import com.epam.mediaserver.service.ServiceFactory;
+
 import org.junit.BeforeClass;
-import org.junit.Test;
+
+
 
 public class UserServiceTest {
 
@@ -23,6 +25,7 @@ public class UserServiceTest {
     String photo = "Photo";
     boolean adminRoot = true;
     private ConnectionPool connectionPool;
+
 
     @BeforeClass
     public void createPool() throws ConnectionPoolException {
