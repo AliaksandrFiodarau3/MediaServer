@@ -26,7 +26,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>service</finalName>
+        <defaultGoal>service</defaultGoal>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

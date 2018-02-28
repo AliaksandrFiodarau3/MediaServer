@@ -8,30 +8,24 @@
         <artifactId>media-server</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-
     <artifactId>dao</artifactId>
-
     <properties>
         <mysql-driver.version>6.0.6</mysql-driver.version>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.epam.mediaserver</groupId>
             <artifactId>domain</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql-driver.version}</version>
         </dependency>
-
     </dependencies>
-
     <build>
-        <finalName>dao</finalName>
+        <defaultGoal>dao</defaultGoal>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

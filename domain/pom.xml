@@ -12,7 +12,7 @@
     <artifactId>domain</artifactId>
 
     <build>
-        <finalName>dao</finalName>
+        <defaultGoal>dao</defaultGoal>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
