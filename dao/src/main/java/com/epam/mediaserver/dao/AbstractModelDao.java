@@ -115,8 +115,7 @@ public abstract class AbstractModelDao<T extends Model> {
 
     public void add(T model) throws DAOException {
 
-
-        try (Connection con = ConnectionPool.takeConnection();){
+        try (Connection con = ConnectionPool.takeConnection()) {
 
             int counter = 0;
             counter = preparedStatementForCreate(con, model, getCreateQuery());
@@ -124,6 +123,7 @@ public abstract class AbstractModelDao<T extends Model> {
                 LOGGER.error(PERSIST_EXCEPTION);
                 throw new DAOException(PERSIST_EXCEPTION);
             }
+
         } catch (ConnectionPoolException e) {
             LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
             throw new DAOException(OPEN_CONNECTION_EXCEPTION);
@@ -147,11 +147,11 @@ public abstract class AbstractModelDao<T extends Model> {
 
             ps.setInt(1, id);
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    model = parseResult(rs);
-                }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                model = parseResult(rs);
             }
+
         } catch (ConnectionPoolException e) {
             LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
             throw new DAOException(OPEN_CONNECTION_EXCEPTION);
@@ -173,7 +173,7 @@ public abstract class AbstractModelDao<T extends Model> {
 
     public void update(T model) throws DAOException {
 
-        try (Connection con = ConnectionPool.takeConnection()){
+        try (Connection con = ConnectionPool.takeConnection()) {
             int counter = preparedStatementForUpdate(con, model, getUpdateQuery());
             if (counter != 1) {
                 LOGGER.error(PERSIST_EXCEPTION);
@@ -196,7 +196,7 @@ public abstract class AbstractModelDao<T extends Model> {
 
     public void delete(T model) throws DAOException {
 
-        try (Connection con = ConnectionPool.takeConnection()){
+        try (Connection con = ConnectionPool.takeConnection()) {
 
             int counter = preparedStatementForDelete(con, model, getDeleteQuery());
 
@@ -222,11 +222,12 @@ public abstract class AbstractModelDao<T extends Model> {
 
     public List<T> getAll() throws DAOException {
 
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
 
         try (Connection con = ConnectionPool.takeConnection();
-             PreparedStatement ps = con.prepareStatement(getSelectQuery());
-             ResultSet rs = ps.executeQuery()) {
+             PreparedStatement ps = con.prepareStatement(getSelectQuery())) {
+
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 T model = parseResult(rs);
@@ -245,4 +246,6 @@ public abstract class AbstractModelDao<T extends Model> {
         }
         return list;
     }
+
+
 }

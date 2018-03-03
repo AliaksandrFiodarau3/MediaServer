@@ -4,7 +4,8 @@ package com.epam.mediaserver.constant;
  * This class keeping constant with reg exp
  */
 
-public class Validate {
+public final class Validate {
+    private Validate(){}
 
     public static final String FIELD_LOGIN = "^[a-zA-Z0-9]+$";
     public static final String FIELD_PASSWORD = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$";

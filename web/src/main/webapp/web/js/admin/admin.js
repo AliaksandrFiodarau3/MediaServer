@@ -4,7 +4,7 @@ window.onload = function () {
     commandShow('show-genre', '#genre-list');
 
     doc.querySelector('#users').onclick = function () {
-        commandShow('show-user', '#user-table');
+        commandShowWithPage('show-user-list', '#user-table', 1);
     }
     doc.querySelector('#bonuses').onclick = function () {
         commandShow('show-bonus', '#bonus-table');
@@ -22,14 +22,14 @@ function call() {
                type: "POST",
                url: "Controller",
                data: msg,
-               success: function (date) {
+               success: function (data) {
                    commandShow('show-user', '#user-table');
                },
                dataType: "text"
            });
 }
 
-function commandShow(command, table) {
+function commandShow(command, template) {
 
     $.ajax({
                type: "POST",
@@ -38,7 +38,7 @@ function commandShow(command, table) {
                success: function (data) {
 
                    var json = JSON.parse(data),
-                       table = $(table).html(),
+                       table = $(template).html(),
                        compileTemplate = Handlebars.compile(table),
                        result = compileTemplate(json),
                        content = doc.getElementById("content");
@@ -48,7 +48,25 @@ function commandShow(command, table) {
            });
 }
 
-function commandShow(command, table, genre) {
+function commandShowWithPage(command, template, page) {
+
+    $.ajax({
+               type: "POST",
+               url: "Controller",
+               data: {command: command, userPage: page},
+               success: function (data) {
+                   var json = JSON.parse(data),
+                       table = $(template).html(),
+                       compileTemplate = Handlebars.compile(table),
+                       result = compileTemplate(json),
+                       content = doc.getElementById("content");
+                   content.innerHTML = result;
+               },
+               dataType: "text"
+           });
+}
+
+function commandShow(command, template, genre) {
 
     $.ajax({
                type: "POST",
@@ -57,7 +75,7 @@ function commandShow(command, table, genre) {
                success: function (data) {
                    try {
                        var json = JSON.parse(data),
-                           list = $(table).html(),
+                           list = $(template).html(),
                            compileTemplate = Handlebars.compile(list),
                            result = compileTemplate(json),
                            content = doc.getElementById("content");
