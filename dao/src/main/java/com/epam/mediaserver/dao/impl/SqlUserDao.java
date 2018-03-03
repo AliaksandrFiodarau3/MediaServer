@@ -324,7 +324,6 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
 
             rs.next();
             count = rs.getString(USER_FIELDS_COUNT);
-            ConnectionPool.closeConnection(con,ps,rs);
         } catch (ConnectionPoolException e) {
             LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
             throw new DAOException(OPEN_CONNECTION_EXCEPTION);
