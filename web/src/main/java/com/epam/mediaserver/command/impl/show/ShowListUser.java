@@ -36,7 +36,7 @@ public class ShowListUser implements Command {
         PrintWriter out = response.getWriter();
         try {
 
-            request.getSession().setAttribute(Attribute.ATTRIBUTE_PAGE, ServiceFactory.getUserService().getPages());
+            request.getSession().setAttribute(Attribute.ATTRIBUTE_PAGE, ServiceFactory.getUserService().getPage());
             users = ServiceFactory.getUserService().getList(Integer.valueOf(page));
             out.print("{\"users\": " + mapper.writeValueAsString(users) + "}");
 
