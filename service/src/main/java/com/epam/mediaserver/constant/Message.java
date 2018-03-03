@@ -4,7 +4,8 @@ package com.epam.mediaserver.constant;
  * Constants error and success messages
  */
 
-public class Message {
+public final class Message {
+    private Message(){}
 
     public static final String AUTHORIZATION_ERROR = "error.login";
     public static final String DAO_ERROR = "error.db";

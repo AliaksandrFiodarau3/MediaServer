@@ -5,7 +5,11 @@ package com.epam.mediaserver.constant;
  */
 
 
-public class Parameter {
+public final class Parameter {
+
+    private Parameter(){
+
+    }
 
     public static final String PARMETER_LANGUAGE = "lang";
     public static final String PARMETER_COMMAND = "command";
@@ -68,6 +72,7 @@ public class Parameter {
     public static final String PARMETER_CHECK_FIELD = "checkField";
 
     public static final String PARMETER_MESSAGE_TEXT = "textMessage";
+    public static final String PARMETER_USER_PAGE = "userPage";
 
 
 }

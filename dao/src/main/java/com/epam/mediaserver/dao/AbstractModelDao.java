@@ -121,6 +121,7 @@ public abstract class AbstractModelDao<T extends Model> {
                 LOGGER.error("Persist Exception");
                 throw new DAOException("Persist Exception");
             }
+
         } catch (ConnectionPoolException e) {
             LOGGER.error( "Connection is not open", e);
             throw new DAOException( "Connection is not open");
@@ -221,7 +222,7 @@ public abstract class AbstractModelDao<T extends Model> {
 
     public List<T> getAll() throws DAOException {
 
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
 
         try (Connection con = ConnectionPool.takeConnection();
              PreparedStatement ps = con.prepareStatement(getSelectQuery())) {
@@ -245,4 +246,6 @@ public abstract class AbstractModelDao<T extends Model> {
         }
         return list;
     }
+
+
 }

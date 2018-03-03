@@ -67,8 +67,10 @@ public class Controller extends HttpServlet {
         request.setAttribute("cookies", CookieAction.addToRequest(request));
 
         String commandName = request.getParameter(COMMAND);
+        System.out.println(commandName);
         Command command = CommandManager.getInstance().getCommand(commandName);
         command.execute(request, response);
+
 
     }
 }

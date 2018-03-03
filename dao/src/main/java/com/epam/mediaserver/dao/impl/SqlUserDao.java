@@ -28,8 +28,8 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
                                                +
                                                "VALUES (?, ?, ?, ?, ?, ?, ?);";
     private static final String SELECT_QUERY = "Select * FROM t_user";
-    private static final String SELECT_QUERY_WITH_ID = "Select * FROM t_user WHERE user_id= ?";
     private static final String SELECT_QUERY_BY_LIST = "SELECT * FROM t_user LIMIT ? OFFSET ?";
+    private static final String SELECT_QUERY_WITH_ID = "Select * FROM t_user WHERE user_id= ?";
 
     private static final String UPDATE_QUERY =
         "UPDATE t_user SET user_login = ?, user_name = ?, user_surname = ?, user_email= ?, " +
@@ -165,8 +165,8 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     @Override
     public User authorisation(String login) throws DAOException {
 
-        try (Connection con = ConnectionPool.takeConnection();
-             PreparedStatement ps = con.prepareStatement(BY_AUTHORIZATION_QUERY)) {
+        try(Connection con = ConnectionPool.takeConnection();
+            PreparedStatement  ps = con.prepareStatement(BY_AUTHORIZATION_QUERY)) {
 
             ps.setString(1, login);
 
@@ -300,5 +300,6 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
         }
         return Integer.valueOf(count) / LIMIT_LIST;
     }
+
 }
 

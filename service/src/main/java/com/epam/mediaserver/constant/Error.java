@@ -2,6 +2,9 @@ package com.epam.mediaserver.constant;
 
 public final class Error {
 
+    private Error() {
+
+    }
     public static final String SIGN_IN = "Authorization error.";
     public static final String SIGN_UP = "Registration error.";
     public static final String SIGN_OUT = "Sign out error.";
