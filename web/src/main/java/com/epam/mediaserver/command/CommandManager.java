@@ -41,6 +41,7 @@ import com.epam.mediaserver.command.impl.show.ShowBonuses;
 import com.epam.mediaserver.command.impl.show.ShowComments;
 import com.epam.mediaserver.command.impl.show.ShowGenres;
 import com.epam.mediaserver.command.impl.show.ShowGoods;
+import com.epam.mediaserver.command.impl.show.ShowListUser;
 import com.epam.mediaserver.command.impl.show.ShowOrders;
 import com.epam.mediaserver.command.impl.show.ShowSongs;
 import com.epam.mediaserver.command.impl.show.ShowUserGoods;
@@ -107,6 +108,8 @@ public class CommandManager {
         commands.put(CommandName.SHOW_GOODS, new ShowGoods());
         commands.put(CommandName.SHOW_SONG, new ShowSongs());
         commands.put(CommandName.SHOW_USER, new ShowUsers());
+        commands.put(CommandName.SHOW_USER_LIST, new ShowListUser());
+
 
         //Update
         commands.put(CommandName.EDIT_ALBUM, new AlbumEdit());
@@ -126,7 +129,7 @@ public class CommandManager {
         commands.put(CommandName.DELETE_SONG, new SongDelete());
         commands.put(CommandName.DELETE_USER, new UserDelete());
         commands.put(CommandName.DELETE_GOOD, new GoodDelete());
-    }//http://localhost:8080/Controller?command=delete-song&id=14
+    }
 
     public static CommandManager getInstance() {
         return instance;

@@ -117,6 +117,7 @@ public class AccessFilter implements Filter {
         commandSetForAdmin.add(CommandName.SHOW_ORDER);
         commandSetForAdmin.add(CommandName.SHOW_SONG);
         commandSetForAdmin.add(CommandName.SHOW_USER);
+        commandSetForAdmin.add(CommandName.SHOW_USER_LIST);
         commandSetForAdmin.add(CommandName.SHOW_GOODS);
 
         commandSetForAdmin.add(CommandName.EDIT_ALBUM);

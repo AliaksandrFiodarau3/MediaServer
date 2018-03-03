@@ -45,4 +45,8 @@ public final class Attribute {
     public static final String ATTRIBUTE_SONG_LIST = "songs";
     public static final String ATTRIBUTE_USER_LIST = "users";
 
+    private Attribute(){
+
+    }
+
 }
