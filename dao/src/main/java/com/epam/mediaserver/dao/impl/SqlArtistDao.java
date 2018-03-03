@@ -126,8 +126,8 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
             artist.setDescription(rs.getString(ARTIST_DESCRIPTION));
             artist.setImage(rs.getString(ARTIST_IMAGE));
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception");
+            throw new DAOException("SQL Exception");
         }
 
         return artist;
@@ -135,75 +135,56 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
 
     public List<Artist> getByGenre(String genre) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
 
-        List<Artist> list = new ArrayList<>();
 
-        try {
-            con = ConnectionPool.takeConnection();
-
-            ps = con.prepareStatement(SELECT_QUERY_BY_GENRE);
+        try ( Connection con = ConnectionPool.takeConnection();
+              PreparedStatement ps = con.prepareStatement(SELECT_QUERY_BY_GENRE)) {
 
             ps.setString(1, genre);
 
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
+
+            List<Artist> list = new ArrayList<>();
 
             while (rs.next()) {
                 Artist artist = (Artist) parseResult(rs);
                 list.add(artist);
             }
+            return list;
 
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
+            LOGGER.error( "Connection is not open", e);
+            throw new DAOException( "Connection is not open");
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         }
-
-        return list;
     }
 
     @Override
     public Artist getByName(String title) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Artist artist = null;
+        try( Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(BY_NAME_QUERY)) {
 
-        try {
-            con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(BY_NAME_QUERY);
             ps.setString(1, title);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
+
+            Artist artist = null;
+
             if (rs.next()) {
                 artist = (Artist) parseResult(rs);
             }
+
+            return artist;
+
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception");
+            throw new DAOException("SQL Exception");
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
+            LOGGER.error( "Connection is not open");
+            throw new DAOException( "Connection is not open");
         }
 
-        return artist;
     }
 }

@@ -39,8 +39,8 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
     private static final String DELETE_QUERY = "DELETE FROM t_song WHERE song_id = ?;";
     private static final String
         BY_ALBUM_QUERY =
-        "select * from t_song where album_id = (select album_id from t_album where album_title = ?);";
-    private static final String BY_NAME_QUERY = "select * from t_song where song_title = ?;";
+        "SELECT * FROM t_song WHERE album_id = (SELECT album_id FROM t_album WHERE album_title = ?);";
+    private static final String BY_NAME_QUERY = "SELECT * FROM t_song WHERE song_title = ?;";
 
     private static final String SONG_ID = "song_id";
     private static final String ALBUM_ID = "album_id";
@@ -127,8 +127,8 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
             song.setPrice(rs.getInt(SONG_PRICE));
 
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception");
+            throw new DAOException("SQL Exception");
         }
         return song;
     }
@@ -137,70 +137,52 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
     @Override
     public List<Song> getByAlbum(String album) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(BY_ALBUM_QUERY);) {
 
-        List<Song> list = new ArrayList<>();
-        Model song = null;
-        try {
-            con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(BY_ALBUM_QUERY);
             ps.setString(1, album);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
+
+            List<Song> list = new ArrayList<>();
             while (rs.next()) {
-                song = parseResult(rs);
+                Model song = parseResult(rs);
                 list.add((Song) song);
             }
+            return list;
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
         }
 
-        return list;
+
     }
 
     @Override
     public Song getByName(String name) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Song song = null;
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(BY_NAME_QUERY)) {
 
-        try {
-            con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(BY_NAME_QUERY);
             ps.setString(1, name);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
+
+            Song song = null;
             if (rs.next()) {
                 song = (Song) parseResult(rs);
             }
+
+            return song;
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         }
-        return song;
+
     }
 }
 

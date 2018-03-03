@@ -117,36 +117,24 @@ public class SqlOrderDao extends AbstractModelDao {
 
     public Order getByNumber(int number) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
         Order order = null;
 
-        try {
-            con = ConnectionPool.takeConnection();
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(SELECT_QUERY_BY_NUMBER)) {
 
-            ps = con.prepareStatement(SELECT_QUERY_BY_NUMBER);
             ps.setInt(1, number);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 order = (Order) parseResult(rs);
             }
 
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         }
 
         return order;
@@ -154,40 +142,28 @@ public class SqlOrderDao extends AbstractModelDao {
 
     public List<Order> getByUser(int userId) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(SELECT_QUERY_BY_USER)) {
 
-        List<Order> list = new ArrayList<>();
-
-        try {
-            con = ConnectionPool.takeConnection();
-
-            ps = con.prepareStatement(SELECT_QUERY_BY_USER);
             ps.setInt(1, userId);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
 
+            List<Order> list = new ArrayList<>();
             while (rs.next()) {
                 Order order = (Order) parseResult(rs);
                 list.add(order);
             }
+            return list;
 
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         }
 
-        return list;
+
     }
 
 
@@ -197,17 +173,15 @@ public class SqlOrderDao extends AbstractModelDao {
         SqlFactory factory = SqlFactory.getInstance();
 
         try {
-
             order.setId(rs.getInt(ORDER_ID));
             order.setNumber(rs.getInt(ORDER_NUMBER));
-            User user = (User) factory.getUserDao().getById(rs.getInt(USER_ID));
-            order.setUser(user);
+            order.setUser((User) factory.getUserDao().getById(rs.getInt(USER_ID)));
             order.setPrice(rs.getDouble(ORDER_PRICE));
             order.setTime(rs.getTime(ORDER_TIME));
             order.setDate(rs.getDate(ORDER_DATE));
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception");
+            throw new DAOException("SQL Exception");
         }
 
         return order;

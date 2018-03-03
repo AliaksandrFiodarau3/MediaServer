@@ -29,7 +29,7 @@ public class SqlGenreDao extends AbstractModelDao implements GenreDao {
         "insert into t_genre (genre_description, genre_title, genre_image ) values (?,?,?);";
     private static final String SELECT_QUERY = "select * from t_genre;";
     private static final String SELECT_QUERY_WITH_ID = "select * from t_genre where genre_id = ?;";
-    private static final String SELECT_QUERY_WITH_NAME = "select * from t_genre where genre_title = ?;";
+    private static final String SELECT_QUERY_WITH_NAME = "SELECT * FROM t_genre WHERE genre_title = ?;";
     private static final String UPDATE_QUERY = "update t_genre set genre_description = ? where genre_title = ?;";
     private static final String DELETE_QUERY = "DELETE FROM t_genre WHERE genre_title = ?;";
 
@@ -106,36 +106,27 @@ public class SqlGenreDao extends AbstractModelDao implements GenreDao {
     @Override
     public Genre getByName(String title) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
         Genre genre = null;
-        try {
-            con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(SELECT_QUERY_WITH_NAME);
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(SELECT_QUERY_WITH_NAME)) {
+
             ps.setString(1, title);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
+
             if (rs.next()) {
                 genre = (Genre) parseResult(rs);
             }
 
+            return genre;
+
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
         }
 
-        return genre;
 
     }
 }

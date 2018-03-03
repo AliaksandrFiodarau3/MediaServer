@@ -21,10 +21,8 @@ import java.util.List;
 
 public abstract class AbstractModelDao<T extends Model> {
 
-    protected static final String OPEN_CONNECTION_EXCEPTION = "Connection is not open";
-    protected static final String CLOSE_CONNECTION_EXCEPTION = "Connection not closed";
+
     protected static final String PERSIST_EXCEPTION = "Persist Exception";
-    protected static final String SQL_EXCEPTION = "SQL Exception";
     private static final Logger LOGGER = LogManager.getLogger();
 
 
@@ -115,21 +113,20 @@ public abstract class AbstractModelDao<T extends Model> {
 
     public void add(T model) throws DAOException {
 
-
-        try (Connection con = ConnectionPool.takeConnection();){
+        try (Connection con = ConnectionPool.takeConnection()) {
 
             int counter = 0;
             counter = preparedStatementForCreate(con, model, getCreateQuery());
             if (counter != 1) {
-                LOGGER.error(PERSIST_EXCEPTION);
-                throw new DAOException(PERSIST_EXCEPTION);
+                LOGGER.error("Persist Exception");
+                throw new DAOException("Persist Exception");
             }
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
+            LOGGER.error( "Connection is not open", e);
+            throw new DAOException( "Connection is not open");
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         }
     }
 
@@ -147,20 +144,20 @@ public abstract class AbstractModelDao<T extends Model> {
 
             ps.setInt(1, id);
 
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    model = parseResult(rs);
-                }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                model = parseResult(rs);
             }
+
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
+            LOGGER.error( "Connection is not open", e);
+            throw new DAOException( "Connection is not open");
         } catch (PersistException e) {
-            LOGGER.error(PERSIST_EXCEPTION);
-            throw new DAOException(PERSIST_EXCEPTION);
+            LOGGER.error("Persist Exception");
+            throw new DAOException("Persist Exception");
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         }
         return model;
     }
@@ -173,18 +170,20 @@ public abstract class AbstractModelDao<T extends Model> {
 
     public void update(T model) throws DAOException {
 
-        try (Connection con = ConnectionPool.takeConnection()){
+        try (Connection con = ConnectionPool.takeConnection()) {
+
             int counter = preparedStatementForUpdate(con, model, getUpdateQuery());
+
             if (counter != 1) {
-                LOGGER.error(PERSIST_EXCEPTION);
-                throw new DAOException(PERSIST_EXCEPTION);
+                LOGGER.error("Persist Exception");
+                throw new DAOException("Persist Exception");
             }
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
+            LOGGER.error( "Connection is not open", e);
+            throw new DAOException( "Connection is not open");
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         }
     }
 
@@ -196,21 +195,21 @@ public abstract class AbstractModelDao<T extends Model> {
 
     public void delete(T model) throws DAOException {
 
-        try (Connection con = ConnectionPool.takeConnection()){
+        try (Connection con = ConnectionPool.takeConnection()) {
 
             int counter = preparedStatementForDelete(con, model, getDeleteQuery());
 
             if (counter != 1) {
-                LOGGER.error(PERSIST_EXCEPTION);
-                throw new DAOException(PERSIST_EXCEPTION);
+                LOGGER.error("Persist Exception");
+                throw new DAOException("Persist Exception");
             }
 
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
+            LOGGER.error( "Connection is not open", e);
+            throw new DAOException( "Connection is not open");
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         }
     }
 
@@ -225,8 +224,9 @@ public abstract class AbstractModelDao<T extends Model> {
         List<T> list = new ArrayList<T>();
 
         try (Connection con = ConnectionPool.takeConnection();
-             PreparedStatement ps = con.prepareStatement(getSelectQuery());
-             ResultSet rs = ps.executeQuery()) {
+             PreparedStatement ps = con.prepareStatement(getSelectQuery())) {
+
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 T model = parseResult(rs);
@@ -234,14 +234,14 @@ public abstract class AbstractModelDao<T extends Model> {
             }
 
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
+            LOGGER.error( "Connection is not open", e);
+            throw new DAOException( "Connection is not open");
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         } catch (PersistException e) {
-            LOGGER.error(PERSIST_EXCEPTION, e);
-            throw new DAOException(PERSIST_EXCEPTION);
+            LOGGER.error("Persist Exception", e);
+            throw new DAOException("Persist Exception");
         }
         return list;
     }

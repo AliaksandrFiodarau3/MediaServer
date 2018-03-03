@@ -29,7 +29,7 @@ public class SqlBonusDao extends AbstractModelDao implements BonusDao {
         "INSERT INTO t_bonus (bonus_title, bonus_description, bonus_code , bonus_discount) VALUES ( ?, ?, ?, ?)";
     private static final String SELECT_QUERY = "Select * FROM t_bonus";
     private static final String SELECT_QUERY_WITH_ID = "SELECT * From t_bonus WHERE bonus_id = ?";
-    private static final String SELECT_QUERY_BY_CODE = "SELECT * From t_bonus WHERE bonus_code = ?";
+    private static final String SELECT_QUERY_BY_CODE = "SELECT * FROM t_bonus WHERE bonus_code = ?";
     private static final String UPDATE_QUERY =
         "UPDATE t_bonus SET bonus_description = ?, bonus_discount = ?, bonus_code = ? WHERE bonus_title= ?;";
     private static final String DELETE_QUERY = "DELETE FROM t_bonus WHERE bonus_title=?;";
@@ -116,35 +116,25 @@ public class SqlBonusDao extends AbstractModelDao implements BonusDao {
     @Override
     public Bonus getByCode(String code) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Bonus bonus = null;
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(SELECT_QUERY_BY_CODE)) {
 
-        try {
-            con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(SELECT_QUERY_BY_CODE);
             ps.setString(1, code);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
+
+            Bonus bonus = null;
             if (rs.next()) {
                 bonus = (Bonus) parseResult(rs);
             }
+
+            return bonus;
+
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
         }
-        return bonus;
     }
-
-
 }

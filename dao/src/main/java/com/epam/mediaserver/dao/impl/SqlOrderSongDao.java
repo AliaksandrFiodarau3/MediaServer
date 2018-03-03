@@ -99,40 +99,28 @@ public class SqlOrderSongDao extends AbstractModelDao {
 
     public List<OrderSong> getByOrder(int orderId) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(SELECT_QUERY_BY_ORDER);) {
 
-        List<OrderSong> list = new ArrayList<>();
-
-        try {
-            con = ConnectionPool.takeConnection();
-
-            ps = con.prepareStatement(SELECT_QUERY_BY_ORDER);
             ps.setInt(1, orderId);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
+
+            List<OrderSong> list = new ArrayList<>();
 
             while (rs.next()) {
                 OrderSong goods = (OrderSong) parseResult(rs);
                 list.add(goods);
             }
 
-        } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
-        } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
-        }
+            return list;
 
-        return list;
+        } catch (ConnectionPoolException e) {
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
+        } catch (SQLException e) {
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
+        }
     }
 
     @Override
@@ -141,14 +129,12 @@ public class SqlOrderSongDao extends AbstractModelDao {
         SqlFactory factory = SqlFactory.getInstance();
         try {
             orderSong.setId(rs.getInt(ORDER_SONG_ID));
-            Song song = (Song) factory.getSongDao().getById(rs.getInt(SONG_ID));
-            orderSong.setSong(song);
-            Order order = (Order) factory.getOrderDao().getById(rs.getInt(ORDER_ID));
-            orderSong.setOrder(order);
+            orderSong.setSong((Song) factory.getSongDao().getById(rs.getInt(SONG_ID)));
+            orderSong.setOrder((Order) factory.getOrderDao().getById(rs.getInt(ORDER_ID)));
 
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception");
+            throw new DAOException("SQL Exception");
         }
 
         return orderSong;

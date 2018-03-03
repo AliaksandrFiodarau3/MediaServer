@@ -21,10 +21,6 @@ import java.util.concurrent.Executor;
 
 public class PooledConnection implements Connection {
 
-    private final static String NOT_CLOSED_CONNECTION = "Attempting to close closed connection.";
-    private final static String DELETING_CONNECTION_ERROR =
-        "Error deleting connection from the given away connections pool.";
-    private final static String ALLOCATING_CONNECTION_ERROR = "Error allocating connection in the pool.";
 
     private Connection connection;
 
@@ -80,7 +76,7 @@ public class PooledConnection implements Connection {
     @Override
     public void close() throws SQLException {
         if (connection.isClosed()) {
-            throw new SQLException(NOT_CLOSED_CONNECTION);
+            throw new SQLException("Attempting to close closed connection.");
         }
 
         if (!connection.getAutoCommit()) {
@@ -91,11 +87,11 @@ public class PooledConnection implements Connection {
             connection.setReadOnly(false);
         }
         if (!ConnectionPool.getGivenArrayConQueue().remove(this)) {
-            throw new SQLException(DELETING_CONNECTION_ERROR);
+            throw new SQLException("Error deleting connection from the given away connections pool.");
         }
 
         if (!ConnectionPool.getConnectionQueue().offer(this)) {
-            throw new SQLException(ALLOCATING_CONNECTION_ERROR);
+            throw new SQLException("Error allocating connection in the pool.");
         }
     }
 

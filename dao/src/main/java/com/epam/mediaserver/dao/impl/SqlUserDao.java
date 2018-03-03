@@ -16,6 +16,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SqlUserDao extends AbstractModelDao implements UserDao {
 
@@ -27,15 +29,19 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
                                                "VALUES (?, ?, ?, ?, ?, ?, ?);";
     private static final String SELECT_QUERY = "Select * FROM t_user";
     private static final String SELECT_QUERY_WITH_ID = "Select * FROM t_user WHERE user_id= ?";
+    private static final String SELECT_QUERY_BY_LIST = "SELECT * FROM t_user LIMIT ? OFFSET ?";
+
     private static final String UPDATE_QUERY =
         "UPDATE t_user SET user_login = ?, user_name = ?, user_surname = ?, user_email= ?, " +
         " user_adminRoot = ?, user_photo = ? WHERE user_id = ? ;";
     private static final String DELETE_QUERY = "DELETE FROM t_user WHERE user_email=?;";
-    private static final String BY_AUTHORIZATION_QUERY = "select * from t_user where user_login=?;";
+    private static final String BY_AUTHORIZATION_QUERY = "SELECT * FROM t_user WHERE user_login=?;";
     private static final String SET_PHOTO_QUERY = "UPDATE t_user SET user_photo = ? WHERE user_login= ? ;";
     private static final String CHECK_LOGIN_QUERY = "SELECT user_login FROM t_user WHERE user_login = ?;";
-    private static final String CHECK_EMAIL_QUERY = "SELECT user_email FROM t_user where user_email = ? ;";
+    private static final String CHECK_EMAIL_QUERY = "SELECT user_email FROM t_user WHERE user_email = ? ;";
+    private static final String PAGES_RETURN_QUERY = "SELECT count(user_id) AS count FROM t_user;";
 
+    private static final Integer LIMIT_LIST = 3;
     private static final String USER_ID = "user_id";
     private static final String USER_LOGIN = "user_login";
     private static final String USER_PASSWORD = "user_password";
@@ -44,6 +50,7 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     private static final String USER_EMAIL = "user_email";
     private static final String USER_PHOTO = "user_photo";
     private static final String USER_ADMIN_ROOT = "user_adminRoot";
+    private static final String USER_FIELDS_COUNT = "count";
 
     @Override
     protected String getCreateQuery() {
@@ -73,12 +80,8 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     @Override
     public void setPhoto(String photo, String login) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        try {
-            con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(SET_PHOTO_QUERY);
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(SET_PHOTO_QUERY)) {
 
             ps.setString(1, photo);
             ps.setString(2, login);
@@ -89,21 +92,14 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
                 throw new PersistException(PERSIST_EXCEPTION);
             }
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         } catch (PersistException e) {
             LOGGER.error(PERSIST_EXCEPTION, e);
             throw new DAOException(PERSIST_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
         }
     }
 
@@ -122,10 +118,6 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
         ps.setString(7, user.getPhoto());
 
         return ps.executeUpdate();
-
-       /* "INSERT INTO t_user " +
-                "(user_login, user_password, user_name, user_surname,  user_adminRoot,user_email, user_photo) \n" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?);";*/
     }
 
     @Override
@@ -173,37 +165,27 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     @Override
     public User authorisation(String login) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Model user = null;
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(BY_AUTHORIZATION_QUERY)) {
 
-        try {
-            con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(BY_AUTHORIZATION_QUERY);
             ps.setString(1, login);
 
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             rs.next();
 
-            user = parseResult(rs);
+            Model user = parseResult(rs);
+
+            return (User) user;
 
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
         }
 
-        return (User) user;
+
     }
 
 
@@ -222,16 +204,11 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     @Override
     public boolean checkLogin(String login) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(CHECK_LOGIN_QUERY);
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(CHECK_LOGIN_QUERY)) {
             ps.setString(1, login);
 
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             rs.next();
 
             if (rs.getString(USER_LOGIN) == null) {
@@ -241,33 +218,23 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
             }
 
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
         }
     }
 
     @Override
     public boolean checkEmail(String email) throws DAOException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
 
-        try {
-            con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(CHECK_EMAIL_QUERY);
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(CHECK_EMAIL_QUERY)) {
+
             ps.setString(1, email);
 
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             rs.next();
 
             try {
@@ -278,19 +245,60 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
             }
 
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION, e);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION, e);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
         }
+    }
+
+    public List<User> getUserList(int page) throws DAOException {
+
+        List<User> list = new ArrayList<>();
+
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(SELECT_QUERY_BY_LIST)) {
+
+            ps.setInt(1, LIMIT_LIST);
+            ps.setInt(2, (page * LIMIT_LIST) - LIMIT_LIST);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                User user = (User) parseResult(rs);
+                list.add(user);
+            }
+
+        } catch (ConnectionPoolException e) {
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
+        } catch (SQLException e) {
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
+        }
+
+        return list;
+    }
+
+    public Integer getPage() throws DAOException {
+
+        String count;
+
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(PAGES_RETURN_QUERY);
+             ResultSet rs = ps.executeQuery()) {
+
+            rs.next();
+            count = rs.getString(USER_FIELDS_COUNT);
+        } catch (ConnectionPoolException e) {
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
+        } catch (SQLException e) {
+            LOGGER.error(e);
+            throw new DAOException("SQL Exception");
+        }
+        return Integer.valueOf(count) / LIMIT_LIST;
     }
 }
 

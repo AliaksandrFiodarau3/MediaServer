@@ -218,4 +218,31 @@ public class UserTableService {
         return users;
     }
 
+    public List<User> getList(int page) throws ServiceException {
+
+        List<User> users = null;
+
+        try {
+            users = SqlFactory.getUserDao().getUserList(page);
+        } catch (DAOException e) {
+            LOGGER.error(Error.DAO_EXCEPTION);
+            throw new ServiceException(Error.DAO_EXCEPTION);
+        }
+
+        return users;
+    }
+
+    public int getPage() throws ServiceException {
+
+        Integer pages;
+
+        try {
+            pages = SqlFactory.getUserDao().getPage();
+        } catch (DAOException e) {
+            LOGGER.error(Error.DAO_EXCEPTION);
+            throw new ServiceException(Error.DAO_EXCEPTION);
+        }
+
+        return pages;
+    }
 }

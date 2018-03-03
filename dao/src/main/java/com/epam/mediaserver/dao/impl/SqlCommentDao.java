@@ -39,7 +39,7 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
         "DELETE FROM t_comment " +
         "WHERE comment_text = ? and user_id = ? and song_id = ? and  comment_time = ? and comment_date = ?;";
     private static final String BY_COMMENT_QUERY =
-        "select * from t_comment where song_id = (select song_id from t_song where song_title = ?);";
+        "SELECT * FROM t_comment WHERE song_id = (SELECT song_id FROM t_song WHERE song_title = ?);";
 
     private static final String USER_ID = "user_id";
     private static final String SONG_ID = "song_id";
@@ -104,9 +104,8 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
         Comment comment = new Comment();
         SqlFactory factory = SqlFactory.getInstance();
 
-        User user = null;
         try {
-            user = (User) factory.getUserDao().getById(rs.getInt(USER_ID));
+            User user = (User) factory.getUserDao().getById(rs.getInt(USER_ID));
             Song song = (Song) factory.getSongDao().getById(rs.getInt(SONG_ID));
 
             comment.setId(rs.getInt(COMMENT_ID));
@@ -115,48 +114,37 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
             comment.setCommentText(rs.getString(COMMENT_TEXT));
             comment.setCommentTime(rs.getTime(COMMENT_TIME));
             comment.setCommentDate(rs.getDate(COMMENT_DATE));
-        } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION);
-            throw new DAOException(SQL_EXCEPTION);
-        }
 
-        return comment;
+            return comment;
+
+        } catch (SQLException e) {
+            LOGGER.error("SQL Exception");
+            throw new DAOException("SQL Exception");
+        }
     }
 
 
     @Override
     public List<Comment> getBySong(String song) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(BY_COMMENT_QUERY);) {
 
-        List<Comment> list = new ArrayList<>();
-        Model comment = null;
-        try {
-            con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(BY_COMMENT_QUERY);
             ps.setString(1, song);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
+            List<Comment> list = new ArrayList<>();
             while (rs.next()) {
-                comment = parseResult(rs);
+                Model comment = parseResult(rs);
                 list.add((Comment) comment);
             }
-        } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION);
-            throw new DAOException(SQL_EXCEPTION);
-        } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
-        }
+            return list;
 
-        return list;
+        } catch (SQLException e) {
+            LOGGER.error("SQL Exception");
+            throw new DAOException("SQL Exception");
+        } catch (ConnectionPoolException e) {
+            LOGGER.error("Connection is not open");
+            throw new DAOException("Connection is not open");
+        }
     }
 }

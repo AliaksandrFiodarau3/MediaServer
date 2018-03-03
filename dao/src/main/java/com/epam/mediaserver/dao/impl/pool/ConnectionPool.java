@@ -4,29 +4,12 @@ import com.epam.mediaserver.exeption.ConnectionPoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Array;
-import java.sql.Blob;
-import java.sql.CallableStatement;
-import java.sql.Clob;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
-import java.sql.NClob;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
-import java.sql.SQLWarning;
-import java.sql.SQLXML;
-import java.sql.Savepoint;
-import java.sql.Statement;
-import java.sql.Struct;
-import java.util.Map;
-import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executor;
 
 /**
  * ConnectionPool for SQL data base
@@ -35,14 +18,6 @@ import java.util.concurrent.Executor;
 public class ConnectionPool {
 
     private final static Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
-
-    private final static String SQL_EXCEPTION = "SQL Exeption in ConnectionPoll";
-    private final static String CLASS_NOT_FOUND_EXCEPTION = "Can't find database driver class";
-    private final static String CONNECTING_ERROR = "Error connecting to the data source.";
-    private final static String NOT_CLOSED_RESULT_SET = "ResultSet is not closed.";
-    private final static String NOT_CLOSED_PREPARE_STATEMENT = "PrepareStatement isn't close.";
-    private final static String NOT_RETURN_CONNECTING_ERROR = "Connection isn't return to the pool.";
-    private final static String NOT_CLOSED_CONNECTING_QUEUE = "Connection queue not closed";
 
     private static final int DEFAULT_POOL_SIZE = 6;
 
@@ -71,7 +46,6 @@ public class ConnectionPool {
      */
 
     private ConnectionPool() {
-
 
         ResourceBundle resourceBundle = ResourceBundle.getBundle(DBParameter.DB);
 
@@ -119,48 +93,11 @@ public class ConnectionPool {
             connection = connectionQueue.take();
             givenArrayConQueue.add(connection);
         } catch (InterruptedException e) {
-            throw new ConnectionPoolException(CONNECTING_ERROR, e);
+            throw new ConnectionPoolException("Error connecting to the data source.", e);
         }
         return connection;
     }
 
-    /**
-     * Close all connections from queue
-     *
-     * @throws ConnectionPoolException appears when can't get free connection
-     */
-
-    public static void closeConnection(Connection connection, PreparedStatement statement, ResultSet resultSet)
-        throws ConnectionPoolException {
-
-        try {
-            if (resultSet != null) {
-                resultSet.close();
-            }
-        } catch (SQLException e) {
-            LOGGER.warn(NOT_CLOSED_RESULT_SET + e);
-            throw new ConnectionPoolException(NOT_CLOSED_RESULT_SET);
-        }
-
-        try {
-            if (statement != null) {
-                statement.close();
-            }
-
-        } catch (SQLException e) {
-            LOGGER.warn(NOT_CLOSED_PREPARE_STATEMENT);
-            throw new ConnectionPoolException(NOT_CLOSED_PREPARE_STATEMENT);
-        }
-
-        try {
-            if (connection != null) {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            LOGGER.warn(NOT_RETURN_CONNECTING_ERROR, e);
-            throw new ConnectionPoolException(NOT_RETURN_CONNECTING_ERROR);
-        }
-    }
 
     /**
      * Close all connections from queue
@@ -175,11 +112,11 @@ public class ConnectionPool {
                 if (!connection.getAutoCommit()) {
                     connection.commit();
                 }
-                ((PooledConnection) connection).reallyClose();
+                connection.close();
             }
         } catch (SQLException e) {
-            LOGGER.warn(NOT_CLOSED_CONNECTING_QUEUE, e);
-            throw new ConnectionPoolException(NOT_CLOSED_CONNECTING_QUEUE);
+            LOGGER.warn("Connection queue not closed", e);
+            throw new ConnectionPoolException("Connection queue not closed");
         }
     }
 
@@ -200,16 +137,16 @@ public class ConnectionPool {
             connectionQueue = new ArrayBlockingQueue<>(poolSize);
             for (int i = 0; i < poolSize; i++) {
                 Connection connection = DriverManager.getConnection(url, user, password);
-                PooledConnection pooledConnection = new PooledConnection(connection);
+                //PooledConnection pooledConnection = new PooledConnection(connection);
 
-                connectionQueue.add(pooledConnection);
+                connectionQueue.add(connection);
             }
         } catch (SQLException e) {
-            LOGGER.warn(SQL_EXCEPTION);
-            throw new ConnectionPoolException(SQL_EXCEPTION, e);
+            LOGGER.warn("SQL Exeption in ConnectionPoll");
+            throw new ConnectionPoolException("SQL Exeption in ConnectionPoll", e);
         } catch (ClassNotFoundException e) {
-            LOGGER.warn(CLASS_NOT_FOUND_EXCEPTION);
-            throw new ConnectionPoolException(CLASS_NOT_FOUND_EXCEPTION, e);
+            LOGGER.warn("Can't find database driver class");
+            throw new ConnectionPoolException("Can't find database driver class", e);
         }
     }
 

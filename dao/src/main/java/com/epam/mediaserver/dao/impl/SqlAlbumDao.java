@@ -127,8 +127,8 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
             album.setDescription(rs.getString(ALBUM_DESCRIPTION));
             album.setImage(rs.getString(ALBUM_IMAGE));
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION);
-            throw new DAOException(SQL_EXCEPTION);
+            LOGGER.error("SQL Exception");
+            throw new DAOException("SQL Exception");
         }
 
         return album;
@@ -137,73 +137,53 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
     @Override
     public List<Album> getByArtist(String artist) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(BY_ARTIST_QUERY)) {
 
-        List<Album> list = new ArrayList<Album>();
-        Model album = null;
+            List<Album> list = new ArrayList<>();
 
-        try {
-            con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(BY_ARTIST_QUERY);
             ps.setString(1, artist);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                album = parseResult(rs);
+                Model album = parseResult(rs);
                 list.add((Album) album);
             }
-        } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
-        } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION);
-            throw new DAOException(SQL_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
-        }
 
-        return list;
+            return list;
+
+        } catch (ConnectionPoolException e) {
+            LOGGER.error("Connection is not open");
+            throw new DAOException("Connection is not open");
+        } catch (SQLException e) {
+            LOGGER.error("SQL Exception");
+            throw new DAOException("SQL Exception");
+        }
     }
 
     @Override
     public Album getByName(String title) throws DAOException {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(BY_NAME_QUERY)) {
 
-        Album album = null;
-        try {
-            con = ConnectionPool.takeConnection();
-            ps = con.prepareStatement(BY_NAME_QUERY);
             ps.setString(1, title);
-            rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
+
+            Album album = null;
+
             if (rs.next()) {
                 album = (Album) parseResult(rs);
             }
 
+            return album;
         } catch (ConnectionPoolException e) {
-            LOGGER.error(OPEN_CONNECTION_EXCEPTION);
-            throw new DAOException(OPEN_CONNECTION_EXCEPTION);
+            LOGGER.error("Connection is not open");
+            throw new DAOException("Connection is not open");
         } catch (SQLException e) {
-            LOGGER.error(SQL_EXCEPTION);
-            throw new DAOException(SQL_EXCEPTION);
-        } finally {
-            try {
-                ConnectionPool.closeConnection(con, ps, rs);
-            } catch (ConnectionPoolException e) {
-                LOGGER.error(CLOSE_CONNECTION_EXCEPTION);
-                throw new DAOException(CLOSE_CONNECTION_EXCEPTION);
-            }
+            LOGGER.error("SQL Exception");
+            throw new DAOException("SQL Exception");
         }
 
-        return album;
 
     }
 }
