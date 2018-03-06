@@ -1,5 +1,6 @@
 package com.epam.mediaserver.service.impl;
 
+import com.epam.mediaserver.builder.BuilderFactory;
 import com.epam.mediaserver.constant.Error;
 import com.epam.mediaserver.dao.SqlFactory;
 import com.epam.mediaserver.entity.Order;
@@ -10,8 +11,6 @@ import com.epam.mediaserver.util.Validation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.List;
 
 public class OrderTableService {
@@ -23,18 +22,11 @@ public class OrderTableService {
         try {
             if (Validation.orderCheck(price, user)) {
 
-                Order order = new Order();
-
-                order.setPrice(price);
-                order.setUser(SqlFactory.getUserDao().authorisation(user));
-
-                Date date = new Date(System.currentTimeMillis());
-                order.setDate(date);
-
-                Time time = new Time(System.currentTimeMillis());
-                order.setTime(time);
-
-                SqlFactory.getOrderDao().add(order);
+                SqlFactory.getOrderDao().add(
+                    BuilderFactory.getOrderBuilder()
+                        .setPrice(price)
+                        .setUser(SqlFactory.getUserDao().authorisation(user))
+                        .build());
 
             } else {
                 LOGGER.info(Error.VALIDATION);
@@ -47,7 +39,7 @@ public class OrderTableService {
 
     }
 
-    public void edit(int id, double price, String user, int number) throws ServiceException, ValidateException {
+    public void edit(Long id, double price, String user, int number) throws ServiceException, ValidateException {
 
         try {
             Order order = (Order) SqlFactory.getOrderDao().getById(id);
@@ -71,7 +63,7 @@ public class OrderTableService {
     }
 
 
-    public void delete(int id) throws ServiceException {
+    public void delete(Long id) throws ServiceException {
 
         try {
             Order order = (Order) SqlFactory.getOrderDao().getById(id);
@@ -82,9 +74,9 @@ public class OrderTableService {
         }
     }
 
-    public Order getById(int id) throws ServiceException {
+    public Order getById(Long id) throws ServiceException {
 
-        Order order = null;
+        Order order;
 
         try {
             order = (Order) SqlFactory.getOrderDao().getById(id);
@@ -96,9 +88,9 @@ public class OrderTableService {
 
     }
 
-    public List<Order> getByUser(int id) throws ServiceException {
+    public List<Order> getByUser(Long id) throws ServiceException {
 
-        List<Order> orders = null;
+        List<Order> orders;
 
         try {
             orders = SqlFactory.getOrderDao().getByUser(id);
@@ -112,7 +104,7 @@ public class OrderTableService {
 
     public List<Order> getAll() throws ServiceException {
 
-        List<Order> orders = null;
+        List<Order> orders;
 
         try {
             orders = SqlFactory.getOrderDao().getAll();

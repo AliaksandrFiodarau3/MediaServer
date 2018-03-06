@@ -64,7 +64,7 @@ public class GenreTableService {
 
     }
 
-    public void edit(int id, String title, String description, String image)
+    public void edit(Long id, String title, String description, String image)
         throws ServiceException, ValidateException {
 
         try {
@@ -90,7 +90,7 @@ public class GenreTableService {
         }
     }
 
-    public void delete(int id) throws ServiceException {
+    public void delete(Long id) throws ServiceException {
 
         try {
             Genre genre = (Genre) SqlFactory.getGenreDao().getById(id);

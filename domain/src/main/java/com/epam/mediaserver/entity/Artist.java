@@ -7,17 +7,6 @@ public class Artist extends Model {
     private String description;
     private String image;
 
-    public Artist() {
-        super();
-    }
-
-    public Artist(Genre genre, String title, String description, String image) {
-        this.genre = genre;
-        this.title = title;
-        this.description = description;
-        this.image = image;
-    }
-
     public Genre getGenre() {
         return genre;
     }

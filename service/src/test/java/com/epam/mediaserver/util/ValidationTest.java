@@ -13,7 +13,7 @@ class ValidationTest {
 
     @ParameterizedTest
     @CsvSource({"15, LOGIN, NAME, SURNAME, Name_Surname@gmail.com"})
-    void userCheck1(int id, String login, String name, String surname, String email) {
+    void userCheck1(Long id, String login, String name, String surname, String email) {
         assertThat(Validation.userCheck(id, login, name, surname, email), equalTo(true));
     }
 

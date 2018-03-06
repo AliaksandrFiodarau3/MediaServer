@@ -12,14 +12,15 @@ public interface AlbumService {
 
     List<Album> getByArtist(String artist) throws ServiceException;
 
-    void add(String artist, String title, String year, String description, String image) throws ValidateException,
-                                                                                                ServiceException;
+    void add(String artist, String title, String year, String description, String image) throws
+                                                                                         ServiceException,
+                                                                                         ValidateException;
 
 
-    void edit(int id, String title, String artist, String year, String description, String image)
+    void edit(Long id, String title, String artist, String year, String description, String image)
      throws ServiceException, ValidateException;
 
-    void delete(int id) throws ServiceException;
+    void delete(Long id) throws ServiceException;
 
     List<Album> getAll() throws ServiceException;
 

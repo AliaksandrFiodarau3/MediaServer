@@ -27,7 +27,7 @@ public class BonusDelete implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        int id = Integer.parseInt(request.getParameter(Parameter.PARMETER_BONUS_ID));
+        Long id = Long.parseLong(request.getParameter(Parameter.PARMETER_BONUS_ID));
         try {
 
             ServiceFactory.getBonusService().delete(id);

@@ -37,17 +37,17 @@ public class AlbumServiceTest {
     }
 
 
-    public void edit(int id, String title, String artist, String year, String description, String image)
+    public void edit(Long id, String title, String artist, String year, String description, String image)
         throws ServiceException, ValidateException {
 
         ServiceFactory.getAlbumService().edit(id, title, artist, year, description, image);
     }
 
-    public void delete(int id) throws ServiceException {
+    public void delete(Long id) throws ServiceException {
         ServiceFactory.getAlbumService().delete(id);
     }
 
-    public boolean check(int id, String title, Artist artist, String description, String image) throws DAOException {
+    public boolean check(Long id, String title, Artist artist, String description, String image) throws DAOException {
 
         Album album = (Album) SqlFactory.getAlbumDao().getById(id);
 
@@ -68,7 +68,7 @@ public class AlbumServiceTest {
         add(title, artistTitle, year, description, image);
 
         Album album = SqlFactory.getAlbumDao().getByName(title);
-        int id = album.getId();
+        Long id = album.getId();
 
         Artist artist = SqlFactory.getArtistDao().getByName(artistTitle);
 

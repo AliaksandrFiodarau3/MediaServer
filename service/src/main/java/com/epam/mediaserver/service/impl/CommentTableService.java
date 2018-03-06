@@ -19,7 +19,7 @@ public class CommentTableService implements CommentService{
 
     private static final Logger LOGGER = LogManager.getLogger(CommentTableService.class);
 
-    public void add(int songId, String userLogin, String text) throws ServiceException {
+    public void add(Long songId, String userLogin, String text) throws ServiceException {
 
         try {
 
@@ -46,7 +46,7 @@ public class CommentTableService implements CommentService{
         List<Comment> comments = null;
 
         try {
-            song = (Song) SqlFactory.getSongDao().getById(Integer.parseInt(id));
+            song = (Song) SqlFactory.getSongDao().getById(Long.parseLong(id));
 
             comments = SqlFactory.getCommentDao().getBySong(song.getTitle());
 

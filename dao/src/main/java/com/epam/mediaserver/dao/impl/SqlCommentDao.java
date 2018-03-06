@@ -1,5 +1,6 @@
 package com.epam.mediaserver.dao.impl;
 
+import com.epam.mediaserver.builder.BuilderFactory;
 import com.epam.mediaserver.dao.AbstractModelDao;
 import com.epam.mediaserver.dao.CommentDao;
 import com.epam.mediaserver.dao.SqlFactory;
@@ -79,8 +80,8 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
 
         Comment comment = (Comment) model;
         ps.setString(1, comment.getCommentText());
-        ps.setInt(2, comment.getUser().getId());
-        ps.setInt(3, comment.getSong().getId());
+        ps.setLong(2, comment.getUser().getId());
+        ps.setLong(3, comment.getSong().getId());
         ps.setTime(4, comment.getCommentTime());
         ps.setDate(5, comment.getCommentDate());
 
@@ -101,21 +102,21 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
 
     @Override
     protected Model parseResult(ResultSet rs) throws DAOException {
-        Comment comment = new Comment();
+
         SqlFactory factory = SqlFactory.getInstance();
 
         try {
-            User user = (User) factory.getUserDao().getById(rs.getInt(USER_ID));
-            Song song = (Song) factory.getSongDao().getById(rs.getInt(SONG_ID));
+            User user = (User) factory.getUserDao().getById(rs.getLong(USER_ID));
+            Song song = (Song) factory.getSongDao().getById(rs.getLong(SONG_ID));
 
-            comment.setId(rs.getInt(COMMENT_ID));
-            comment.setSong(song);
-            comment.setUser(user);
-            comment.setCommentText(rs.getString(COMMENT_TEXT));
-            comment.setCommentTime(rs.getTime(COMMENT_TIME));
-            comment.setCommentDate(rs.getDate(COMMENT_DATE));
-
-            return comment;
+            return BuilderFactory.getCommentBuilder()
+                .setId(rs.getLong(COMMENT_ID))
+                .setSong(song)
+                .setUser(user)
+                .setCommentText(rs.getString(COMMENT_TEXT))
+                .setTime(rs.getTime(COMMENT_TIME))
+                .setData(rs.getDate(COMMENT_DATE))
+                .build();
 
         } catch (SQLException e) {
             LOGGER.error("SQL Exception");
@@ -128,7 +129,7 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
     public List<Comment> getBySong(String song) throws DAOException {
 
         try (Connection con = ConnectionPool.takeConnection();
-             PreparedStatement ps = con.prepareStatement(BY_COMMENT_QUERY);) {
+             PreparedStatement ps = con.prepareStatement(BY_COMMENT_QUERY)) {
 
             ps.setString(1, song);
             ResultSet rs = ps.executeQuery();

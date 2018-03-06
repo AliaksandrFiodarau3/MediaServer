@@ -18,7 +18,7 @@ public class SongTableService {
 
     private static final Logger LOGGER = LogManager.getLogger(SongTableService.class);
 
-    public Song getById(int id) throws ServiceException {
+    public Song getById(Long id) throws ServiceException {
 
         Song song = null;
 
@@ -72,7 +72,7 @@ public class SongTableService {
     }
 
 
-    public void edit(int id, String title, String album, String duration, String price)
+    public void edit(Long id, String title, String album, String duration, String price)
         throws ServiceException, ValidateException {
 
         try {
@@ -94,7 +94,7 @@ public class SongTableService {
         }
     }
 
-    public void delete(int id) throws ServiceException {
+    public void delete(Long id) throws ServiceException {
 
         try {
             Song song = (Song) SqlFactory.getSongDao().getById(id);

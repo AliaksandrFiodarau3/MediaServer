@@ -8,11 +8,6 @@ public class BonusKeeper extends Model {
     public BonusKeeper() {
     }
 
-    public BonusKeeper(Bonus bonus, User user) {
-        this.bonus = bonus;
-        this.user = user;
-    }
-
     public Bonus getBonus() {
         return bonus;
     }

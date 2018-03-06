@@ -1,5 +1,6 @@
 package com.epam.mediaserver.service.impl;
 
+import com.epam.mediaserver.builder.BuilderFactory;
 import com.epam.mediaserver.constant.Error;
 import com.epam.mediaserver.dao.SqlFactory;
 import com.epam.mediaserver.entity.Bonus;
@@ -12,8 +13,6 @@ import com.epam.mediaserver.exeption.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.Set;
@@ -28,16 +27,13 @@ public class OrderUserService {
 
     public void create(User user) {
 
-        Random random = new Random();
-
-        int number = random.nextInt(9999) + 1000;
-
-        Date date = new Date(System.currentTimeMillis());
-
-        Time time = new Time(System.currentTimeMillis());
+        int number = new Random().nextInt(9999) + 1000;
 
         if (songSet.size() == 0 && order == null) {
-            this.order = new Order(number, user, 0, time, date);
+            this.order = BuilderFactory.getOrderBuilder()
+                .setNumber(number)
+                .setUser(user)
+                .build();
         }
     }
 
@@ -110,7 +106,6 @@ public class OrderUserService {
         }
 
     }
-
 
     public void clearOrder() {
         order = null;

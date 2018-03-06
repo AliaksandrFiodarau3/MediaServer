@@ -80,7 +80,7 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
         PreparedStatement ps = con.prepareStatement(query);
 
         Artist artist = (Artist) model;
-        ps.setInt(1, artist.getGenre().getId());
+        ps.setLong(1, artist.getGenre().getId());
         ps.setString(2, artist.getDescription());
         ps.setString(3, artist.getImage());
         ps.setString(4, artist.getTitle());
@@ -119,8 +119,8 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
         SqlFactory factory = SqlFactory.getInstance();
 
         try {
-            artist.setId(rs.getInt(ARTIST_ID));
-            Genre genre = (Genre) factory.getGenreDao().getById(rs.getInt(GENRE_ID));
+            artist.setId(rs.getLong(ARTIST_ID));
+            Genre genre = (Genre) factory.getGenreDao().getById(rs.getLong(GENRE_ID));
             artist.setGenre(genre);
             artist.setTitle(rs.getString(ARTIST_TITLE));
             artist.setDescription(rs.getString(ARTIST_DESCRIPTION));

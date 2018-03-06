@@ -34,7 +34,7 @@ public class GenreEdit implements Command {
         String image = request.getParameter(Parameter.PARMETER_GENRE_IMAGE);
 
         try {
-            ServiceFactory.getGenreService().edit(Integer.parseInt(id), title, description, image);
+            ServiceFactory.getGenreService().edit(Long.parseLong(id), title, description, image);
 
         } catch (ValidateException e) {
             LOGGER.info(VALIDATION_ERROR);

@@ -27,7 +27,7 @@ public class UserEdit implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        int id = Integer.parseInt(request.getParameter(Parameter.PARMETER_USER_ID));
+        Long id = Long.parseLong(request.getParameter(Parameter.PARMETER_USER_ID));
         String name = request.getParameter(Parameter.PARMETER_USER_NAME);
         String surname = request.getParameter(Parameter.PARMETER_USER_SURNAME);
         String login = request.getParameter(Parameter.PARMETER_USER_LOGIN);

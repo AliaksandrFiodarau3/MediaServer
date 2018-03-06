@@ -27,7 +27,7 @@ public class GenreDelete implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        int id = Integer.parseInt(request.getParameter(Parameter.PARMETER_GENRE_ID));
+        Long id = Long.parseLong(request.getParameter(Parameter.PARMETER_GENRE_ID));
         try {
             ServiceFactory.getGenreService().delete(id);
         } catch (ServiceException e) {

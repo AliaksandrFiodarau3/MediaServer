@@ -27,8 +27,7 @@ public class UserDelete implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        int id = Integer.parseInt(request.getParameter(Parameter.PARMETER_USER_ID));
-        ;
+        Long id = Long.parseLong(request.getParameter(Parameter.PARMETER_USER_ID));
 
         try {
             ServiceFactory.getUserService().delete(id);

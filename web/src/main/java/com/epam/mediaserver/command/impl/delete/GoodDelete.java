@@ -25,7 +25,7 @@ public class GoodDelete implements Command {
 
         try {
 
-            ServiceFactory.getGoodTableService().delete(Integer.parseInt(id));
+            ServiceFactory.getGoodTableService().delete(Long.parseLong(id));
             request.getSession().setAttribute("order", ServiceFactory.getOrderUserService().getOrder());
             request.getSession().setAttribute("orderSongs", ServiceFactory.getOrderUserService().getAllGoodsInOrder());
 

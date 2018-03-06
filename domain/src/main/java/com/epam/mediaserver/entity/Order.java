@@ -11,16 +11,6 @@ public class Order extends Model {
     private Time time;
     private Date date;
 
-    public Order() {
-    }
-
-    public Order(int number, User user, double price, Time time, Date date) {
-        this.number = number;
-        this.user = user;
-        this.price = price;
-        this.time = time;
-        this.date = date;
-    }
 
     public int getNumber() {
         return number;

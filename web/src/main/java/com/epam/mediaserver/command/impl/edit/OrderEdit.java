@@ -34,7 +34,7 @@ public class OrderEdit implements Command {
 
         try {
 
-            ServiceFactory.getOrderTableService().edit(Integer.parseInt(id), Double.parseDouble(price), user, number);
+            ServiceFactory.getOrderTableService().edit(Long.parseLong(id), Double.parseDouble(price), user, number);
 
         } catch (ValidateException e) {
             LOGGER.info(VALIDATION_ERROR);

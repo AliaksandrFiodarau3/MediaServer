@@ -1,6 +1,8 @@
 package com.epam.mediaserver.dao.impl;
 
 
+import com.epam.mediaserver.builder.BuilderFactory;
+import com.epam.mediaserver.builder.impl.UserBuilder;
 import com.epam.mediaserver.dao.AbstractModelDao;
 import com.epam.mediaserver.dao.UserDao;
 import com.epam.mediaserver.dao.impl.pool.ConnectionPool;
@@ -110,10 +112,10 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
 
         User user = (User) model;
         ps.setString(1, user.getLogin());
-        ps.setLong(2, user.getPassword());
+        ps.setString(2, user.getPassword());
         ps.setString(3, user.getName());
         ps.setString(4, user.getSurname());
-        ps.setBoolean(5, user.isAdminRoot());
+        ps.setBoolean(5, user.getAdminRoot());
         ps.setString(6, user.getEmail());
         ps.setString(7, user.getPhoto());
 
@@ -129,9 +131,9 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
         ps.setString(2, user.getName());
         ps.setString(3, user.getSurname());
         ps.setString(4, user.getEmail());
-        ps.setBoolean(5, user.isAdminRoot());
+        ps.setBoolean(5, user.getAdminRoot());
         ps.setString(6, user.getPhoto());
-        ps.setInt(7, user.getId());
+        ps.setLong(7, user.getId());
 
         return ps.executeUpdate();
     }
@@ -150,16 +152,16 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     @Override
     protected Model parseResult(ResultSet rs) throws SQLException {
 
-        User user = new User();
-        user.setId(rs.getInt(USER_ID));
-        user.setLogin(rs.getString(USER_LOGIN));
-        user.setPassword(rs.getLong(USER_PASSWORD));
-        user.setName(rs.getString(USER_NAME));
-        user.setSurname(rs.getString(USER_SURNAME));
-        user.setEmail(rs.getString(USER_EMAIL));
-        user.setPhoto(rs.getString(USER_PHOTO));
-        user.setAdminRoot(rs.getBoolean(USER_ADMIN_ROOT));
-        return user;
+        return BuilderFactory.getUserBuilder()
+            .setId(rs.getLong(USER_ID))
+            .setLogin(rs.getString(USER_LOGIN))
+            .setPassword(rs.getString(USER_PASSWORD))
+            .setEmail(rs.getString(USER_NAME))
+            .setName(rs.getString(USER_SURNAME))
+            .setSurname(rs.getString(USER_EMAIL))
+            .setPhoto(rs.getString(USER_PHOTO))
+            .setRoot(rs.getBoolean(USER_ADMIN_ROOT))
+            .build();
     }
 
     @Override
@@ -190,10 +192,18 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
 
 
     @Override
-    public User registration(String login, long password, String email, String name, String surname)
+    public User registration(String login, String password, String email, String name, String surname)
         throws DAOException {
 
-        User user = new User(login, password, email, name, surname, false);
+        UserBuilder userBuilder = new UserBuilder();
+
+        User user = userBuilder
+            .setLogin(login)
+            .setPassword(password)
+            .setEmail(email)
+            .setName(name)
+            .setSurname(surname)
+            .build();
 
         add(user);
 

@@ -28,7 +28,7 @@ public class ArtistDelete implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         try {
-            int id = Integer.parseInt(request.getParameter(Parameter.PARMETER_ARTIST_ID));
+            Long id = Long.parseLong(request.getParameter(Parameter.PARMETER_ARTIST_ID));
 
             ServiceFactory.getArtistService().delete(id);
 

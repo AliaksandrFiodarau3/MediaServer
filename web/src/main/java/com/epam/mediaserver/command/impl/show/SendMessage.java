@@ -24,7 +24,7 @@ public class SendMessage implements Command {
 
         try {
 
-            ServiceFactory.getCommentService().add(Integer.parseInt(idSong), userLogin, text);
+            ServiceFactory.getCommentService().add(Long.parseLong(idSong), userLogin, text);
 
         } catch (ServiceException e) {
             Messanger.sendMessage(response, Message.DAO_ERROR);
