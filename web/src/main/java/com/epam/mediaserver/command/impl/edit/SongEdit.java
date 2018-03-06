@@ -35,7 +35,7 @@ public class SongEdit implements Command {
 
         try {
 
-            ServiceFactory.getSongService().edit(Integer.parseInt(id), title, album, duration, price);
+            ServiceFactory.getSongService().edit(Long.parseLong(id), title, album, duration, price);
 
         } catch (ValidateException e) {
             LOGGER.info(VALIDATION_ERROR);

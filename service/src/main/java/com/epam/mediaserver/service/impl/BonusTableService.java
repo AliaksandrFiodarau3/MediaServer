@@ -46,7 +46,7 @@ public class BonusTableService implements BonusService{
 
     }
 
-    public void edit(int id, String title, String description, String discount, String code)
+    public void edit(Long id, String title, String description, String discount, String code)
         throws ServiceException, ValidateException {
 
         try {
@@ -72,7 +72,7 @@ public class BonusTableService implements BonusService{
         }
     }
 
-    public void delete(int id) throws ServiceException {
+    public void delete(Long id) throws ServiceException {
 
         try {
             Bonus bonus = (Bonus) SqlFactory.getBonusDao().getById(id);

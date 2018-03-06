@@ -95,7 +95,7 @@ public class SqlGenreDao extends AbstractModelDao implements GenreDao {
     protected Model parseResult(ResultSet rs) throws SQLException {
 
         Genre genre = new Genre();
-        genre.setId(rs.getInt(GENRE_ID));
+        genre.setId(rs.getLong(GENRE_ID));
         genre.setTitle(rs.getString(GENRE_TITLE));
         genre.setDescription(rs.getString(GENRE_DESCRIPTION));
         genre.setImage(rs.getString(GENRE_IMAGE));

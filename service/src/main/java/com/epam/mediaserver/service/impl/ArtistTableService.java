@@ -70,7 +70,7 @@ public class ArtistTableService implements ArtistService{
 
     }
 
-    public void edit(int id, String title, String description, String image)
+    public void edit(Long id, String title, String description, String image)
         throws ServiceException, ValidateException {
 
         try {
@@ -79,7 +79,6 @@ public class ArtistTableService implements ArtistService{
             if (Validation.artistCheck(title, description, image)) {
 
                 artist.setTitle(title);
-                //artist.setGenre(SqlFactory.getGenreDao().getByName(genre));
                 artist.setDescription(description);
                 artist.setImage(image);
                 SqlFactory.getArtistDao().update(artist);
@@ -94,7 +93,7 @@ public class ArtistTableService implements ArtistService{
         }
     }
 
-    public void delete(int id) throws ServiceException {
+    public void delete(Long id) throws ServiceException {
 
         try {
             Artist artist = (Artist) SqlFactory.getArtistDao().getById(id);

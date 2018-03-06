@@ -137,13 +137,13 @@ public abstract class AbstractModelDao<T extends Model> {
      * @param id unique ID in the table
      */
 
-    public T getById(int id) throws DAOException {
+    public T getById(Long id) throws DAOException {
 
         T model = null;
         try (Connection con = ConnectionPool.takeConnection();
              PreparedStatement ps = con.prepareStatement(getSelectQueryWithID())) {
 
-            ps.setInt(1, id);
+            ps.setLong(1, id);
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -246,6 +246,5 @@ public abstract class AbstractModelDao<T extends Model> {
         }
         return list;
     }
-
 
 }

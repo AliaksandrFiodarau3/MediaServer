@@ -37,7 +37,7 @@ public class ShowComments implements Command {
 
         try {
 
-            Song song = ServiceFactory.getSongService().getById(Integer.parseInt(id));
+            Song song = ServiceFactory.getSongService().getById(Long.parseLong(id));
 
             List<Comment> comments = ServiceFactory.getCommentService().getBySong(id);
 

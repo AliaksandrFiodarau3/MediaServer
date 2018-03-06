@@ -69,8 +69,8 @@ public class SqlOrderSongDao extends AbstractModelDao {
         PreparedStatement ps = con.prepareStatement(query);
 
         OrderSong orderSong = (OrderSong) model;
-        ps.setInt(1, orderSong.getOrder().getId());
-        ps.setInt(2, orderSong.getSong().getId());
+        ps.setLong(1, orderSong.getOrder().getId());
+        ps.setLong(2, orderSong.getSong().getId());
 
         return ps.executeUpdate();
     }
@@ -80,9 +80,9 @@ public class SqlOrderSongDao extends AbstractModelDao {
         PreparedStatement ps = con.prepareStatement(query);
 
         OrderSong orderSong = (OrderSong) model;
-        ps.setInt(1, orderSong.getSong().getId());
-        ps.setInt(2, orderSong.getOrder().getId());
-        ps.setInt(3, orderSong.getId());
+        ps.setLong(1, orderSong.getSong().getId());
+        ps.setLong(2, orderSong.getOrder().getId());
+        ps.setLong(3, orderSong.getId());
 
         return ps.executeUpdate();
     }
@@ -92,7 +92,7 @@ public class SqlOrderSongDao extends AbstractModelDao {
         PreparedStatement ps = con.prepareStatement(query);
         OrderSong orderSong = (OrderSong) model;
 
-        ps.setInt(1, orderSong.getId());
+        ps.setLong(1, orderSong.getId());
 
         return ps.executeUpdate();
     }
@@ -128,9 +128,9 @@ public class SqlOrderSongDao extends AbstractModelDao {
         OrderSong orderSong = new OrderSong();
         SqlFactory factory = SqlFactory.getInstance();
         try {
-            orderSong.setId(rs.getInt(ORDER_SONG_ID));
-            orderSong.setSong((Song) factory.getSongDao().getById(rs.getInt(SONG_ID)));
-            orderSong.setOrder((Order) factory.getOrderDao().getById(rs.getInt(ORDER_ID)));
+            orderSong.setId(rs.getLong(ORDER_SONG_ID));
+            orderSong.setSong((Song) factory.getSongDao().getById   (rs.getLong(SONG_ID)));
+            orderSong.setOrder((Order) factory.getOrderDao().getById(rs.getLong(ORDER_ID)));
 
         } catch (SQLException e) {
             LOGGER.error("SQL Exception");

@@ -36,7 +36,7 @@ public class AlbumEdit implements Command {
 
         try {
 
-            ServiceFactory.getAlbumService().edit(Integer.parseInt(id), title, artist, year, description, image);
+            ServiceFactory.getAlbumService().edit(Long.parseLong(id), title, artist, year, description, image);
 
         } catch (ValidateException e) {
             LOGGER.info(VALIDATION_ERROR);

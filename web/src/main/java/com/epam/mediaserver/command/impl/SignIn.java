@@ -40,7 +40,7 @@ public class SignIn implements Command {
 
         try {
             account = ServiceFactory.getUserService().signIn(login, password);
-
+            System.out.println("Validation true");
             String query = QueryUtil.createHttpQueryString(request);
             request.getSession(true).setAttribute(Attribute.ATTRIBUTE_PREV_QUERY, query);
 
@@ -50,13 +50,13 @@ public class SignIn implements Command {
             CookieAction.setCookie(response, Attribute.ATTRIBUTE_USER_SURNAME, account.getSurname());
             CookieAction.setCookie(response, Attribute.ATTRIBUTE_USER_EMAIL, account.getEmail());
             CookieAction.setCookie(response, Attribute.ATTRIBUTE_USER_PHOTO, account.getPhoto());
-            CookieAction.setCookie(response, Attribute.ATTRIBUTE_USER_ROLE, String.valueOf(account.isAdminRoot()));
+            CookieAction.setCookie(response, Attribute.ATTRIBUTE_USER_ROLE, String.valueOf(account.getAdminRoot()));
 
             CookieAction.addToRequest(request);
 
             request.getSession().setAttribute(Attribute.ATTRIBUTE_COOKIE, request.getCookies());
 
-            if (account.isAdminRoot()) {
+            if (account.getAdminRoot()) {
                 LOGGER.debug("sendRedirect(Path.PATH_TO_ADMIN_PAGE)");
                 response.sendRedirect(Path.PATH_TO_ADMIN_PAGE);
             } else {

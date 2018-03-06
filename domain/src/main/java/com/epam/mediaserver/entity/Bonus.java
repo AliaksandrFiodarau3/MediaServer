@@ -1,5 +1,7 @@
 package com.epam.mediaserver.entity;
 
+import java.util.Objects;
+
 public class Bonus extends Model {
 
 
@@ -56,36 +58,23 @@ public class Bonus extends Model {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Bonus)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         if (!super.equals(o)) {
             return false;
         }
-
         Bonus bonus = (Bonus) o;
-
-        if (getDiscount() != bonus.getDiscount()) {
-            return false;
-        }
-        if (getTitle() != null ? !getTitle().equals(bonus.getTitle()) : bonus.getTitle() != null) {
-            return false;
-        }
-        if (getDescription() != null ? !getDescription().equals(bonus.getDescription())
-                                     : bonus.getDescription() != null) {
-            return false;
-        }
-        return getCode() != null ? getCode().equals(bonus.getCode()) : bonus.getCode() == null;
+        return discount == bonus.discount &&
+               Objects.equals(title, bonus.title) &&
+               Objects.equals(description, bonus.description) &&
+               Objects.equals(code, bonus.code);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
-        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
-        result = 31 * result + getDiscount();
-        result = 31 * result + (getCode() != null ? getCode().hashCode() : 0);
-        return result;
+
+        return Objects.hash(super.hashCode(), title, description, discount, code);
     }
 
     @Override

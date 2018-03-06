@@ -1,5 +1,7 @@
 package com.epam.mediaserver.entity;
 
+import java.util.Objects;
+
 public class OrderSong extends Model {
 
     private Order order;
@@ -36,27 +38,21 @@ public class OrderSong extends Model {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof OrderSong)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         if (!super.equals(o)) {
             return false;
         }
-
         OrderSong orderSong = (OrderSong) o;
-
-        if (getOrder() != null ? !getOrder().equals(orderSong.getOrder()) : orderSong.getOrder() != null) {
-            return false;
-        }
-        return getSong() != null ? getSong().equals(orderSong.getSong()) : orderSong.getSong() == null;
+        return Objects.equals(order, orderSong.order) &&
+               Objects.equals(song, orderSong.song);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (getOrder() != null ? getOrder().hashCode() : 0);
-        result = 31 * result + (getSong() != null ? getSong().hashCode() : 0);
-        return result;
+
+        return Objects.hash(super.hashCode(), order, song);
     }
 
     @Override

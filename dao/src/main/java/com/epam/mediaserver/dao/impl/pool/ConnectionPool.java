@@ -112,7 +112,7 @@ public class ConnectionPool {
                 if (!connection.getAutoCommit()) {
                     connection.commit();
                 }
-                connection.close();
+                ((PooledConnection) connection).reallyClose();
             }
         } catch (SQLException e) {
             LOGGER.warn("Connection queue not closed", e);
@@ -137,9 +137,9 @@ public class ConnectionPool {
             connectionQueue = new ArrayBlockingQueue<>(poolSize);
             for (int i = 0; i < poolSize; i++) {
                 Connection connection = DriverManager.getConnection(url, user, password);
-                //PooledConnection pooledConnection = new PooledConnection(connection);
+                PooledConnection pooledConnection = new PooledConnection(connection);
 
-                connectionQueue.add(connection);
+                connectionQueue.add(pooledConnection);
             }
         } catch (SQLException e) {
             LOGGER.warn("SQL Exeption in ConnectionPoll");

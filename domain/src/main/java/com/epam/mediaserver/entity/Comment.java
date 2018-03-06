@@ -2,6 +2,7 @@ package com.epam.mediaserver.entity;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Objects;
 
 public class Comment extends Model {
 
@@ -68,38 +69,24 @@ public class Comment extends Model {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Comment)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
+        if (!super.equals(o)) {
+            return false;
+        }
         Comment comment = (Comment) o;
-
-        if (getUser() != null ? !getUser().equals(comment.getUser()) : comment.getUser() != null) {
-            return false;
-        }
-        if (getSong() != null ? !getSong().equals(comment.getSong()) : comment.getSong() != null) {
-            return false;
-        }
-        if (getCommentText() != null ? !getCommentText().equals(comment.getCommentText())
-                                     : comment.getCommentText() != null) {
-            return false;
-        }
-        if (getCommentDate() != null ? !getCommentDate().equals(comment.getCommentDate())
-                                     : comment.getCommentDate() != null) {
-            return false;
-        }
-        return getCommentTime() != null ? getCommentTime().equals(comment.getCommentTime())
-                                        : comment.getCommentTime() == null;
+        return Objects.equals(user, comment.user) &&
+               Objects.equals(song, comment.song) &&
+               Objects.equals(commentText, comment.commentText) &&
+               Objects.equals(commentDate, comment.commentDate) &&
+               Objects.equals(commentTime, comment.commentTime);
     }
 
     @Override
     public int hashCode() {
-        int result = getUser() != null ? getUser().hashCode() : 0;
-        result = 31 * result + (getSong() != null ? getSong().hashCode() : 0);
-        result = 31 * result + (getCommentText() != null ? getCommentText().hashCode() : 0);
-        result = 31 * result + (getCommentDate() != null ? getCommentDate().hashCode() : 0);
-        result = 31 * result + (getCommentTime() != null ? getCommentTime().hashCode() : 0);
-        return result;
+
+        return Objects.hash(super.hashCode(), user, song, commentText, commentDate, commentTime);
     }
 
     @Override

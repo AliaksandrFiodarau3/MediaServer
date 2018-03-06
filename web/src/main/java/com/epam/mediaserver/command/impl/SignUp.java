@@ -59,7 +59,7 @@ public class SignUp implements Command {
         request.getSession().setAttribute(Attribute.ATTRIBUTE_USER_SURNAME, account.getSurname());
         request.getSession().setAttribute(Attribute.ATTRIBUTE_USER_EMAIL, account.getEmail());
         request.getSession().setAttribute(Attribute.ATTRIBUTE_USER_PHOTO, account.getPhoto());
-        request.getSession().setAttribute(Attribute.ATTRIBUTE_USER_ROLE, account.isAdminRoot());
+        request.getSession().setAttribute(Attribute.ATTRIBUTE_USER_ROLE, account.getAdminRoot());
 
         response.sendRedirect(Path.PATH_TO_HOME_PAGE);
 

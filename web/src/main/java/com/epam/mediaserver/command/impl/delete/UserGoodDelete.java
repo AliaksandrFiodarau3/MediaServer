@@ -25,7 +25,7 @@ public class UserGoodDelete implements Command {
 
         try {
 
-            Song song = ServiceFactory.getSongService().getById(Integer.parseInt(id));
+            Song song = ServiceFactory.getSongService().getById(Long.parseLong(id));
             ServiceFactory.getOrderUserService().remove(song);
 
         } catch (ServiceException e) {

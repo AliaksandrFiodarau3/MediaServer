@@ -32,7 +32,7 @@ public class UserTableService {
         User account = new User();
 
         account.setLogin(login);
-        account.setPassword(password.hashCode());
+        account.setPassword(String.valueOf(password.hashCode()));
         account.setName(name);
         account.setSurname(surname);
         account.setEmail(email);
@@ -79,7 +79,7 @@ public class UserTableService {
             throw new ValidateException(Error.VALIDATION);
         } else {
             account = getByLogin(login);
-            if (!account.getLogin().equals(login) || !(account.getPassword() == password.hashCode())) {
+            if (!account.getLogin().equals(login) || !(account.getPassword().equals(String.valueOf(password.hashCode())))) {
                 LOGGER.info(Error.PASSWORD_INCORRECT);
                 throw new PasswordIncorrectException(Error.PASSWORD_INCORRECT);
             }
@@ -99,7 +99,7 @@ public class UserTableService {
         User account = new User();
 
         account.setLogin(login);
-        account.setPassword(password.hashCode());
+        account.setPassword(String.valueOf(password.hashCode()));
         account.setName(name);
         account.setSurname(surname);
         account.setEmail(email);
@@ -125,7 +125,7 @@ public class UserTableService {
     }
 
 
-    public void edit(int id, String login, String name, String surname, String email, boolean isRoot)
+    public void edit(Long id, String login, String name, String surname, String email, boolean isRoot)
         throws ServiceException, ValidateException {
 
         User user = ServiceFactory.getUserService().getById(id);
@@ -149,7 +149,7 @@ public class UserTableService {
         }
     }
 
-    public void editPhoto(int id, String photo) throws ServiceException, ValidateException {
+    public void editPhoto(Long id, String photo) throws ServiceException, ValidateException {
 
         User user = null;
         try {
@@ -167,7 +167,7 @@ public class UserTableService {
     }
 
 
-    public void delete(int id) throws ServiceException {
+    public void delete(Long id) throws ServiceException {
 
         try {
             User user = (User) SqlFactory.getUserDao().getById(id);
@@ -178,7 +178,7 @@ public class UserTableService {
         }
     }
 
-    public User getById(int id) throws ServiceException {
+    public User getById(Long id) throws ServiceException {
 
         User user = null;
 

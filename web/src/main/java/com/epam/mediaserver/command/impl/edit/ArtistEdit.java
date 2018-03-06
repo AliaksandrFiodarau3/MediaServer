@@ -35,7 +35,7 @@ public class ArtistEdit implements Command {
         String image = request.getParameter(Parameter.PARMETER_ARTIST_DESCRIPTION);
 
         try {
-            ServiceFactory.getArtistService().edit(Integer.parseInt(id), title, description, image);
+            ServiceFactory.getArtistService().edit(Long.parseLong(id), title, description, image);
 
         } catch (ValidateException e) {
             LOGGER.info(VALIDATION_ERROR);

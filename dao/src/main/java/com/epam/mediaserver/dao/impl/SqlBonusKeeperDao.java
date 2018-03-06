@@ -70,8 +70,8 @@ public class SqlBonusKeeperDao extends AbstractModelDao implements BonusKeeperDa
         PreparedStatement ps = con.prepareStatement(query);
 
         BonusKeeper bonusKeeper = (BonusKeeper) model;
-        ps.setInt(1, bonusKeeper.getBonus().getId());
-        ps.setInt(2, bonusKeeper.getUser().getId());
+        ps.setLong(1, bonusKeeper.getBonus().getId());
+        ps.setLong(2, bonusKeeper.getUser().getId());
 
         return ps.executeUpdate();
     }
@@ -88,7 +88,7 @@ public class SqlBonusKeeperDao extends AbstractModelDao implements BonusKeeperDa
         PreparedStatement ps = con.prepareStatement(query);
         BonusKeeper bonusKeeper = (BonusKeeper) model;
 
-        ps.setInt(1, bonusKeeper.getUser().getId());
+        ps.setLong(1, bonusKeeper.getUser().getId());
 
         return ps.executeUpdate();
     }
@@ -100,8 +100,8 @@ public class SqlBonusKeeperDao extends AbstractModelDao implements BonusKeeperDa
         SqlFactory factory = SqlFactory.getInstance();
 
         try {
-            User user = (User) factory.getUserDao().getById(rs.getInt(USER_ID));
-            Bonus bonus = (Bonus) factory.getBonusDao().getById(rs.getInt(BONUS_ID));
+            User user = (User) factory.getUserDao().getById    (rs.getLong(USER_ID));
+            Bonus bonus = (Bonus) factory.getBonusDao().getById(rs.getLong(BONUS_ID));
             bonusKeeper.setBonus(bonus);
             bonusKeeper.setUser(user);
 

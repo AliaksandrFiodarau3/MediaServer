@@ -2,6 +2,7 @@ package com.epam.mediaserver.entity;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Objects;
 
 public class Order extends Model {
 
@@ -11,16 +12,6 @@ public class Order extends Model {
     private Time time;
     private Date date;
 
-    public Order() {
-    }
-
-    public Order(int number, User user, double price, Time time, Date date) {
-        this.number = number;
-        this.user = user;
-        this.price = price;
-        this.time = time;
-        this.date = date;
-    }
 
     public int getNumber() {
         return number;
@@ -67,35 +58,24 @@ public class Order extends Model {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Order)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         if (!super.equals(o)) {
             return false;
         }
-
         Order order = (Order) o;
-
-        if (getNumber() != order.getNumber()) {
-            return false;
-        }
-        if (getUser() != null ? !getUser().equals(order.getUser()) : order.getUser() != null) {
-            return false;
-        }
-        if (getTime() != null ? !getTime().equals(order.getTime()) : order.getTime() != null) {
-            return false;
-        }
-        return getDate() != null ? getDate().equals(order.getDate()) : order.getDate() == null;
+        return number == order.number &&
+               Double.compare(order.price, price) == 0 &&
+               Objects.equals(user, order.user) &&
+               Objects.equals(time, order.time) &&
+               Objects.equals(date, order.date);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + getNumber();
-        result = 31 * result + (getUser() != null ? getUser().hashCode() : 0);
-        result = 31 * result + (getTime() != null ? getTime().hashCode() : 0);
-        result = 31 * result + (getDate() != null ? getDate().hashCode() : 0);
-        return result;
+
+        return Objects.hash(super.hashCode(), number, user, price, time, date);
     }
 
     @Override

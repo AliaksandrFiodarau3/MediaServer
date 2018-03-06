@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 public class AlbumTableService implements AlbumService{
 
@@ -49,9 +50,9 @@ public class AlbumTableService implements AlbumService{
     }
 
     public void add(String artist, String title, String year, String description, String image)
-        throws ValidateException, ServiceException {
+        throws ServiceException, ValidateException {
         try {
-            if (Validation.albumCheck(title, year, description, image)) {
+            if (Validation.albumCheck(year)) {
                 Album album = new Album();
                 album.setArtist(SqlFactory.getArtistDao().getByName(artist));
                 album.setTitle(title);
@@ -72,13 +73,13 @@ public class AlbumTableService implements AlbumService{
     }
 
 
-    public void edit(int id, String title, String artist, String year, String description, String image)
+    public void edit(Long id, String title, String artist, String year, String description, String image)
         throws ServiceException, ValidateException {
 
         try {
             Album album = (Album) SqlFactory.getAlbumDao().getById(id);
 
-            if (Validation.albumCheck(title, year, description, image)) {
+            if (Validation.albumCheck(year)) {
 
                 album.setTitle(title);
                 album.setYear(Integer.parseInt(year));
@@ -98,7 +99,7 @@ public class AlbumTableService implements AlbumService{
         }
     }
 
-    public void delete(int id) throws ServiceException {
+    public void delete(Long id) throws ServiceException {
 
         try {
             Album album = (Album) SqlFactory.getAlbumDao().getById(id);

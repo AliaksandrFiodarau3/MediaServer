@@ -11,10 +11,10 @@ public interface BonusService {
     void add(String title, String description, String discount, String code)
        throws ValidateException, ServiceException;
 
-    void edit(int id, String title, String description, String discount, String code)
+    void edit(Long id, String title, String description, String discount, String code)
      throws ServiceException, ValidateException;
 
-    void delete(int id) throws ServiceException;
+    void delete(Long id) throws ServiceException;
 
     List<Bonus> getAll() throws ServiceException;
 }

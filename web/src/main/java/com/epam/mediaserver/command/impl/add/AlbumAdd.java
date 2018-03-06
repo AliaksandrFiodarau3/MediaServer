@@ -8,9 +8,11 @@ import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
 import com.epam.mediaserver.service.ServiceFactory;
 import com.epam.mediaserver.util.Messanger;
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.io.IOException;
+import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,14 +27,18 @@ public class AlbumAdd implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String artist = request.getParameter(Parameter.PARAMETER_ALBUM_ARTIST);
-        String title = request.getParameter(Parameter.PARAMETER_ALBUM_TITLE);
-        String year = request.getParameter(Parameter.PARAMETER_ALBUM_YEAR);
-        String description = request.getParameter(Parameter.PARAMETER_ALBUM_DESCRIPTION);
-        String image = request.getParameter(Parameter.PARAMETER_ALBUM_IMAGE);
-
         try {
+
+        String artist = Optional.ofNullable(request.getParameter(Parameter.PARAMETER_ALBUM_ARTIST))
+            .orElseThrow(()-> new ValidateException(VALIDATION_ERROR));
+        String title = Optional.ofNullable(request.getParameter(Parameter.PARAMETER_ALBUM_TITLE))
+            .orElseThrow(()-> new ValidateException(VALIDATION_ERROR));
+        String year = Optional.ofNullable(request.getParameter(Parameter.PARAMETER_ALBUM_YEAR))
+            .orElseThrow(()-> new ValidateException(VALIDATION_ERROR));
+        String description = Optional.ofNullable(request.getParameter(Parameter.PARAMETER_ALBUM_DESCRIPTION))
+            .orElseThrow(()-> new ValidateException(VALIDATION_ERROR));
+        String image = Optional.ofNullable(request.getParameter(Parameter.PARAMETER_ALBUM_IMAGE))
+            .orElseThrow(()-> new ValidateException(VALIDATION_ERROR));
 
             ServiceFactory.getAlbumService().add(artist, title, year, description, image);
 

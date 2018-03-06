@@ -34,7 +34,7 @@ public class BonusEdit implements Command {
         String discount = request.getParameter(Parameter.PARMETER_BONUS_DISCOUNT);
 
         try {
-            ServiceFactory.getBonusService().edit(Integer.parseInt(id), title, description, discount, code);
+            ServiceFactory.getBonusService().edit(Long.parseLong(id), title, description, discount, code);
 
         } catch (ValidateException e) {
             LOGGER.info(VALIDATION_ERROR);

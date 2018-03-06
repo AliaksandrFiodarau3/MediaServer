@@ -81,7 +81,7 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
 
         try (PreparedStatement ps = con.prepareStatement(query)) {
             Album album = (Album) model;
-            ps.setInt(1, album.getArtist().getId());
+            ps.setLong(1, album.getArtist().getId());
             ps.setInt(2, album.getYear());
             ps.setString(3, album.getDescription());
             ps.setString(4, album.getImage());
@@ -119,8 +119,8 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
         SqlFactory factory = SqlFactory.getInstance();
 
         try {
-            album.setId(rs.getInt(ALBUM_ID));
-            Artist artist = (Artist) factory.getArtistDao().getById(rs.getInt(ARTIST_ID));
+            album.setId(rs.getLong(ALBUM_ID));
+            Artist artist = (Artist) factory.getArtistDao().getById(rs.getLong(ARTIST_ID));
             album.setArtist(artist);
             album.setYear(rs.getInt(ALBUM_YEAR));
             album.setTitle(rs.getString(ALBUM_TITLE));

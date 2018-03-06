@@ -78,7 +78,7 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
         PreparedStatement ps = con.prepareStatement(query);
 
         Song song = (Song) model;
-        ps.setInt(1, song.getAlbum().getId());
+        ps.setLong(1, song.getAlbum().getId());
         ps.setTime(2, song.getDuration());
         ps.setInt(3, song.getPrice());
         ps.setString(4, song.getTitle());
@@ -91,11 +91,11 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
         PreparedStatement ps = con.prepareStatement(query);
 
         Song song = (Song) model;
-        ps.setInt(1, song.getAlbum().getId());
+        ps.setLong(1, song.getAlbum().getId());
         ps.setTime(2, song.getDuration());
         ps.setInt(3, song.getPrice());
         ps.setString(4, song.getTitle());
-        ps.setInt(5, song.getId());
+        ps.setLong(5, song.getId());
 
         return ps.executeUpdate();
     }
@@ -105,7 +105,7 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
         PreparedStatement ps = con.prepareStatement(getDeleteQuery());
 
         Song song = (Song) model;
-        ps.setInt(1, song.getId());
+        ps.setLong(1, song.getId());
 
         return ps.executeUpdate();
     }
@@ -117,10 +117,10 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
         SqlFactory factory = SqlFactory.getInstance();
 
         try {
-            int id = rs.getInt(SONG_ID);
+            Long id = rs.getLong(SONG_ID);
             song.setId(id);
 
-            Album album = (Album) factory.getAlbumDao().getById(rs.getInt(ALBUM_ID));
+            Album album = (Album) factory.getAlbumDao().getById(rs.getLong(ALBUM_ID));
             song.setAlbum(album);
             song.setTitle(rs.getString(SONG_TITLE));
             song.setDuration(rs.getTime(SONG_DURATION));

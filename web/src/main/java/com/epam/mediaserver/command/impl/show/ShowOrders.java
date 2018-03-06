@@ -27,7 +27,7 @@ public class ShowOrders implements Command {
 
         List<Order> orders = null;
 
-        int id = Integer.parseInt(request.getParameter(Parameter.PARMETER_ORDER_USER));
+        Long id = Long.parseLong(request.getParameter(Parameter.PARMETER_ORDER_USER));
         ObjectMapper mapper = new ObjectMapper();
 
         response.setContentType("application/json;charset=utf-8");

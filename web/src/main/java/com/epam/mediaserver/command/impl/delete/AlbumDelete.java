@@ -27,7 +27,7 @@ public class AlbumDelete implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int id = Integer.parseInt(request.getParameter(Parameter.PARAMETER_ALBUM_ID));
+        Long id = Long.parseLong(request.getParameter(Parameter.PARAMETER_ALBUM_ID));
 
         try {
             ServiceFactory.getAlbumService().delete(id);

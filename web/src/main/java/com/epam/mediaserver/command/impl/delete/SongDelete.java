@@ -28,7 +28,7 @@ public class SongDelete implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        int id = Integer.parseInt(request.getParameter(Parameter.PARMETER_SONG_ID));
+        Long id = Long.parseLong(request.getParameter(Parameter.PARMETER_SONG_ID));
 
         try {
             ServiceFactory.getSongService().delete(id);

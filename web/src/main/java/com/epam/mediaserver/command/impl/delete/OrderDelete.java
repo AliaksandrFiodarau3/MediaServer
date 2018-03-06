@@ -28,7 +28,7 @@ public class OrderDelete implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        int id = Integer.parseInt(request.getParameter(Parameter.PARMETER_ORDER_ID));
+        Long id = Long.parseLong(request.getParameter(Parameter.PARMETER_ORDER_ID));
 
         try {
             ServiceFactory.getOrderTableService().delete(id);
