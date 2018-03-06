@@ -1,5 +1,7 @@
 package com.epam.mediaserver.entity;
 
+import java.util.Objects;
+
 public class BonusKeeper extends Model {
 
     private Bonus bonus;
@@ -29,23 +31,21 @@ public class BonusKeeper extends Model {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof BonusKeeper)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
+        if (!super.equals(o)) {
+            return false;
+        }
         BonusKeeper that = (BonusKeeper) o;
-
-        if (bonus != null ? !bonus.equals(that.bonus) : that.bonus != null) {
-            return false;
-        }
-        return user != null ? user.equals(that.user) : that.user == null;
+        return Objects.equals(bonus, that.bonus) &&
+               Objects.equals(user, that.user);
     }
 
     @Override
     public int hashCode() {
-        int result = bonus != null ? bonus.hashCode() : 0;
-        result = 31 * result + (user != null ? user.hashCode() : 0);
-        return result;
+
+        return Objects.hash(super.hashCode(), bonus, user);
     }
 
     @Override
