@@ -66,6 +66,8 @@ function commandShowWithPage(command, template, page) {
            });
 }
 
+
+
 function commandShow(command, template, genre) {
 
     $.ajax({

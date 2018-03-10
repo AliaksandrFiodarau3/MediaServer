@@ -1,7 +1,6 @@
-package com.epam.mediaserver.command.impl.show;
+package com.epam.mediaserver.command.impl.search;
 
 import com.epam.mediaserver.command.Command;
-import com.epam.mediaserver.constant.Attribute;
 import com.epam.mediaserver.constant.Error;
 import com.epam.mediaserver.constant.Message;
 import com.epam.mediaserver.constant.Parameter;
@@ -20,14 +19,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ShowListUser implements Command {
+public class SearchUser implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(ShowListUser.class);
+    private static final Logger LOGGER = LogManager.getLogger(SearchUser.class);
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        String page = request.getParameter(Parameter.PARMETER_USER_PAGE);
+        String value = request.getParameter(Parameter.PARMETER_USER_SEARCH);
+
         List<User> users;
         ObjectMapper mapper = new ObjectMapper();
 
@@ -35,18 +35,14 @@ public class ShowListUser implements Command {
 
         PrintWriter out = response.getWriter();
         try {
-
-            users = ServiceFactory.getUserService().getList(Integer.valueOf(page));
-            System.out.println("Users = " + users.size() + " Pages = " + ServiceFactory.getUserService().getPage());
-
-
-            request.getSession().setAttribute(Attribute.ATTRIBUTE_PAGE, ServiceFactory.getUserService().getPage());
+            users = ServiceFactory.getUserService().search(value);
             out.print("{\"users\": " + mapper.writeValueAsString(users) + "}");
 
+            request.getSession().setAttribute(Parameter.PARMETER_USER_PAGE, ServiceFactory.getUserService().getSearchPage(value));
+
         } catch (ServiceException e) {
-            LOGGER.error(Error.GENRES_ALL);
+            LOGGER.error(Error.USERS_ALL);
             Messanger.sendMessage(response, Message.DAO_ERROR);
         }
     }
 }
-

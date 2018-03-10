@@ -1,7 +1,10 @@
 package com.epam.mediaserver.builder.impl;
 
 import com.epam.mediaserver.builder.Builder;
+import com.epam.mediaserver.constant.Path;
 import com.epam.mediaserver.entity.User;
+
+
 
 public class UserBuilder implements Builder<User>{
 
@@ -14,7 +17,7 @@ public class UserBuilder implements Builder<User>{
         user.setName("EMPTY");
         user.setSurname("EMPTY");
         user.setEmail("EMPTY");
-        user.setPhoto("EMPTY");
+        user.setPhoto(Path.DEFAULT_USER);
         user.setAdminRoot(false);
     }
 

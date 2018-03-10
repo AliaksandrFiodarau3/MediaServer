@@ -7,6 +7,8 @@ import com.epam.mediaserver.entity.User;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class OrderBuilder implements Builder<Order> {
 
@@ -20,10 +22,10 @@ public class OrderBuilder implements Builder<Order> {
         order.setPrice(0);
 
 
-        order.setDate(new Date(System.currentTimeMillis()));
+        order.setDate(Date.valueOf(LocalDate.now()));
 
 
-        order.setTime(new Time(System.currentTimeMillis()));
+        order.setTime(Time.valueOf(LocalTime.now()));
     }
 
     public OrderBuilder setId(Long id){

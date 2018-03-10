@@ -1,5 +1,7 @@
 package com.epam.mediaserver.entity;
 
+import com.epam.mediaserver.constant.Path;
+
 import java.util.Objects;
 
 public class Genre extends Model {
@@ -10,6 +12,7 @@ public class Genre extends Model {
 
     public Genre() {
         super();
+        this.image = Path.DEFAULT_GENRE;
     }
 
     public Genre(String title, String description, String image) {
@@ -74,4 +77,5 @@ public class Genre extends Model {
                ", id=" + id +
                '}';
     }
+
 }

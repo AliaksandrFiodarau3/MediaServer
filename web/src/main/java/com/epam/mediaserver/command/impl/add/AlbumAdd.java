@@ -31,16 +31,20 @@ public class AlbumAdd implements Command {
 
         String artist = Optional.ofNullable(request.getParameter(Parameter.PARAMETER_ALBUM_ARTIST))
             .orElseThrow(()-> new ValidateException(VALIDATION_ERROR));
+
         String title = Optional.ofNullable(request.getParameter(Parameter.PARAMETER_ALBUM_TITLE))
             .orElseThrow(()-> new ValidateException(VALIDATION_ERROR));
+
         String year = Optional.ofNullable(request.getParameter(Parameter.PARAMETER_ALBUM_YEAR))
             .orElseThrow(()-> new ValidateException(VALIDATION_ERROR));
+
         String description = Optional.ofNullable(request.getParameter(Parameter.PARAMETER_ALBUM_DESCRIPTION))
             .orElseThrow(()-> new ValidateException(VALIDATION_ERROR));
+
         String image = Optional.ofNullable(request.getParameter(Parameter.PARAMETER_ALBUM_IMAGE))
             .orElseThrow(()-> new ValidateException(VALIDATION_ERROR));
 
-            ServiceFactory.getAlbumService().add(artist, title, year, description, image);
+        ServiceFactory.getAlbumService().add(artist, title, year, description, image);
 
         } catch (ValidateException e) {
             LOGGER.info(VALIDATION_ERROR);
@@ -51,4 +55,3 @@ public class AlbumAdd implements Command {
         }
     }
 }
-

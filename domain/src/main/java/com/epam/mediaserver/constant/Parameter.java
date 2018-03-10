@@ -67,6 +67,7 @@ public final class Parameter {
     public static final String PARMETER_USER_EMAIL = "emailUser";
     public static final String PARMETER_USER_PHOTO = "photoUser";
     public static final String PARMETER_USER_ROOT = "rootUser";
+    public static final String PARMETER_USER_SEARCH = "searchUser";
 
     public static final String PARMETER_ORDER_SONG_ID = "orderSongId";
     public static final String PARMETER_CHECK_FIELD = "checkField";

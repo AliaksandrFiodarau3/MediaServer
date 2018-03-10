@@ -1,8 +1,7 @@
 package com.epam.mediaserver.service.impl;
 
+import com.epam.mediaserver.builder.BuilderFactory;
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.util.Validation;
-import com.epam.mediaserver.constant.Path;
 import com.epam.mediaserver.dao.SqlFactory;
 import com.epam.mediaserver.entity.User;
 import com.epam.mediaserver.exception.PasswordIncorrectException;
@@ -10,7 +9,7 @@ import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
 import com.epam.mediaserver.exeption.DAOException;
 import com.epam.mediaserver.service.ServiceFactory;
-
+import com.epam.mediaserver.util.Validation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -79,7 +78,8 @@ public class UserTableService {
             throw new ValidateException(Error.VALIDATION);
         } else {
             account = getByLogin(login);
-            if (!account.getLogin().equals(login) || !(account.getPassword().equals(String.valueOf(password.hashCode())))) {
+            if (!account.getLogin().equals(login) || !(account.getPassword()
+                                                           .equals(String.valueOf(password.hashCode())))) {
                 LOGGER.info(Error.PASSWORD_INCORRECT);
                 throw new PasswordIncorrectException(Error.PASSWORD_INCORRECT);
             }
@@ -95,18 +95,15 @@ public class UserTableService {
             LOGGER.info(Error.VALIDATION);
             throw new ValidateException(Error.VALIDATION);
         }
-
-        User account = new User();
-
-        account.setLogin(login);
-        account.setPassword(String.valueOf(password.hashCode()));
-        account.setName(name);
-        account.setSurname(surname);
-        account.setEmail(email);
-        account.setPhoto(Path.DEFAULT_USER);
-
         try {
-            SqlFactory.getUserDao().add(account);
+            SqlFactory.getUserDao().add(
+                BuilderFactory.getUserBuilder()
+                    .setLogin(login)
+                    .setPassword(String.valueOf(password.hashCode()))
+                    .setName(name)
+                    .setSurname(surname)
+                    .setEmail(email)
+                    .build());
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -149,11 +146,11 @@ public class UserTableService {
         }
     }
 
-    public void editPhoto(Long id, String photo) throws ServiceException, ValidateException {
+    public void editPhoto(Long id, String photo) throws ServiceException {
 
-        User user = null;
+        User user;
         try {
-            user = (User) SqlFactory.getUserDao().getById(id);
+            user = SqlFactory.getUserDao().getById(id);
             if (photo != null) {
                 user.setId(id);
                 user.setPhoto(photo);
@@ -235,7 +232,6 @@ public class UserTableService {
 
     public int getPage() throws ServiceException {
 
-
         Integer pages;
 
         try {
@@ -246,5 +242,34 @@ public class UserTableService {
         }
 
         return pages;
+    }
+
+    public int getSearchPage(String value) throws ServiceException {
+
+        Integer pages;
+
+        try {
+            pages = SqlFactory.getUserDao().getSerchePage(value);
+        } catch (DAOException e) {
+            LOGGER.error(Error.DAO_EXCEPTION);
+            throw new ServiceException(Error.DAO_EXCEPTION);
+        }
+
+        return pages;
+    }
+
+
+    public List<User> search(String value) throws ServiceException {
+
+        List<User> users;
+
+        try {
+            users = SqlFactory.getUserDao().search(value);
+        } catch (DAOException e) {
+            LOGGER.error(Error.DAO_EXCEPTION);
+            throw new ServiceException(Error.DAO_EXCEPTION);
+        }
+
+        return users;
     }
 }

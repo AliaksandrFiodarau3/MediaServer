@@ -1,6 +1,7 @@
 package com.epam.mediaserver.builder.impl;
 
 import com.epam.mediaserver.builder.Builder;
+import com.epam.mediaserver.constant.Path;
 import com.epam.mediaserver.entity.Artist;
 import com.epam.mediaserver.entity.Genre;
 
@@ -13,7 +14,7 @@ public class ArtistBuilder implements Builder<Artist> {
         artist.setId(null);
         artist.setTitle("EMPTY");
         artist.setDescription("EMPTY");
-        artist.setImage("EMPTY");
+        artist.setImage(Path.DEFAULT_GENRE);
         artist.setGenre(new Genre());
     }
 

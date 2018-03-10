@@ -2,7 +2,7 @@ package com.epam.mediaserver.dao.impl;
 
 
 import com.epam.mediaserver.builder.BuilderFactory;
-import com.epam.mediaserver.builder.impl.UserBuilder;
+import com.epam.mediaserver.constant.Number;
 import com.epam.mediaserver.dao.AbstractModelDao;
 import com.epam.mediaserver.dao.UserDao;
 import com.epam.mediaserver.dao.impl.pool.ConnectionPool;
@@ -21,7 +21,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SqlUserDao extends AbstractModelDao implements UserDao {
+public class SqlUserDao extends AbstractModelDao<User> implements UserDao {
 
     private static final Logger LOGGER = LogManager.getLogger(SqlUserDao.class);
 
@@ -42,8 +42,13 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     private static final String CHECK_LOGIN_QUERY = "SELECT user_login FROM t_user WHERE user_login = ?;";
     private static final String CHECK_EMAIL_QUERY = "SELECT user_email FROM t_user WHERE user_email = ? ;";
     private static final String PAGES_RETURN_QUERY = "SELECT count(user_id) AS count FROM t_user;";
+    private static final String PAGES_RETURN_SEARCHE_QUERY = "Select count(user_id) AS count FROM t_user WHERE "
+                                                             + "user_login LIKE ? OR "
+                                                             + "user_email LIKE ? OR "
+                                                             + "user_name LIKE ? OR "
+                                                             + "user_surname LIKE ?";
 
-    private static final Integer LIMIT_LIST = 3;
+
     private static final String USER_ID = "user_id";
     private static final String USER_LOGIN = "user_login";
     private static final String USER_PASSWORD = "user_password";
@@ -106,11 +111,10 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     }
 
     @Override
-    protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForCreate(Connection con, User user, String query) throws SQLException {
 
         PreparedStatement ps = con.prepareStatement(query);
 
-        User user = (User) model;
         ps.setString(1, user.getLogin());
         ps.setString(2, user.getPassword());
         ps.setString(3, user.getName());
@@ -139,10 +143,9 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     }
 
     @Override
-    protected int preparedStatementForDelete(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForDelete(Connection con, User user, String query) throws SQLException {
 
         PreparedStatement ps = con.prepareStatement(getDeleteQuery());
-        User user = (User) model;
 
         ps.setString(1, user.getEmail());
 
@@ -150,7 +153,7 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     }
 
     @Override
-    protected Model parseResult(ResultSet rs) throws SQLException {
+    protected User parseResult(ResultSet rs) throws SQLException {
 
         return BuilderFactory.getUserBuilder()
             .setId(rs.getLong(USER_ID))
@@ -167,8 +170,8 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     @Override
     public User authorisation(String login) throws DAOException {
 
-        try(Connection con = ConnectionPool.takeConnection();
-            PreparedStatement  ps = con.prepareStatement(BY_AUTHORIZATION_QUERY)) {
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(BY_AUTHORIZATION_QUERY)) {
 
             ps.setString(1, login);
 
@@ -195,9 +198,7 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     public User registration(String login, String password, String email, String name, String surname)
         throws DAOException {
 
-        UserBuilder userBuilder = new UserBuilder();
-
-        User user = userBuilder
+        User user = BuilderFactory.getUserBuilder()
             .setLogin(login)
             .setPassword(password)
             .setEmail(email)
@@ -270,8 +271,8 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
         try (Connection con = ConnectionPool.takeConnection();
              PreparedStatement ps = con.prepareStatement(SELECT_QUERY_BY_LIST)) {
 
-            ps.setInt(1, LIMIT_LIST);
-            ps.setInt(2, (page * LIMIT_LIST) - LIMIT_LIST);
+            ps.setInt(1, Number.LIMIT_LIST);
+            ps.setInt(2, (page * Number.LIMIT_LIST) - Number.LIMIT_LIST);
 
             ResultSet rs = ps.executeQuery();
 
@@ -308,8 +309,69 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
             LOGGER.error(e);
             throw new DAOException("SQL Exception");
         }
-        return Integer.valueOf(count) / LIMIT_LIST;
+        return Integer.valueOf(count) / Number.LIMIT_LIST;
     }
 
-}
+    public Integer getSerchePage(String value) throws DAOException {
 
+        String count;
+
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(PAGES_RETURN_SEARCHE_QUERY);
+             ) {
+
+            ps.setString(1, "%" + value + "%");
+            ps.setString(2, "%" + value + "%");
+            ps.setString(3, "%" + value + "%");
+            ps.setString(4, "%" + value + "%");
+
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            count = rs.getString(USER_FIELDS_COUNT);
+        } catch (ConnectionPoolException e) {
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
+        } catch (SQLException e) {
+            LOGGER.error(e);
+            throw new DAOException("SQL Exception");
+        }
+        return Integer.valueOf(count) / Number.LIMIT_LIST;
+    }
+
+
+    public List<User> search(String value) throws DAOException {
+
+        String sql = SELECT_QUERY + " WHERE user_login LIKE ? "
+                     + "OR user_email LIKE   ? "
+                     + "OR user_name LIKE    ? "
+                     + "OR user_surname LIKE ?";
+
+        List<User> list = new ArrayList<>();
+
+        try (Connection con = ConnectionPool.takeConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, "%" + value + "%");
+            ps.setString(2, "%" + value + "%");
+            ps.setString(3, "%" + value + "%");
+            ps.setString(4, "%" + value + "%");
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                User user = parseResult(rs);
+                list.add(user);
+            }
+
+        } catch (ConnectionPoolException e) {
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
+        } catch (SQLException e) {
+            LOGGER.error("SQL Exception", e);
+            throw new DAOException("SQL Exception");
+        }
+
+        return list;
+
+    }
+}

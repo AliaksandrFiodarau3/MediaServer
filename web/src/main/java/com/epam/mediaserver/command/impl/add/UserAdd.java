@@ -36,7 +36,7 @@ public class UserAdd implements Command {
 
         try {
             ServiceFactory.getUserService().add(login, password, name, surname, email);
-            if (photo != null) {
+            if (!photo.isEmpty()) {
                 ServiceFactory.getUserService().addPhoto(photo, login);
             }
         } catch (ValidateException e) {

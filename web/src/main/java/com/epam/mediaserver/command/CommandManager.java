@@ -34,6 +34,7 @@ import com.epam.mediaserver.command.impl.edit.GenreEdit;
 import com.epam.mediaserver.command.impl.edit.OrderEdit;
 import com.epam.mediaserver.command.impl.edit.SongEdit;
 import com.epam.mediaserver.command.impl.edit.UserEdit;
+import com.epam.mediaserver.command.impl.search.SearchUser;
 import com.epam.mediaserver.command.impl.show.SendMessage;
 import com.epam.mediaserver.command.impl.show.ShowAlbums;
 import com.epam.mediaserver.command.impl.show.ShowArtists;
@@ -88,6 +89,9 @@ public class CommandManager {
         commands.put(CommandName.BUY, new Buy());
 
         //Admin commands (CRUD)
+
+        //Search
+        commands.put(CommandName.USER_SEARCH, new SearchUser());
 
         //Create
         commands.put(CommandName.ADD_ALBUM, new AlbumAdd());

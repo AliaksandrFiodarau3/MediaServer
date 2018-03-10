@@ -58,7 +58,7 @@ class ValidationTest {
     @ParameterizedTest
     @CsvSource({"Nirvana, 1990, Nirvana, Image"})
     void albumCheck(String title, String year, String description, String image) {
-        assertThat(Validation.albumCheck(title, year, description, image),
+        assertThat(Validation.albumCheck( year),
                    equalTo(true));
     }
 
@@ -68,7 +68,7 @@ class ValidationTest {
                 "Nirvana, 1990, , Image",
                 "Nirvana, 1990, Nirvana, "})
     void albumCheckWrong(String title, String year, String description, String image) {
-        assertThat(Validation.albumCheck(title, year, description, image),
+        assertThat(Validation.albumCheck(year),
                    equalTo(false));
     }
 

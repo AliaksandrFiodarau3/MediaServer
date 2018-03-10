@@ -8,6 +8,8 @@ import com.epam.mediaserver.entity.User;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class CommentBuilder implements Builder<Comment> {
 
@@ -16,8 +18,8 @@ public class CommentBuilder implements Builder<Comment> {
     public CommentBuilder() {
 
         comment = new Comment();
-        comment.setCommentTime(new Time(System.currentTimeMillis()));
-        comment.setCommentDate(new Date(System.currentTimeMillis()));
+        comment.setCommentTime(Time.valueOf(LocalTime.now()));
+        comment.setCommentDate(Date.valueOf(LocalDate.now()));
     }
 
     public CommentBuilder setId(Long id){
