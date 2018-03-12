@@ -62,7 +62,7 @@
     </table>
     <ul class="pagination">
         {{#each page}}
-            <li><a href="#" onclick="getUserList('show-user-list', '{{this}}', '{{value}}')">
+            <li><a href="#" onclick="getUserList('show-user-list', '{{this}}', '{{../value}}')">
                 {{this}}
             </a></li>
         {{/each}}

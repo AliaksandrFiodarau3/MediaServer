@@ -50,8 +50,8 @@
         <servlet-name>Controller</servlet-name>
         <url-pattern>/Controller</url-pattern>
     </servlet-mapping>
-<!--
-    <filter>
+
+    <!--<filter>
         <filter-name>AccessFilter</filter-name>
         <filter-class>com.epam.mediaserver.controller.filter.AccessFilter</filter-class>
         <init-param>

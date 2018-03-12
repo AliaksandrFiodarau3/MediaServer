@@ -41,11 +41,17 @@ public class ShowListUser implements Command {
         try {
             users = ServiceFactory.getUserService().search(value, Integer.valueOf(page));
 
+
+
             List<Integer> pages = new ArrayList<>();
 
             for (int i = 1; i <= ServiceFactory.getUserService().getSearchPage(value) ; i++) {
                 pages.add(i);
             }
+
+
+           /* System.out.println("{\"users\": " + mapper.writeValueAsString(users) + ", \"value\": \""+ value +
+                               "\", \"page\": " + pages.toString() + " }");*/
 
             out.print("{\"users\": " + mapper.writeValueAsString(users) + ", \"value\": \""+ value +
                       "\", \"page\": " + pages.toString() + " }");
