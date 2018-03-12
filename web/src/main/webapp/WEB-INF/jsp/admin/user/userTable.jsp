@@ -4,18 +4,19 @@
     <br>
     <br>
     <h1 class="page-header"><fmt:message key="admin.table.title.users"/></h1>
-        <div class="col-sm-6 col-sm-offset-3">
-            <div id="imaginary_container">
-                <div class="input-group stylish-input-group">
-                    <input id="search-value"  type="text" class="form-control" placeholder="Search">
-                    <span class="input-group-addon">
-                        <button id="search-user" type="submit" onclick="searchUser('user-search', document.getElementById('search-value').value )">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div id="imaginary_container">
+            <div class="input-group stylish-input-group">
+                <input id="search-value" type="text" class="form-control" placeholder="Search">
+                <span class="input-group-addon">
+                        <button id="search-user" type="submit"
+                                onclick="getUserList('show-user-list', 1, document.getElementById('search-value').value )">
                             <span class="glyphicon glyphicon-search"></span>
                         </button>
                     </span>
-                </div>
             </div>
         </div>
+    </div>
     <a data-toggle="modal" data-target="#newUser" href="#" class="btn btn-primary btn-xs pull-right"><b>+</b>
         <fmt:message key="admin.table.add.user"/></a>
     <table class="table table-striped">
@@ -59,13 +60,11 @@
         {{/each}}
         </tbody>
     </table>
-
-    <div class="bs-example">
-        <ul class="pagination">
-            <c:forEach var="i" begin="1" end="${page}">
-                <li><a href="#" onclick="commandShowWithPage('show-user-list', '#user-table', ${i});"> <c:out
-                        value="${i}"/></a></li>
-            </c:forEach>
-        </ul>
-    </div>
+    <ul class="pagination">
+        {{#each page}}
+            <li><a href="#" onclick="getUserList('show-user-list', '{{this}}', '{{value}}')">
+                {{this}}
+            </a></li>
+        {{/each}}
+    </ul>
 </script>

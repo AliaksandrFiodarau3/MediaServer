@@ -27,7 +27,7 @@ public class SqlGenreDao extends AbstractModelDao implements GenreDao {
     private static final String
         CREATE_QUERY =
         "insert into t_genre (genre_description, genre_title, genre_image ) values (?,?,?);";
-    private static final String SELECT_QUERY = "select * from t_genre;";
+    private static final String SELECT_QUERY = "select * from t_genre";
     private static final String SELECT_QUERY_WITH_ID = "select * from t_genre where genre_id = ?;";
     private static final String SELECT_QUERY_WITH_NAME = "SELECT * FROM t_genre WHERE genre_title = ?;";
     private static final String UPDATE_QUERY = "update t_genre set genre_description = ? where genre_title = ?;";

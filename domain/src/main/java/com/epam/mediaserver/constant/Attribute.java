@@ -6,6 +6,7 @@ package com.epam.mediaserver.constant;
 
 public final class Attribute {
 
+    public static final String ATTRIBUTE_VALUE = "value";
     public static final String ATTRIBUTE_USER = "user";
     public static final String ATTRIBUTE_COOKIE = "cookie";
     public static final String ATTRIBUTE_USER_ID = "idUser";

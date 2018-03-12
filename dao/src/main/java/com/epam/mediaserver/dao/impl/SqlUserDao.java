@@ -42,7 +42,7 @@ public class SqlUserDao extends AbstractModelDao<User> implements UserDao {
     private static final String CHECK_LOGIN_QUERY = "SELECT user_login FROM t_user WHERE user_login = ?;";
     private static final String CHECK_EMAIL_QUERY = "SELECT user_email FROM t_user WHERE user_email = ? ;";
     private static final String PAGES_RETURN_QUERY = "SELECT count(user_id) AS count FROM t_user;";
-    private static final String PAGES_RETURN_SEARCHE_QUERY = "Select count(user_id) AS count FROM t_user WHERE "
+    private static final String PAGES_RETURN_SEARCHE_QUERY = "SELECT count(user_id) AS count FROM t_user WHERE "
                                                              + "user_login LIKE ? OR "
                                                              + "user_email LIKE ? OR "
                                                              + "user_name LIKE ? OR "
@@ -277,7 +277,7 @@ public class SqlUserDao extends AbstractModelDao<User> implements UserDao {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                User user = (User) parseResult(rs);
+                User user = parseResult(rs);
                 list.add(user);
             }
 
@@ -292,33 +292,14 @@ public class SqlUserDao extends AbstractModelDao<User> implements UserDao {
         return list;
     }
 
-    public Integer getPage() throws DAOException {
 
-        String count;
+    public Integer getSearchPage(String value) throws DAOException {
 
-        try (Connection con = ConnectionPool.takeConnection();
-             PreparedStatement ps = con.prepareStatement(PAGES_RETURN_QUERY);
-             ResultSet rs = ps.executeQuery()) {
-
-            rs.next();
-            count = rs.getString(USER_FIELDS_COUNT);
-        } catch (ConnectionPoolException e) {
-            LOGGER.error("Connection is not open", e);
-            throw new DAOException("Connection is not open");
-        } catch (SQLException e) {
-            LOGGER.error(e);
-            throw new DAOException("SQL Exception");
-        }
-        return Integer.valueOf(count) / Number.LIMIT_LIST;
-    }
-
-    public Integer getSerchePage(String value) throws DAOException {
-
-        String count;
+        double count;
 
         try (Connection con = ConnectionPool.takeConnection();
              PreparedStatement ps = con.prepareStatement(PAGES_RETURN_SEARCHE_QUERY);
-             ) {
+        ) {
 
             ps.setString(1, "%" + value + "%");
             ps.setString(2, "%" + value + "%");
@@ -327,7 +308,7 @@ public class SqlUserDao extends AbstractModelDao<User> implements UserDao {
 
             ResultSet rs = ps.executeQuery();
             rs.next();
-            count = rs.getString(USER_FIELDS_COUNT);
+            count = rs.getDouble(USER_FIELDS_COUNT);
         } catch (ConnectionPoolException e) {
             LOGGER.error("Connection is not open", e);
             throw new DAOException("Connection is not open");
@@ -335,16 +316,16 @@ public class SqlUserDao extends AbstractModelDao<User> implements UserDao {
             LOGGER.error(e);
             throw new DAOException("SQL Exception");
         }
-        return Integer.valueOf(count) / Number.LIMIT_LIST;
+        return (int) Math.ceil(count / Number.LIMIT_LIST);
     }
 
 
-    public List<User> search(String value) throws DAOException {
+    public List<User> search(String value, Integer page) throws DAOException {
 
         String sql = SELECT_QUERY + " WHERE user_login LIKE ? "
                      + "OR user_email LIKE   ? "
                      + "OR user_name LIKE    ? "
-                     + "OR user_surname LIKE ?";
+                     + "OR user_surname LIKE ? LIMIT ? OFFSET ? ";
 
         List<User> list = new ArrayList<>();
 
@@ -355,6 +336,8 @@ public class SqlUserDao extends AbstractModelDao<User> implements UserDao {
             ps.setString(2, "%" + value + "%");
             ps.setString(3, "%" + value + "%");
             ps.setString(4, "%" + value + "%");
+            ps.setInt(5, Number.LIMIT_LIST);
+            ps.setInt(6, (page * Number.LIMIT_LIST) - Number.LIMIT_LIST);
 
             ResultSet rs = ps.executeQuery();
 

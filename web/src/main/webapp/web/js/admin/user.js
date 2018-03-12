@@ -49,27 +49,33 @@ function deleteUser(id) {
     }
 }
 
-function searchUser(command,  value) {
+function getUserList(command, page , value) {
+
+    if(value == null){
+        value = '';
+    }
 
     $.ajax({
                type: "POST",
                url: "Controller",
-               data: {command: command, searchUser: value},
+               data: {command: command, userPage: page ,searchUser: value},
                success: function (data) {
                    var json = JSON.parse(data),
                        table = $('#user-table').html(),
                        compileTemplate = Handlebars.compile(table),
                        result = compileTemplate(json),
                        content = doc.getElementById("content");
+
                    content.innerHTML = result;
                },
                dataType: "text"
-    });
+           });
 }
-    $(document).keypress(function (e) {
-        if (e.which == 13) {
-            document.getElementById("search-user").click();
-            document.getElementById("my-input").value = "";
-            alert("Pressed");
-        }
-    });
+
+$(document).keypress(function (e) {
+    if (e.which == 13) {
+        document.getElementById("search-user").click();
+        document.getElementById("my-input").value = "";
+        alert("Pressed");
+    }
+});

@@ -74,6 +74,7 @@ public final class Parameter {
 
     public static final String PARMETER_MESSAGE_TEXT = "textMessage";
     public static final String PARMETER_USER_PAGE = "userPage";
+    public static final String PARMETER_CURRENT_USER_PAGE = "currentUserPage";
 
 
 }

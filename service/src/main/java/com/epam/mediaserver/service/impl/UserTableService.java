@@ -229,27 +229,12 @@ public class UserTableService {
         return users;
     }
 
-
-    public int getPage() throws ServiceException {
-
-        Integer pages;
-
-        try {
-            pages = SqlFactory.getUserDao().getPage();
-        } catch (DAOException e) {
-            LOGGER.error(Error.DAO_EXCEPTION);
-            throw new ServiceException(Error.DAO_EXCEPTION);
-        }
-
-        return pages;
-    }
-
     public int getSearchPage(String value) throws ServiceException {
 
         Integer pages;
 
         try {
-            pages = SqlFactory.getUserDao().getSerchePage(value);
+            pages = SqlFactory.getUserDao().getSearchPage(value);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -259,12 +244,12 @@ public class UserTableService {
     }
 
 
-    public List<User> search(String value) throws ServiceException {
+    public List<User> search(String value, Integer page) throws ServiceException {
 
         List<User> users;
 
         try {
-            users = SqlFactory.getUserDao().search(value);
+            users = SqlFactory.getUserDao().search(value, page);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);

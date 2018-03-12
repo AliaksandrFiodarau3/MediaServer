@@ -25,7 +25,7 @@ public class ShowOrders implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        List<Order> orders = null;
+        List<Order> orders;
 
         Long id = Long.parseLong(request.getParameter(Parameter.PARMETER_ORDER_USER));
         ObjectMapper mapper = new ObjectMapper();

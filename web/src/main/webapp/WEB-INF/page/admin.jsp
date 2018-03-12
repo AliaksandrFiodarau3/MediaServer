@@ -64,5 +64,7 @@
 <script src="../../web/js/admin/album.js"></script>
 <script src="../../web/js/admin/song.js"></script>
 <script src="../../web/js/admin/bonus.js"></script>
+<script src="../../web/js/framework/pagination.js"></script>
+<script src="../../web/js/framework/underscore.js"></script>
 </body>
 </html>
