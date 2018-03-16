@@ -57,7 +57,6 @@ public class UserController {
         return new ResponseEntity<>(artists, HttpStatus.OK);
     }
 
-
     @RequestMapping(value = "genres/{genreId}/artists/{artistId}", method = RequestMethod.GET)
     public ResponseEntity<Map<String, List<Album>>> getAlbums(@PathVariable long artistId) throws ServiceException {
 
