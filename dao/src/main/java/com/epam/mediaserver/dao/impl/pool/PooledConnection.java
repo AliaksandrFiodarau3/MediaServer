@@ -19,10 +19,11 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+//@Repository
 public class PooledConnection implements Connection {
 
-
     private Connection connection;
+
 
     public PooledConnection(Connection connection) throws SQLException {
         this.connection = connection;

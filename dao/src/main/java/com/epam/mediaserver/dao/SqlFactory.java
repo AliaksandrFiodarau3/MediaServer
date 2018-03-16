@@ -1,3 +1,4 @@
+/*
 package com.epam.mediaserver.dao;
 
 import com.epam.mediaserver.dao.impl.SqlAlbumDao;
@@ -10,116 +11,115 @@ import com.epam.mediaserver.dao.impl.SqlOrderDao;
 import com.epam.mediaserver.dao.impl.SqlOrderSongDao;
 import com.epam.mediaserver.dao.impl.SqlSongDao;
 import com.epam.mediaserver.dao.impl.SqlUserDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
+*/
 /**
  * Factory pattern implementation for com.epam.mediaserver.dao layer
- */
+ *//*
 
+@Component
 public class SqlFactory {
 
-    private static SqlUserDao userInstance;
-    private static SqlBonusDao bonusInstance;
-    private static SqlBonusKeeperDao bonusKeeperInstance;
-    private static SqlGenreDao genreInstance;
-    private static SqlAlbumDao albumInstance;
-    private static SqlArtistDao artistInstance;
-    private static SqlSongDao songInstance;
-    private static SqlCommentDao commentInstance;
-    private static SqlOrderDao orderInstance;
-    private static SqlOrderSongDao orderSongInstance;
-
-    private static SqlFactory instance;
+    private ApplicationContext applicationContext;
 
     private SqlFactory() {
+        applicationContext = new AnnotationConfigApplicationContext(
+            SqlUserDao.class,
+            SqlBonusDao.class,
+            SqlBonusKeeperDao.class,
+            SqlGenreDao.class,
+            SqlAlbumDao.class,
 
+            SqlArtistDao.class,
+            SqlSongDao.class,
+            SqlCommentDao.class,
+            SqlOrderDao.class,
+            SqlOrderSongDao.class
+        );
     }
 
-    public static final SqlFactory getInstance() {
-        if (instance == null) {
-            instance = new SqlFactory();
-        }
+    @Autowired
+    private SqlUserDao userInstance;
+
+    @Autowired
+    private SqlBonusDao bonusInstance;
+
+    @Autowired
+    private SqlBonusKeeperDao bonusKeeperInstance;
+
+    @Autowired
+    private SqlGenreDao genreInstance;
+
+    @Autowired
+    private SqlAlbumDao albumInstance;
+
+    @Autowired
+    private SqlArtistDao artistInstance;
+
+    @Autowired
+    private SqlSongDao songInstance;
+
+    @Autowired
+    private SqlCommentDao commentInstance;
+
+    @Autowired
+    private SqlOrderDao orderInstance;
+
+    @Autowired
+    private SqlOrderSongDao orderSongInstance;
+
+    @Autowired
+    private SqlFactory instance;
+
+
+
+    public SqlFactory getInstance() {
         return instance;
     }
 
-    public static SqlUserDao getUserDao() {
-        if (userInstance == null) {
-            userInstance = new SqlUserDao();
-        }
+    public SqlUserDao getUserDao() {
         return userInstance;
     }
 
-    public static SqlBonusDao getBonusDao() {
-        if (bonusInstance == null) {
-            bonusInstance = new SqlBonusDao();
-        }
+    public SqlBonusDao getBonusDao() {
         return bonusInstance;
     }
 
-    public static SqlBonusKeeperDao getBonusKeeperDao() {
-
-        if (bonusKeeperInstance == null) {
-            bonusKeeperInstance = new SqlBonusKeeperDao();
-        }
-
+    public SqlBonusKeeperDao getBonusKeeperDao() {
         return bonusKeeperInstance;
     }
 
-    public static SqlGenreDao getGenreDao() {
-
-        if (genreInstance == null) {
-            genreInstance = new SqlGenreDao();
-        }
-
+    public SqlGenreDao getGenreDao() {
         return genreInstance;
     }
 
-    public static SqlAlbumDao getAlbumDao() {
-
-        if (albumInstance == null) {
-            albumInstance = new SqlAlbumDao();
-        }
-
+    public SqlAlbumDao getAlbumDao() {
         return albumInstance;
     }
 
-    public static SqlArtistDao getArtistDao() {
-        if (artistInstance == null) {
-            artistInstance = new SqlArtistDao();
-        }
-
+    public SqlArtistDao getArtistDao() {
         return artistInstance;
     }
 
-    public static SqlSongDao getSongDao() {
-        if (songInstance == null) {
-            songInstance = new SqlSongDao();
-        }
+    public SqlSongDao getSongDao() {
         return songInstance;
     }
 
-    public static SqlCommentDao getCommentDao() {
-        if (commentInstance == null) {
-            commentInstance = new SqlCommentDao();
-        }
+    public SqlCommentDao getCommentDao() {
         return commentInstance;
     }
 
-    public static SqlOrderDao getOrderDao() {
-
-        if (orderInstance == null) {
-            orderInstance = new SqlOrderDao();
-        }
-
+    public SqlOrderDao getOrderDao() {
         return orderInstance;
     }
 
-    public static SqlOrderSongDao getOrderSongDao() {
-
-        if (orderSongInstance == null) {
-            orderSongInstance = new SqlOrderSongDao();
-        }
-
+    public SqlOrderSongDao getOrderSongDao() {
         return orderSongInstance;
     }
 
 }
+*/

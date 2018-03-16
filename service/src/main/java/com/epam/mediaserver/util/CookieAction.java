@@ -1,4 +1,6 @@
+/*
 package com.epam.mediaserver.util;
+
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -57,3 +59,4 @@ public class CookieAction {
         return cookie;
     }
 }
+*/

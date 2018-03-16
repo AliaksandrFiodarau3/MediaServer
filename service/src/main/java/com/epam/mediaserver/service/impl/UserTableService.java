@@ -1,32 +1,38 @@
 package com.epam.mediaserver.service.impl;
 
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.util.Validation;
 import com.epam.mediaserver.constant.Path;
-import com.epam.mediaserver.dao.SqlFactory;
+import com.epam.mediaserver.dao.impl.SqlUserDao;
 import com.epam.mediaserver.entity.User;
-import com.epam.mediaserver.exception.PasswordIncorrectException;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
 import com.epam.mediaserver.exeption.DAOException;
-import com.epam.mediaserver.service.ServiceFactory;
-
+import com.epam.mediaserver.util.Validation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class UserTableService {
 
     private static final Logger LOGGER = LogManager.getLogger(UserTableService.class);
 
+    @Autowired
+    private SqlUserDao userDao;
+
+   /* @Autowired
+    private UserTableService userService;*/
+
 
     public User signUp(String login, String password, String name, String surname, String email)
-        throws ValidateException, ServiceException {
+        throws  ServiceException {
 
         if (!Validation.userCheck(login, password, name, surname, email)) {
             LOGGER.info(Error.VALIDATION);
-            throw new ValidateException(Error.VALIDATION);
+            throw new ServiceException(Error.VALIDATION);
         }
 
         User account = new User();
@@ -37,7 +43,12 @@ public class UserTableService {
         account.setSurname(surname);
         account.setEmail(email);
 
-        add(login, password, name, surname, email);
+        try {
+            add(login, password, name, surname, email);
+        } catch (ValidateException e) {
+            LOGGER.info(Error.VALIDATION);
+            throw new ServiceException(Error.VALIDATION);
+        }
 
         return account;
     }
@@ -45,7 +56,7 @@ public class UserTableService {
     public boolean checkLogin(String login) throws ServiceException {
 
         try {
-            if (SqlFactory.getUserDao().checkLogin(login)) {
+            if (userDao.checkLogin(login)) {
                 return true;
             }
         } catch (DAOException e) {
@@ -58,7 +69,7 @@ public class UserTableService {
 
     public boolean checkEmail(String email) throws ServiceException {
         try {
-            if (SqlFactory.getUserDao().checkEmail(email)) {
+            if (userDao.checkEmail(email)) {
                 return true;
             }
         } catch (DAOException e) {
@@ -69,19 +80,22 @@ public class UserTableService {
     }
 
 
-    public User signIn(String login, String password)
-        throws ServiceException, ValidateException, PasswordIncorrectException {
+    public User signIn(String login, Long password)
+        throws ServiceException{
 
         User account;
 
         if (!Validation.userCheck(login, password)) {
             LOGGER.info(Error.VALIDATION);
-            throw new ValidateException(Error.VALIDATION);
+            throw new ServiceException(Error.VALIDATION);
         } else {
             account = getByLogin(login);
-            if (!account.getLogin().equals(login) || !(account.getPassword() == password.hashCode())) {
+            if (!account.getLogin().equals(login) || !(account.getPassword() == password)) {
+                System.out.println(!account.getLogin().equals(login));
+                System.out.println(!(account.getPassword() == password));
+
                 LOGGER.info(Error.PASSWORD_INCORRECT);
-                throw new PasswordIncorrectException(Error.PASSWORD_INCORRECT);
+                throw new ServiceException(Error.PASSWORD_INCORRECT);
             }
         }
         return account;
@@ -106,7 +120,7 @@ public class UserTableService {
         account.setPhoto(Path.DEFAULT_USER);
 
         try {
-            SqlFactory.getUserDao().add(account);
+            userDao.add(account);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -116,7 +130,7 @@ public class UserTableService {
     public void addPhoto(String photo, String login) throws ServiceException {
 
         try {
-            SqlFactory.getUserDao().setPhoto(photo, login);
+            userDao.setPhoto(photo, login);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -128,7 +142,7 @@ public class UserTableService {
     public void edit(int id, String login, String name, String surname, String email, boolean isRoot)
         throws ServiceException, ValidateException {
 
-        User user = ServiceFactory.getUserService().getById(id);
+        User user = getById(id);
         try {
             if (Validation.userCheck(id, login, name, surname, email)) {
 
@@ -138,7 +152,7 @@ public class UserTableService {
                 user.setEmail(email);
                 user.setAdminRoot(isRoot);
 
-                SqlFactory.getUserDao().update(user);
+                userDao.update(user);
 
             } else {
                 throw new ValidateException(Error.VALIDATION);
@@ -151,14 +165,13 @@ public class UserTableService {
 
     public void editPhoto(int id, String photo) throws ServiceException, ValidateException {
 
-        User user = null;
         try {
-            user = (User) SqlFactory.getUserDao().getById(id);
+            User user = userDao.getById(id);
             if (photo != null) {
                 user.setId(id);
                 user.setPhoto(photo);
 
-                SqlFactory.getUserDao().update(user);
+                userDao.update(user);
             }
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
@@ -170,8 +183,8 @@ public class UserTableService {
     public void delete(int id) throws ServiceException {
 
         try {
-            User user = (User) SqlFactory.getUserDao().getById(id);
-            SqlFactory.getUserDao().delete(user);
+            User user = userDao.getById(id);
+            userDao.delete(user);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -183,7 +196,7 @@ public class UserTableService {
         User user = null;
 
         try {
-            user = (User) SqlFactory.getUserDao().getById(id);
+            user = userDao.getById(id);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -196,7 +209,7 @@ public class UserTableService {
         User user = null;
 
         try {
-            user = SqlFactory.getUserDao().authorisation(login);
+            user = userDao.authorisation(login);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -209,7 +222,7 @@ public class UserTableService {
         List<User> users = null;
 
         try {
-            users = SqlFactory.getUserDao().getAll();
+            users = userDao.getAll();
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -223,7 +236,7 @@ public class UserTableService {
         List<User> users = null;
 
         try {
-            users = SqlFactory.getUserDao().getUserList(page);
+            users = userDao.getUserList(page);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -239,7 +252,7 @@ public class UserTableService {
         Integer pages;
 
         try {
-            pages = SqlFactory.getUserDao().getPage();
+            pages = userDao.getPage();
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);

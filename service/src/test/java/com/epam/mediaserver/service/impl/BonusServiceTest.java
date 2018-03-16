@@ -1,15 +1,16 @@
+/*
 package com.epam.mediaserver.service.impl;
 
 import static junit.framework.TestCase.assertTrue;
 
-import com.epam.mediaserver.entity.Bonus;
 import com.epam.mediaserver.dao.SqlFactory;
+import com.epam.mediaserver.dao.impl.pool.ConnectionPool;
+import com.epam.mediaserver.entity.Bonus;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
 import com.epam.mediaserver.exeption.ConnectionPoolException;
 import com.epam.mediaserver.exeption.DAOException;
 import com.epam.mediaserver.service.ServiceFactory;
-import com.epam.mediaserver.dao.impl.pool.ConnectionPool;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -92,3 +93,4 @@ public class BonusServiceTest {
     }
 
 }
+*/

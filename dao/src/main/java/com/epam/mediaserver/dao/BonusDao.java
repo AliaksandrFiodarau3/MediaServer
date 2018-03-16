@@ -8,6 +8,7 @@ import com.epam.mediaserver.exeption.DAOException;
  * {@link Bonus}
  */
 
+
 public interface BonusDao {
 
 

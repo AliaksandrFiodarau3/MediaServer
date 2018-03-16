@@ -1,7 +1,7 @@
 package com.epam.mediaserver.dao.impl;
 
 import com.epam.mediaserver.dao.AbstractModelDao;
-import com.epam.mediaserver.dao.SqlFactory;
+import com.epam.mediaserver.dao.OrderSongDao;
 import com.epam.mediaserver.dao.impl.pool.ConnectionPool;
 import com.epam.mediaserver.entity.Model;
 import com.epam.mediaserver.entity.Order;
@@ -11,6 +11,8 @@ import com.epam.mediaserver.exeption.ConnectionPoolException;
 import com.epam.mediaserver.exeption.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +25,14 @@ import java.util.List;
  * #AbstractModelDao extends for call CRUD commands for the MySQL db
  */
 
-public class SqlOrderSongDao extends AbstractModelDao {
+@Repository
+public class SqlOrderSongDao extends AbstractModelDao<OrderSong> implements OrderSongDao {
+
+    @Autowired
+    private SqlSongDao songDao;
+
+    @Autowired
+    private SqlOrderDao orderDao;
 
     private static final Logger LOGGER = LogManager.getLogger(SqlOrderSongDao.class);
 
@@ -65,7 +74,7 @@ public class SqlOrderSongDao extends AbstractModelDao {
     }
 
     @Override
-    protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForCreate(Connection con, OrderSong model, String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(query);
 
         OrderSong orderSong = (OrderSong) model;
@@ -88,7 +97,7 @@ public class SqlOrderSongDao extends AbstractModelDao {
     }
 
     @Override
-    protected int preparedStatementForDelete(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForDelete(Connection con, OrderSong model, String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(query);
         OrderSong orderSong = (OrderSong) model;
 
@@ -124,13 +133,13 @@ public class SqlOrderSongDao extends AbstractModelDao {
     }
 
     @Override
-    protected Model parseResult(ResultSet rs) throws DAOException {
+    protected OrderSong parseResult(ResultSet rs) throws DAOException {
         OrderSong orderSong = new OrderSong();
-        SqlFactory factory = SqlFactory.getInstance();
+
         try {
             orderSong.setId(rs.getInt(ORDER_SONG_ID));
-            orderSong.setSong((Song) factory.getSongDao().getById(rs.getInt(SONG_ID)));
-            orderSong.setOrder((Order) factory.getOrderDao().getById(rs.getInt(ORDER_ID)));
+            orderSong.setSong((Song) songDao.getById(rs.getInt(SONG_ID)));
+            orderSong.setOrder((Order) orderDao.getById(rs.getInt(ORDER_ID)));
 
         } catch (SQLException e) {
             LOGGER.error("SQL Exception");

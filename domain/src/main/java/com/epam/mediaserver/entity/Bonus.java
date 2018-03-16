@@ -1,7 +1,7 @@
 package com.epam.mediaserver.entity;
 
-public class Bonus extends Model {
 
+public class Bonus extends Model {
 
     private String title;
     private String description;

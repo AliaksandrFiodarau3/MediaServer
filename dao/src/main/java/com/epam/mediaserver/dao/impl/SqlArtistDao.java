@@ -2,7 +2,6 @@ package com.epam.mediaserver.dao.impl;
 
 import com.epam.mediaserver.dao.AbstractModelDao;
 import com.epam.mediaserver.dao.ArtistDao;
-import com.epam.mediaserver.dao.SqlFactory;
 import com.epam.mediaserver.dao.impl.pool.ConnectionPool;
 import com.epam.mediaserver.entity.Artist;
 import com.epam.mediaserver.entity.Genre;
@@ -11,6 +10,8 @@ import com.epam.mediaserver.exeption.ConnectionPoolException;
 import com.epam.mediaserver.exeption.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +25,12 @@ import java.util.List;
  * #AbstractModelDao extends for call CRUD commands for the MySQL db
  */
 
-public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
+
+@Repository
+public class SqlArtistDao extends AbstractModelDao<Artist> implements ArtistDao {
+
+    @Autowired
+    private SqlGenreDao genreDao;
 
     private static final Logger LOGGER = LogManager.getLogger(SqlArtistDao.class);
 
@@ -32,8 +38,7 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
         "INSERT INTO t_artist (genre_id, artist_description, artist_image, artist_title) VALUES (?,?,?,?);";
     private static final String SELECT_QUERY = "SELECT * FROM t_artist";
     private static final String SELECT_QUERY_WITH_ID = "select * from t_artist where artist_id = ?;";
-    private static final String SELECT_QUERY_BY_GENRE = "select * from t_artist where genre_id = " +
-                                                        "(select genre_id from t_genre where genre_title = ?);";
+    private static final String SELECT_QUERY_BY_GENRE = "select * from t_artist where genre_id = ?";
     private static final String UPDATE_QUERY =
         "update t_artist set artist_description = ?, artist_image = ? where artist_title = ?;";
     private static final String DELETE_QUERY = "DELETE FROM t_artist WHERE artist_title = ?;";
@@ -76,10 +81,10 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
     }
 
     @Override
-    protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForCreate(Connection con, Artist model, String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(query);
 
-        Artist artist = (Artist) model;
+        Artist artist =  model;
         ps.setInt(1, artist.getGenre().getId());
         ps.setString(2, artist.getDescription());
         ps.setString(3, artist.getImage());
@@ -101,7 +106,7 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
     }
 
     @Override
-    protected int preparedStatementForDelete(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForDelete(Connection con, Artist model, String query) throws SQLException {
 
         PreparedStatement ps = con.prepareStatement(getDeleteQuery());
         Artist artist = (Artist) model;
@@ -113,14 +118,14 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
     }
 
     @Override
-    protected Model parseResult(ResultSet rs) throws DAOException {
+    protected Artist parseResult(ResultSet rs) throws DAOException {
         Artist artist = new Artist();
 
-        SqlFactory factory = SqlFactory.getInstance();
+
 
         try {
             artist.setId(rs.getInt(ARTIST_ID));
-            Genre genre = (Genre) factory.getGenreDao().getById(rs.getInt(GENRE_ID));
+            Genre genre = genreDao.getById(rs.getInt(GENRE_ID));
             artist.setGenre(genre);
             artist.setTitle(rs.getString(ARTIST_TITLE));
             artist.setDescription(rs.getString(ARTIST_DESCRIPTION));
@@ -133,21 +138,19 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
         return artist;
     }
 
-    public List<Artist> getByGenre(String genre) throws DAOException {
-
-
+    public List<Artist> getByGenre(Long genreId) throws DAOException {
 
         try ( Connection con = ConnectionPool.takeConnection();
               PreparedStatement ps = con.prepareStatement(SELECT_QUERY_BY_GENRE)) {
 
-            ps.setString(1, genre);
+            ps.setLong(1, genreId);
 
             ResultSet rs = ps.executeQuery();
 
             List<Artist> list = new ArrayList<>();
 
             while (rs.next()) {
-                Artist artist = (Artist) parseResult(rs);
+                Artist artist = parseResult(rs);
                 list.add(artist);
             }
             return list;
@@ -173,7 +176,7 @@ public class SqlArtistDao extends AbstractModelDao implements ArtistDao {
             Artist artist = null;
 
             if (rs.next()) {
-                artist = (Artist) parseResult(rs);
+                artist = parseResult(rs);
             }
 
             return artist;

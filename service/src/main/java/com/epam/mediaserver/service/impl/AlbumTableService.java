@@ -2,7 +2,8 @@ package com.epam.mediaserver.service.impl;
 
 
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.dao.SqlFactory;
+import com.epam.mediaserver.dao.impl.SqlAlbumDao;
+import com.epam.mediaserver.dao.impl.SqlArtistDao;
 import com.epam.mediaserver.entity.Album;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
@@ -11,10 +12,26 @@ import com.epam.mediaserver.service.AlbumService;
 import com.epam.mediaserver.util.Validation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class AlbumTableService implements AlbumService{
+
+@Service
+public class AlbumTableService implements AlbumService {
+
+    @Autowired
+    private SqlAlbumDao albumDao;
+
+    @Autowired
+    private SqlArtistDao artistDao;
+
+   /* @Autowired
+    public AlbumTableService(SqlAlbumDao sqlAlbumDao, SqlArtistDao sqlArtistDao) {
+        this.albumDao = sqlAlbumDao;
+        this.artistDao = sqlArtistDao;
+    }*/
 
     private static final Logger LOGGER = LogManager.getLogger(AlbumTableService.class);
 
@@ -24,7 +41,7 @@ public class AlbumTableService implements AlbumService{
         Album album = null;
 
         try {
-            album = SqlFactory.getAlbumDao().getByName(title);
+            album = albumDao.getByName(title);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -33,13 +50,12 @@ public class AlbumTableService implements AlbumService{
         return album;
     }
 
-
-    public List<Album> getByArtist(String artist) throws ServiceException {
+    public List<Album> getByArtist(Long artistId) throws ServiceException {
 
         List<Album> albums = null;
 
         try {
-            albums = SqlFactory.getAlbumDao().getByArtist(artist);
+            albums = albumDao.getByArtist(artistId);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -53,12 +69,12 @@ public class AlbumTableService implements AlbumService{
         try {
             if (Validation.albumCheck(title, year, description, image)) {
                 Album album = new Album();
-                album.setArtist(SqlFactory.getArtistDao().getByName(artist));
+                album.setArtist(artistDao.getByName(artist));
                 album.setTitle(title);
                 album.setYear(Integer.parseInt(year));
                 album.setDescription(description);
                 album.setImage(image);
-                SqlFactory.getAlbumDao().add(album);
+                albumDao.add(album);
 
             } else {
                 LOGGER.info(Error.VALIDATION);
@@ -76,7 +92,7 @@ public class AlbumTableService implements AlbumService{
         throws ServiceException, ValidateException {
 
         try {
-            Album album = (Album) SqlFactory.getAlbumDao().getById(id);
+            Album album =  albumDao.getById(id);
 
             if (Validation.albumCheck(title, year, description, image)) {
 
@@ -84,9 +100,9 @@ public class AlbumTableService implements AlbumService{
                 album.setYear(Integer.parseInt(year));
                 album.setDescription(description);
                 album.setImage(image);
-                album.setArtist(SqlFactory.getArtistDao().getByName(artist));
+                album.setArtist(artistDao.getByName(artist));
 
-                SqlFactory.getAlbumDao().update(album);
+                albumDao.update(album);
 
             } else {
                 LOGGER.info(Error.VALIDATION);
@@ -101,8 +117,8 @@ public class AlbumTableService implements AlbumService{
     public void delete(int id) throws ServiceException {
 
         try {
-            Album album = (Album) SqlFactory.getAlbumDao().getById(id);
-            SqlFactory.getAlbumDao().delete(album);
+            Album album = (Album) albumDao.getById(id);
+            albumDao.delete(album);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -114,7 +130,7 @@ public class AlbumTableService implements AlbumService{
         List<Album> albums = null;
 
         try {
-            albums = SqlFactory.getAlbumDao().getAll();
+            albums =albumDao.getAll();
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);

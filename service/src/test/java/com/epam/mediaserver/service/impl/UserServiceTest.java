@@ -1,3 +1,4 @@
+/*
 package com.epam.mediaserver.service.impl;
 
 import static junit.framework.TestCase.assertTrue;
@@ -96,3 +97,4 @@ public class UserServiceTest {
     }
 
 }
+*/

@@ -2,7 +2,7 @@ package com.epam.mediaserver.service.impl;
 
 
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.dao.SqlFactory;
+import com.epam.mediaserver.dao.impl.SqlGenreDao;
 import com.epam.mediaserver.entity.Genre;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
@@ -10,10 +10,16 @@ import com.epam.mediaserver.exeption.DAOException;
 import com.epam.mediaserver.util.Validation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class GenreTableService {
+
+    @Autowired
+    private SqlGenreDao genreDao;
 
     private static final Logger LOGGER = LogManager.getLogger(GenreTableService.class);
 
@@ -25,7 +31,7 @@ public class GenreTableService {
         Genre genre = null;
 
         try {
-            genre = SqlFactory.getGenreDao().getByName(title);
+            genre = genreDao.getByName(title);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -51,7 +57,7 @@ public class GenreTableService {
                     genre.setImage(image);
                 }
 
-                SqlFactory.getGenreDao().add(genre);
+                genreDao.add(genre);
 
             } else {
                 LOGGER.info(Error.VALIDATION);
@@ -68,7 +74,7 @@ public class GenreTableService {
         throws ServiceException, ValidateException {
 
         try {
-            Genre genre = (Genre) SqlFactory.getGenreDao().getById(id);
+            Genre genre = (Genre) genreDao.getById(id);
 
             if (Validation.genreCheck(title, description)) {
 
@@ -78,7 +84,7 @@ public class GenreTableService {
                     genre.setImage(image);
                 }
 
-                SqlFactory.getGenreDao().update(genre);
+                genreDao.update(genre);
 
             } else {
                 LOGGER.info(Error.VALIDATION);
@@ -93,8 +99,8 @@ public class GenreTableService {
     public void delete(int id) throws ServiceException {
 
         try {
-            Genre genre = (Genre) SqlFactory.getGenreDao().getById(id);
-            SqlFactory.getGenreDao().delete(genre);
+            Genre genre = genreDao.getById(id);
+            genreDao.delete(genre);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -106,7 +112,7 @@ public class GenreTableService {
         List<Genre> genres = null;
 
         try {
-            genres = SqlFactory.getGenreDao().getAll();
+            genres = genreDao.getAll();
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);

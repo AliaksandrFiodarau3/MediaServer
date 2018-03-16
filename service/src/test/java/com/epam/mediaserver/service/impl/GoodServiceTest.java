@@ -1,11 +1,9 @@
 package com.epam.mediaserver.service.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.epam.mediaserver.entity.Order;
 import com.epam.mediaserver.entity.OrderSong;
 import com.epam.mediaserver.exception.ServiceException;
 import org.junit.Test;
@@ -14,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
-import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 class GoodServiceTest {

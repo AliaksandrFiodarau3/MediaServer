@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface BonusKeeperDao {
 
-
-
     /**
      * Method receives id of user and find equal fields in table t_bonus_keeper
      *

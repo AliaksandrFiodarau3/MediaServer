@@ -1,7 +1,7 @@
 package com.epam.mediaserver.service.impl;
 
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.dao.SqlFactory;
+import com.epam.mediaserver.dao.impl.SqlBonusDao;
 import com.epam.mediaserver.entity.Bonus;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
@@ -10,10 +10,18 @@ import com.epam.mediaserver.service.BonusService;
 import com.epam.mediaserver.util.Validation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@Service
 public class BonusTableService implements BonusService{
+
+    @Autowired
+    private SqlBonusDao bonusDao;
+
 
     private static final Logger LOGGER = LogManager.getLogger(BonusTableService.class);
 
@@ -30,7 +38,7 @@ public class BonusTableService implements BonusService{
                 bonus.setDiscount(Integer.parseInt(discount));
                 bonus.setCode(code);
 
-                SqlFactory.getBonusDao().add(bonus);
+                bonusDao.add(bonus);
 
             } else {
                 LOGGER.info(Error.VALIDATION);
@@ -51,7 +59,7 @@ public class BonusTableService implements BonusService{
 
         try {
 
-            Bonus bonus = (Bonus) SqlFactory.getBonusDao().getById(id);
+            Bonus bonus = bonusDao.getById(id);
 
             if (Validation.bonusCheck(title, description, discount, code)) {
 
@@ -60,7 +68,7 @@ public class BonusTableService implements BonusService{
                 bonus.setDiscount(Integer.parseInt(discount));
                 bonus.setCode(code);
 
-                SqlFactory.getBonusDao().update(bonus);
+                bonusDao.update(bonus);
 
             } else {
                 LOGGER.info(Error.VALIDATION);
@@ -75,8 +83,8 @@ public class BonusTableService implements BonusService{
     public void delete(int id) throws ServiceException {
 
         try {
-            Bonus bonus = (Bonus) SqlFactory.getBonusDao().getById(id);
-            SqlFactory.getBonusDao().delete(bonus);
+            Bonus bonus = (Bonus) bonusDao.getById(id);
+            bonusDao.delete(bonus);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -88,7 +96,7 @@ public class BonusTableService implements BonusService{
         List<Bonus> bonuses = null;
 
         try {
-            bonuses = SqlFactory.getBonusDao().getAll();
+            bonuses = bonusDao.getAll();
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);

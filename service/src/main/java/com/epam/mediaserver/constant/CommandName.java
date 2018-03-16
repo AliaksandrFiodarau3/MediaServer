@@ -1,5 +1,6 @@
 package com.epam.mediaserver.constant;
 
+
 /**
  * Enum constant for available commands
  */
@@ -27,7 +28,7 @@ public enum CommandName {
     CHECK_EMAIL, CHECK_LOGIN, ADD_GOOD, USE_BONUS, BUY,
 
     /*Guest command*/
-    HOME,
+    HOME(),
     SIGN_OUT,
     SIGN_UP,
     SIGN_IN,

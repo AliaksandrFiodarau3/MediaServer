@@ -1,7 +1,7 @@
 package com.epam.mediaserver.dao.impl;
 
 import com.epam.mediaserver.dao.AbstractModelDao;
-import com.epam.mediaserver.dao.SqlFactory;
+import com.epam.mediaserver.dao.OrderDao;
 import com.epam.mediaserver.dao.impl.pool.ConnectionPool;
 import com.epam.mediaserver.entity.Model;
 import com.epam.mediaserver.entity.Order;
@@ -10,6 +10,8 @@ import com.epam.mediaserver.exeption.ConnectionPoolException;
 import com.epam.mediaserver.exeption.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,7 +24,11 @@ import java.util.List;
  * #AbstractModelDao extends for call CRUD commands for the MySQL db
  */
 
-public class SqlOrderDao extends AbstractModelDao {
+@Repository
+public class SqlOrderDao extends AbstractModelDao<Order> implements OrderDao {
+
+    @Autowired
+    private SqlUserDao userDao;
 
     private static final Logger LOGGER = LogManager.getLogger(SqlOrderDao.class);
 
@@ -72,7 +78,7 @@ public class SqlOrderDao extends AbstractModelDao {
     }
 
     @Override
-    protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForCreate(Connection con, Order model, String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(query);
 
         Order order = (Order) model;
@@ -104,7 +110,7 @@ public class SqlOrderDao extends AbstractModelDao {
     }
 
     @Override
-    protected int preparedStatementForDelete(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForDelete(Connection con, Order model, String query) throws SQLException {
 
         PreparedStatement ps = con.prepareStatement(query);
 
@@ -168,14 +174,13 @@ public class SqlOrderDao extends AbstractModelDao {
 
 
     @Override
-    protected Model parseResult(ResultSet rs) throws DAOException {
+    protected Order parseResult(ResultSet rs) throws DAOException {
         Order order = new Order();
-        SqlFactory factory = SqlFactory.getInstance();
 
         try {
             order.setId(rs.getInt(ORDER_ID));
             order.setNumber(rs.getInt(ORDER_NUMBER));
-            order.setUser((User) factory.getUserDao().getById(rs.getInt(USER_ID)));
+            order.setUser((User) userDao.getById(rs.getInt(USER_ID)));
             order.setPrice(rs.getDouble(ORDER_PRICE));
             order.setTime(rs.getTime(ORDER_TIME));
             order.setDate(rs.getDate(ORDER_DATE));

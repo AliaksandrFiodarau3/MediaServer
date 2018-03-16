@@ -9,6 +9,7 @@ import com.epam.mediaserver.exeption.ConnectionPoolException;
 import com.epam.mediaserver.exeption.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +21,8 @@ import java.sql.SQLException;
  * #AbstractModelDao extends for call CRUD commands for the MySQL db
  */
 
-public class SqlGenreDao extends AbstractModelDao implements GenreDao {
+@Repository
+public class SqlGenreDao extends AbstractModelDao<Genre> implements GenreDao {
 
     private static final Logger LOGGER = LogManager.getLogger(SqlGenreDao.class);
 
@@ -63,8 +65,9 @@ public class SqlGenreDao extends AbstractModelDao implements GenreDao {
         return DELETE_QUERY;
     }
 
+
     @Override
-    protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForCreate(Connection con, Genre model, String query) throws SQLException {
 
         PreparedStatement ps = con.prepareStatement(query);
 
@@ -78,11 +81,13 @@ public class SqlGenreDao extends AbstractModelDao implements GenreDao {
 
     @Override
     protected int preparedStatementForUpdate(Connection con, Model model, String query) throws SQLException {
-        return preparedStatementForCreate(con, model, query);
+        return preparedStatementForCreate(con, (Genre) model, query);
     }
 
+
+
     @Override
-    protected int preparedStatementForDelete(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForDelete(Connection con, Genre model, String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(getDeleteQuery());
         Genre genre = (Genre) model;
 
@@ -92,7 +97,7 @@ public class SqlGenreDao extends AbstractModelDao implements GenreDao {
     }
 
     @Override
-    protected Model parseResult(ResultSet rs) throws SQLException {
+    protected Genre parseResult(ResultSet rs) throws SQLException {
 
         Genre genre = new Genre();
         genre.setId(rs.getInt(GENRE_ID));
@@ -114,7 +119,7 @@ public class SqlGenreDao extends AbstractModelDao implements GenreDao {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                genre = (Genre) parseResult(rs);
+                genre = parseResult(rs);
             }
 
             return genre;

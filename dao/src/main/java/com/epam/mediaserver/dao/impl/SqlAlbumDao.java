@@ -2,7 +2,6 @@ package com.epam.mediaserver.dao.impl;
 
 import com.epam.mediaserver.dao.AbstractModelDao;
 import com.epam.mediaserver.dao.AlbumDao;
-import com.epam.mediaserver.dao.SqlFactory;
 import com.epam.mediaserver.dao.impl.pool.ConnectionPool;
 import com.epam.mediaserver.entity.Album;
 import com.epam.mediaserver.entity.Artist;
@@ -11,6 +10,8 @@ import com.epam.mediaserver.exeption.ConnectionPoolException;
 import com.epam.mediaserver.exeption.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +25,11 @@ import java.util.List;
  * #AbstractModelDao extends for call CRUD commands for the MySQL db
  */
 
-public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
+@Repository
+public class SqlAlbumDao extends AbstractModelDao<Album> implements AlbumDao {
+
+    @Autowired
+    private SqlArtistDao artistDao;
 
     private static final Logger LOGGER = LogManager.getLogger(SqlAlbumDao.class);
 
@@ -38,7 +43,7 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
     private static final String DELETE_QUERY = "DELETE FROM t_album WHERE album_title = ?;";
 
     private static final String BY_ARTIST_QUERY = "SELECT * FROM t_album " +
-                                                  "WHERE artist_id = (SELECT artist_id FROM t_artist WHERE artist_title = ?);";
+                                                  "WHERE artist_id = ?";
     private static final String BY_NAME_QUERY = "SELECT * FROM t_album WHERE album_title = ?;";
 
 
@@ -75,7 +80,7 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
     }
 
     @Override
-    protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForCreate(Connection con, Album model, String query) throws SQLException {
 
         int counter;
 
@@ -94,11 +99,11 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
 
     @Override
     protected int preparedStatementForUpdate(Connection con, Model model, String query) throws SQLException {
-        return this.preparedStatementForCreate(con, model, query);
+        return this.preparedStatementForCreate(con, (Album) model, query);
     }
 
     @Override
-    protected int preparedStatementForDelete(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForDelete(Connection con, Album model, String query) throws SQLException {
 
         int counter;
 
@@ -113,14 +118,12 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
     }
 
     @Override
-    protected Model parseResult(ResultSet rs) throws DAOException {
+    protected Album parseResult(ResultSet rs) throws DAOException {
         Album album = new Album();
-
-        SqlFactory factory = SqlFactory.getInstance();
 
         try {
             album.setId(rs.getInt(ALBUM_ID));
-            Artist artist = (Artist) factory.getArtistDao().getById(rs.getInt(ARTIST_ID));
+            Artist artist = artistDao.getById(rs.getInt(ARTIST_ID));
             album.setArtist(artist);
             album.setYear(rs.getInt(ALBUM_YEAR));
             album.setTitle(rs.getString(ALBUM_TITLE));
@@ -135,14 +138,14 @@ public class SqlAlbumDao extends AbstractModelDao implements AlbumDao {
     }
 
     @Override
-    public List<Album> getByArtist(String artist) throws DAOException {
+    public List<Album> getByArtist(Long artistId) throws DAOException {
 
         try (Connection con = ConnectionPool.takeConnection();
              PreparedStatement ps = con.prepareStatement(BY_ARTIST_QUERY)) {
 
             List<Album> list = new ArrayList<>();
 
-            ps.setString(1, artist);
+            ps.setLong(1, artistId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Model album = parseResult(rs);

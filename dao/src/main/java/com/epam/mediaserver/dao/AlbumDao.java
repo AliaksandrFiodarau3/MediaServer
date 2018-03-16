@@ -10,18 +10,19 @@ import java.util.List;
  * {@link Album}
  */
 
+
 public interface AlbumDao {
 
 
     /**
      * Method receives a entity of album {@link Album}
      *
-     * @param artist for search a field in the database by title of artist
+     * @param artistId for search a field in the database by id of artist
      * @return {@link List} instances of {@link Album}
      * @throws DAOException if database error was detected
      */
 
-    List<Album> getByArtist(String artist) throws DAOException;
+    List<Album> getByArtist(Long artistId) throws DAOException;
 
     /**
      * Method receives a entity of album {@link Album}

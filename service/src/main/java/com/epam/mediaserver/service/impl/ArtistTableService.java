@@ -2,7 +2,8 @@ package com.epam.mediaserver.service.impl;
 
 
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.dao.SqlFactory;
+import com.epam.mediaserver.dao.impl.SqlArtistDao;
+import com.epam.mediaserver.dao.impl.SqlGenreDao;
 import com.epam.mediaserver.entity.Artist;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
@@ -11,10 +12,21 @@ import com.epam.mediaserver.service.ArtistService;
 import com.epam.mediaserver.util.Validation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+
+@Service
 public class ArtistTableService implements ArtistService{
+
+    @Autowired
+    private SqlGenreDao genreDao;
+
+    @Autowired
+    private SqlArtistDao artistDao;
 
     private static final Logger LOGGER = LogManager.getLogger(ArtistTableService.class);
 
@@ -23,7 +35,7 @@ public class ArtistTableService implements ArtistService{
         Artist artist = null;
 
         try {
-            artist = SqlFactory.getArtistDao().getByName(title);
+            artist = artistDao.getByName(title);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -32,12 +44,12 @@ public class ArtistTableService implements ArtistService{
         return artist;
     }
 
-    public List<Artist> getByGenre(String genre) throws ServiceException {
+    public List<Artist> getByGenre(Long genreId) throws ServiceException {
 
         List<Artist> artists = null;
 
         try {
-            artists = SqlFactory.getArtistDao().getByGenre(genre);
+            artists = artistDao.getByGenre(genreId);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -53,11 +65,11 @@ public class ArtistTableService implements ArtistService{
             if (Validation.artistCheck(title, description, image)) {
 
                 Artist artist = new Artist();
-                artist.setGenre(SqlFactory.getGenreDao().getByName(genre));
+                artist.setGenre(genreDao.getByName(genre));
                 artist.setTitle(title);
                 artist.setDescription(description);
                 artist.setImage(image);
-                SqlFactory.getArtistDao().add(artist);
+                artistDao.add(artist);
 
             } else {
                 LOGGER.info(Error.VALIDATION);
@@ -74,15 +86,14 @@ public class ArtistTableService implements ArtistService{
         throws ServiceException, ValidateException {
 
         try {
-            Artist artist = (Artist) SqlFactory.getArtistDao().getById(id);
+            Artist artist = artistDao.getById(id);
 
             if (Validation.artistCheck(title, description, image)) {
 
                 artist.setTitle(title);
-                //artist.setGenre(SqlFactory.getGenreDao().getByName(genre));
                 artist.setDescription(description);
                 artist.setImage(image);
-                SqlFactory.getArtistDao().update(artist);
+                artistDao.update(artist);
 
             } else {
                 LOGGER.info(Error.VALIDATION);
@@ -97,8 +108,8 @@ public class ArtistTableService implements ArtistService{
     public void delete(int id) throws ServiceException {
 
         try {
-            Artist artist = (Artist) SqlFactory.getArtistDao().getById(id);
-            SqlFactory.getArtistDao().delete(artist);
+            Artist artist = artistDao.getById(id);
+            artistDao.delete(artist);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -111,7 +122,7 @@ public class ArtistTableService implements ArtistService{
         List<Artist> artists = null;
 
         try {
-            artists = SqlFactory.getArtistDao().getAll();
+            artists = artistDao.getAll();
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);

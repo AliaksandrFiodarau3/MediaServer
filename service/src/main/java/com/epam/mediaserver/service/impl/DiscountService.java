@@ -2,13 +2,14 @@ package com.epam.mediaserver.service.impl;
 
 
 import com.epam.mediaserver.entity.Bonus;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DiscountService {
 
-    Bonus bonus = null;
+    private Bonus bonus = new Bonus();
 
-    public DiscountService(Bonus bonus) {
-        this.bonus = bonus;
+    public DiscountService() {
     }
 
     public double getPrice(double price) {

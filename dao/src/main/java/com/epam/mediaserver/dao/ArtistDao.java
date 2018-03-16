@@ -8,6 +8,7 @@ import com.epam.mediaserver.exeption.DAOException;
  * {@link Artist}
  */
 
+
 public interface ArtistDao {
 
 

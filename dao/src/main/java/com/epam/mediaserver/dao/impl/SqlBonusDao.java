@@ -9,6 +9,7 @@ import com.epam.mediaserver.exeption.ConnectionPoolException;
 import com.epam.mediaserver.exeption.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +21,8 @@ import java.sql.SQLException;
  * #AbstractModelDao extends for call CRUD commands for the MySQL db
  */
 
-public class SqlBonusDao extends AbstractModelDao implements BonusDao {
+@Repository
+public class SqlBonusDao extends AbstractModelDao<Bonus> implements BonusDao {
 
     private static final Logger LOGGER = LogManager.getLogger(SqlBonusDao.class);
 
@@ -67,9 +69,9 @@ public class SqlBonusDao extends AbstractModelDao implements BonusDao {
     }
 
     @Override
-    public int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
+    public int preparedStatementForCreate(Connection con, Bonus bonus, String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(query);
-        Bonus bonus = (Bonus) model;
+
         ps.setString(1, bonus.getTitle());
         ps.setString(2, bonus.getDescription());
         ps.setString(3, bonus.getCode());
@@ -91,9 +93,9 @@ public class SqlBonusDao extends AbstractModelDao implements BonusDao {
     }
 
     @Override
-    public int preparedStatementForDelete(Connection con, Model model, String query) throws SQLException {
+    public int preparedStatementForDelete(Connection con, Bonus model, String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(query);
-        Bonus bonus = (Bonus) model;
+        Bonus bonus = model;
 
         ps.setString(1, bonus.getTitle());
 
@@ -101,7 +103,7 @@ public class SqlBonusDao extends AbstractModelDao implements BonusDao {
     }
 
     @Override
-    public Model parseResult(ResultSet rs) throws SQLException {
+    public Bonus parseResult(ResultSet rs) throws SQLException {
         Bonus bonus = new Bonus();
 
         bonus.setId(rs.getInt(BONUS_ID));
@@ -124,7 +126,7 @@ public class SqlBonusDao extends AbstractModelDao implements BonusDao {
 
             Bonus bonus = null;
             if (rs.next()) {
-                bonus = (Bonus) parseResult(rs);
+                bonus = parseResult(rs);
             }
 
             return bonus;

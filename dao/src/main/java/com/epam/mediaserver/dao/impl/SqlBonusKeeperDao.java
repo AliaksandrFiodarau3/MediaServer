@@ -2,7 +2,6 @@ package com.epam.mediaserver.dao.impl;
 
 import com.epam.mediaserver.dao.AbstractModelDao;
 import com.epam.mediaserver.dao.BonusKeeperDao;
-import com.epam.mediaserver.dao.SqlFactory;
 import com.epam.mediaserver.dao.impl.pool.ConnectionPool;
 import com.epam.mediaserver.entity.Bonus;
 import com.epam.mediaserver.entity.BonusKeeper;
@@ -12,6 +11,8 @@ import com.epam.mediaserver.exeption.ConnectionPoolException;
 import com.epam.mediaserver.exeption.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,7 +26,15 @@ import java.util.List;
  * #AbstractModelDao extends for call CRUD commands for the MySQL db
  */
 
-public class SqlBonusKeeperDao extends AbstractModelDao implements BonusKeeperDao {
+@Repository
+public class SqlBonusKeeperDao extends AbstractModelDao<BonusKeeper> implements BonusKeeperDao {
+
+    @Autowired
+    private SqlBonusDao bonusDao;
+
+    @Autowired
+    private SqlUserDao userDao;
+
 
     private static final Logger LOGGER = LogManager.getLogger(SqlBonusKeeperDao.class);
 
@@ -66,7 +75,7 @@ public class SqlBonusKeeperDao extends AbstractModelDao implements BonusKeeperDa
     }
 
     @Override
-    protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForCreate(Connection con, BonusKeeper model, String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(query);
 
         BonusKeeper bonusKeeper = (BonusKeeper) model;
@@ -79,11 +88,12 @@ public class SqlBonusKeeperDao extends AbstractModelDao implements BonusKeeperDa
     @Override
     protected int preparedStatementForUpdate(Connection con, Model model, String query) throws SQLException {
 
-        return preparedStatementForCreate(con, model, query);
+        return preparedStatementForCreate(con, (BonusKeeper) model, query);
     }
 
+
     @Override
-    protected int preparedStatementForDelete(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForDelete(Connection con, BonusKeeper model, String query) throws SQLException {
 
         PreparedStatement ps = con.prepareStatement(query);
         BonusKeeper bonusKeeper = (BonusKeeper) model;
@@ -95,13 +105,12 @@ public class SqlBonusKeeperDao extends AbstractModelDao implements BonusKeeperDa
 
 
     @Override
-    protected Model parseResult(ResultSet rs) throws DAOException {
+    protected BonusKeeper parseResult(ResultSet rs) throws DAOException {
         BonusKeeper bonusKeeper = new BonusKeeper();
-        SqlFactory factory = SqlFactory.getInstance();
 
         try {
-            User user = (User) factory.getUserDao().getById(rs.getInt(USER_ID));
-            Bonus bonus = (Bonus) factory.getBonusDao().getById(rs.getInt(BONUS_ID));
+            User user = (User) userDao.getById(rs.getInt(USER_ID));
+            Bonus bonus = (Bonus) bonusDao.getById(rs.getInt(BONUS_ID));
             bonusKeeper.setBonus(bonus);
             bonusKeeper.setUser(user);
 

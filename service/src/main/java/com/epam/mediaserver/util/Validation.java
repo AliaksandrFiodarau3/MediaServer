@@ -1,7 +1,6 @@
 package com.epam.mediaserver.util;
 
 import com.epam.mediaserver.constant.Validate;
-import com.epam.mediaserver.exception.ValidateException;
 
 import java.sql.Time;
 import java.util.regex.Matcher;
@@ -116,7 +115,7 @@ public class Validation {
      * Validate form for authorization user
      */
 
-    public static boolean userCheck(String login, String password) {
+    public static boolean userCheck(String login, Long password) {
 
         if (login == null) {
             return false;
@@ -127,11 +126,6 @@ public class Validation {
             return false;
         }
         if (password == null) {
-            return false;
-        }
-
-        if (!checkField(Validate.FIELD_PASSWORD, password)) {
-
             return false;
         }
 

@@ -1,3 +1,4 @@
+/*
 package com.epam.mediaserver.service;
 
 import com.epam.mediaserver.service.impl.AlbumTableService;
@@ -15,7 +16,10 @@ public class ServiceFactory {
 
     private static ServiceFactory instance;
     private static AlbumTableService albumInstance;
+
     private static ArtistTableService artistInstance;
+
+
     private static BonusTableService bonusInstance;
     private static CommentService commentInstance;
     private static GenreTableService genreInstance;
@@ -120,3 +124,4 @@ public class ServiceFactory {
 
 
 }
+*/

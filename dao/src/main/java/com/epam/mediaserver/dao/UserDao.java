@@ -3,7 +3,7 @@ package com.epam.mediaserver.dao;
 import com.epam.mediaserver.entity.User;
 import com.epam.mediaserver.exeption.DAOException;
 
-public interface UserDao {
+public interface UserDao{
 
 
 

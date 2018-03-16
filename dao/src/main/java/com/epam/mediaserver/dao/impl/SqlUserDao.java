@@ -11,6 +11,7 @@ import com.epam.mediaserver.exeption.DAOException;
 import com.epam.mediaserver.exeption.PersistException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +20,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SqlUserDao extends AbstractModelDao implements UserDao {
+
+@Repository
+public class SqlUserDao extends AbstractModelDao<User> implements UserDao {
 
     private static final Logger LOGGER = LogManager.getLogger(SqlUserDao.class);
 
@@ -104,7 +107,7 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     }
 
     @Override
-    protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForCreate(Connection con, User model, String query) throws SQLException {
 
         PreparedStatement ps = con.prepareStatement(query);
 
@@ -137,7 +140,7 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     }
 
     @Override
-    protected int preparedStatementForDelete(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForDelete(Connection con, User model, String query) throws SQLException {
 
         PreparedStatement ps = con.prepareStatement(getDeleteQuery());
         User user = (User) model;
@@ -148,7 +151,7 @@ public class SqlUserDao extends AbstractModelDao implements UserDao {
     }
 
     @Override
-    protected Model parseResult(ResultSet rs) throws SQLException {
+    protected User parseResult(ResultSet rs) throws SQLException {
 
         User user = new User();
         user.setId(rs.getInt(USER_ID));

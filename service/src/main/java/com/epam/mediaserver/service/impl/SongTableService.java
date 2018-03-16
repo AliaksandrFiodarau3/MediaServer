@@ -2,7 +2,8 @@ package com.epam.mediaserver.service.impl;
 
 
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.dao.SqlFactory;
+import com.epam.mediaserver.dao.impl.SqlAlbumDao;
+import com.epam.mediaserver.dao.impl.SqlSongDao;
 import com.epam.mediaserver.entity.Song;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
@@ -10,20 +11,29 @@ import com.epam.mediaserver.exeption.DAOException;
 import com.epam.mediaserver.util.Validation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 import java.util.List;
 
+@Service
 public class SongTableService {
 
     private static final Logger LOGGER = LogManager.getLogger(SongTableService.class);
+
+    @Autowired
+    private SqlSongDao songDao;
+
+    @Autowired
+    private SqlAlbumDao albumDao;
 
     public Song getById(int id) throws ServiceException {
 
         Song song = null;
 
         try {
-            song = (Song) SqlFactory.getSongDao().getById(id);
+            song = songDao.getById(id);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -37,7 +47,7 @@ public class SongTableService {
         List<Song> songs = null;
 
         try {
-            songs = SqlFactory.getSongDao().getByAlbum(album);
+            songs = songDao.getByAlbum(album);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -55,11 +65,11 @@ public class SongTableService {
                 Song song = new Song();
 
                 song.setTitle(title);
-                song.setAlbum(SqlFactory.getAlbumDao().getByName(album));
+                song.setAlbum(albumDao.getByName(album));
                 song.setPrice(Integer.parseInt(price));
                 song.setDuration(Time.valueOf(duration));
 
-                SqlFactory.getSongDao().add(song);
+                songDao.add(song);
 
             } else {
                 LOGGER.info(Error.VALIDATION);
@@ -76,14 +86,14 @@ public class SongTableService {
         throws ServiceException, ValidateException {
 
         try {
-            Song song = (Song) SqlFactory.getSongDao().getById(id);
+            Song song = songDao.getById(id);
 
             if (Validation.songCheck(title, album, duration, price)) {
 
                 song.setTitle(title);
                 song.setDuration(Time.valueOf(duration));
                 song.setPrice(Integer.parseInt(price));
-                SqlFactory.getSongDao().update(song);
+                songDao.update(song);
 
             } else {
                 throw new ValidateException(Error.VALIDATION);
@@ -97,8 +107,8 @@ public class SongTableService {
     public void delete(int id) throws ServiceException {
 
         try {
-            Song song = (Song) SqlFactory.getSongDao().getById(id);
-            SqlFactory.getSongDao().delete(song);
+            Song song = songDao.getById(id);
+            songDao.delete(song);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -111,7 +121,7 @@ public class SongTableService {
         List<Song> songs = null;
 
         try {
-            songs = SqlFactory.getSongDao().getAll();
+            songs = songDao.getAll();
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);

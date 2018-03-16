@@ -1,5 +1,6 @@
 package com.epam.mediaserver.entity;
 
+
 public class Album extends Model {
 
     private Artist artist;

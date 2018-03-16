@@ -1,7 +1,10 @@
 package com.epam.mediaserver.service.impl;
 
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.dao.SqlFactory;
+import com.epam.mediaserver.dao.impl.SqlCommentDao;
+import com.epam.mediaserver.dao.impl.SqlGenreDao;
+import com.epam.mediaserver.dao.impl.SqlSongDao;
+import com.epam.mediaserver.dao.impl.SqlUserDao;
 import com.epam.mediaserver.entity.Comment;
 import com.epam.mediaserver.entity.Song;
 import com.epam.mediaserver.entity.User;
@@ -10,12 +13,27 @@ import com.epam.mediaserver.exeption.DAOException;
 import com.epam.mediaserver.service.CommentService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
+@Service
 public class CommentTableService implements CommentService{
+
+    @Autowired
+    private SqlGenreDao genreDao;
+
+    @Autowired
+    private SqlCommentDao commentDao;
+
+    @Autowired
+    private SqlSongDao songDao;
+
+    @Autowired
+    private SqlUserDao userDao;
 
     private static final Logger LOGGER = LogManager.getLogger(CommentTableService.class);
 
@@ -23,15 +41,15 @@ public class CommentTableService implements CommentService{
 
         try {
 
-            Song song = (Song) SqlFactory.getSongDao().getById(songId);
-            User user = SqlFactory.getUserDao().authorisation(userLogin);
+            Song song = songDao.getById(songId);
+            User user = userDao.authorisation(userLogin);
 
             Date date = new Date(System.currentTimeMillis());
             Time time = new Time(System.currentTimeMillis());
 
             Comment comment = new Comment(user, song, text, date, time);
 
-            SqlFactory.getCommentDao().add(comment);
+            commentDao.add(comment);
 
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
@@ -46,9 +64,9 @@ public class CommentTableService implements CommentService{
         List<Comment> comments = null;
 
         try {
-            song = (Song) SqlFactory.getSongDao().getById(Integer.parseInt(id));
+            song = (Song) songDao.getById(Integer.parseInt(id));
 
-            comments = SqlFactory.getCommentDao().getBySong(song.getTitle());
+            comments = commentDao.getBySong(song.getTitle());
 
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
@@ -64,7 +82,7 @@ public class CommentTableService implements CommentService{
         List<Comment> comments = null;
 
         try {
-            comments = SqlFactory.getCommentDao().getAll();
+            comments = commentDao.getAll();
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);

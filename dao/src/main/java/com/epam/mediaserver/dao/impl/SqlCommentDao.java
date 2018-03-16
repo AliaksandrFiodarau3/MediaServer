@@ -2,7 +2,6 @@ package com.epam.mediaserver.dao.impl;
 
 import com.epam.mediaserver.dao.AbstractModelDao;
 import com.epam.mediaserver.dao.CommentDao;
-import com.epam.mediaserver.dao.SqlFactory;
 import com.epam.mediaserver.dao.impl.pool.ConnectionPool;
 import com.epam.mediaserver.entity.Comment;
 import com.epam.mediaserver.entity.Model;
@@ -12,6 +11,8 @@ import com.epam.mediaserver.exeption.ConnectionPoolException;
 import com.epam.mediaserver.exeption.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,7 +26,14 @@ import java.util.List;
  * #AbstractModelDao extends for call CRUD commands for the MySQL db
  */
 
-public class SqlCommentDao extends AbstractModelDao implements CommentDao {
+@Repository
+public class SqlCommentDao extends AbstractModelDao<Comment> implements CommentDao {
+
+    @Autowired
+    private SqlUserDao userDao;
+
+    @Autowired
+    private SqlSongDao songDao;
 
     private static final Logger LOGGER = LogManager.getLogger(SqlCommentDao.class);
 
@@ -73,11 +81,12 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
         return DELETE_QUERY;
     }
 
+
+
     @Override
-    protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForCreate(Connection con, Comment comment, String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(query);
 
-        Comment comment = (Comment) model;
         ps.setString(1, comment.getCommentText());
         ps.setInt(2, comment.getUser().getId());
         ps.setInt(3, comment.getSong().getId());
@@ -90,23 +99,22 @@ public class SqlCommentDao extends AbstractModelDao implements CommentDao {
     @Override
     protected int preparedStatementForUpdate(Connection con, Model model, String query) throws SQLException {
 
+        return preparedStatementForCreate(con, (Comment) model, query);
+    }
+
+    @Override
+    protected int preparedStatementForDelete(Connection con, Comment model, String query) throws SQLException {
+
         return preparedStatementForCreate(con, model, query);
     }
 
     @Override
-    protected int preparedStatementForDelete(Connection con, Model model, String query) throws SQLException {
+    protected Comment parseResult(ResultSet rs) throws DAOException {
 
-        return preparedStatementForCreate(con, model, query);
-    }
-
-    @Override
-    protected Model parseResult(ResultSet rs) throws DAOException {
         Comment comment = new Comment();
-        SqlFactory factory = SqlFactory.getInstance();
-
         try {
-            User user = (User) factory.getUserDao().getById(rs.getInt(USER_ID));
-            Song song = (Song) factory.getSongDao().getById(rs.getInt(SONG_ID));
+            User user = userDao.getById(rs.getInt(USER_ID));
+            Song song = songDao.getById(rs.getInt(SONG_ID));
 
             comment.setId(rs.getInt(COMMENT_ID));
             comment.setSong(song);

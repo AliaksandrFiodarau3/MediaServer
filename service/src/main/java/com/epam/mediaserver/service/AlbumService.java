@@ -10,7 +10,7 @@ public interface AlbumService {
 
     Album getByName(String title) throws ServiceException;
 
-    List<Album> getByArtist(String artist) throws ServiceException;
+    List<Album> getByArtist(Long artistId) throws ServiceException;
 
     void add(String artist, String title, String year, String description, String image) throws ValidateException,
                                                                                                 ServiceException;

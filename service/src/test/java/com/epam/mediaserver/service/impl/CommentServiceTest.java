@@ -1,23 +1,18 @@
 package com.epam.mediaserver.service.impl;
 
-import com.epam.mediaserver.dao.impl.SqlCommentDao;
-import com.epam.mediaserver.entity.Comment;
-import com.epam.mediaserver.exception.ServiceException;
-import com.epam.mediaserver.exeption.DAOException;
-import com.epam.mediaserver.service.CommentService;
-import com.epam.mediaserver.service.ServiceFactory;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import com.epam.mediaserver.entity.Comment;
+import com.epam.mediaserver.exception.ServiceException;
+import com.epam.mediaserver.service.CommentService;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
 

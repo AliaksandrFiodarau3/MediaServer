@@ -3,6 +3,8 @@ package com.epam.mediaserver.dao.impl.pool;
 import com.epam.mediaserver.exeption.ConnectionPoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,18 +12,22 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 /**
  * ConnectionPool for SQL data base
  */
 
+@Repository
 public class ConnectionPool {
 
     private final static Logger LOGGER = LogManager.getLogger(ConnectionPool.class);
 
     private static final int DEFAULT_POOL_SIZE = 6;
 
-    private static ConnectionPool instance = new ConnectionPool();
+
+
 
     /**
      * Synchronized queue of prepared available connections
@@ -45,7 +51,8 @@ public class ConnectionPool {
      * Initialize database parameters
      */
 
-    private ConnectionPool() {
+    @Autowired
+    public ConnectionPool() {
 
         ResourceBundle resourceBundle = ResourceBundle.getBundle(DBParameter.DB);
 
@@ -61,10 +68,6 @@ public class ConnectionPool {
             poolSize = DEFAULT_POOL_SIZE;
             LOGGER.warn(e.getMessage(), e);
         }
-    }
-
-    public static final ConnectionPool getInstance() {
-        return instance;
     }
 
     public static BlockingQueue<Connection> getConnectionQueue() {
@@ -129,6 +132,7 @@ public class ConnectionPool {
      *                                 driver
      */
 
+    @PostConstruct
     public void initPoolDate() throws ConnectionPoolException {
 
         try {
@@ -154,6 +158,7 @@ public class ConnectionPool {
      * Dispose all created database connections
      */
 
+    @PreDestroy
     public void dispose() throws ConnectionPoolException {
         clearConnectionQueue();
     }

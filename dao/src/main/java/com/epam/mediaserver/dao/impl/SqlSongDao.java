@@ -2,7 +2,6 @@ package com.epam.mediaserver.dao.impl;
 
 import com.epam.mediaserver.dao.AbstractModelDao;
 import com.epam.mediaserver.dao.SongDao;
-import com.epam.mediaserver.dao.SqlFactory;
 import com.epam.mediaserver.dao.impl.pool.ConnectionPool;
 import com.epam.mediaserver.entity.Album;
 import com.epam.mediaserver.entity.Model;
@@ -11,6 +10,8 @@ import com.epam.mediaserver.exeption.ConnectionPoolException;
 import com.epam.mediaserver.exeption.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +25,11 @@ import java.util.List;
  * #AbstractModelDao extends for call CRUD commands for the MySQL db
  */
 
-public class SqlSongDao extends AbstractModelDao implements SongDao {
+@Repository
+public class SqlSongDao extends AbstractModelDao<Song> implements SongDao {
+
+    @Autowired
+    private SqlAlbumDao albumDao;
 
     private static final Logger LOGGER = LogManager.getLogger(SqlSongDao.class);
 
@@ -74,7 +79,7 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
     }
 
     @Override
-    protected int preparedStatementForCreate(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForCreate(Connection con, Song model, String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(query);
 
         Song song = (Song) model;
@@ -101,7 +106,7 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
     }
 
     @Override
-    protected int preparedStatementForDelete(Connection con, Model model, String query) throws SQLException {
+    protected int preparedStatementForDelete(Connection con, Song model, String query) throws SQLException {
         PreparedStatement ps = con.prepareStatement(getDeleteQuery());
 
         Song song = (Song) model;
@@ -111,16 +116,14 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
     }
 
     @Override
-    protected Model parseResult(ResultSet rs) throws DAOException {
+    protected Song parseResult(ResultSet rs) throws DAOException {
         Song song = new Song();
-
-        SqlFactory factory = SqlFactory.getInstance();
 
         try {
             int id = rs.getInt(SONG_ID);
             song.setId(id);
 
-            Album album = (Album) factory.getAlbumDao().getById(rs.getInt(ALBUM_ID));
+            Album album = albumDao.getById(rs.getInt(ALBUM_ID));
             song.setAlbum(album);
             song.setTitle(rs.getString(SONG_TITLE));
             song.setDuration(rs.getTime(SONG_DURATION));
@@ -171,7 +174,7 @@ public class SqlSongDao extends AbstractModelDao implements SongDao {
 
             Song song = null;
             if (rs.next()) {
-                song = (Song) parseResult(rs);
+                song = parseResult(rs);
             }
 
             return song;

@@ -1,7 +1,8 @@
 package com.epam.mediaserver.service.impl;
 
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.dao.SqlFactory;
+import com.epam.mediaserver.dao.impl.SqlOrderDao;
+import com.epam.mediaserver.dao.impl.SqlOrderSongDao;
 import com.epam.mediaserver.entity.Bonus;
 import com.epam.mediaserver.entity.Order;
 import com.epam.mediaserver.entity.OrderSong;
@@ -11,6 +12,8 @@ import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exeption.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -18,9 +21,17 @@ import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.Set;
 
+
+@Service
 public class OrderUserService {
 
     private static final Logger LOGGER = LogManager.getLogger(OrderUserService.class);
+
+    @Autowired
+    private SqlOrderDao orderDao;
+
+    @Autowired
+    private SqlOrderSongDao orderSongDao;
 
     DiscountService discount = null;
     Order order = null;
@@ -60,7 +71,7 @@ public class OrderUserService {
 
     public void addBonus(Bonus bonus) {
 
-        discount = new DiscountService(bonus);
+        discount = new DiscountService();
     }
 
     public Set<OrderSong> getAllGoodsInOrder() {
@@ -93,15 +104,15 @@ public class OrderUserService {
     public void saveOrder() throws ServiceException {
 
         try {
-            SqlFactory.getOrderDao().add(order);
+            orderDao.add(order);
 
-            Order orderNew = SqlFactory.getOrderDao().getByNumber(order.getNumber());
+            Order orderNew = orderDao.getByNumber(order.getNumber());
 
             for (OrderSong orderSong : songSet) {
 
                 orderSong.setOrder(orderNew);
 
-                SqlFactory.getOrderSongDao().add(orderSong);
+                orderSongDao.add(orderSong);
             }
 
         } catch (DAOException e) {
