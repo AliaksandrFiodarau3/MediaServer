@@ -12,7 +12,7 @@
                         <img src="{{image}}" class="img-thumbnail">
                     </center>
                     <center>
-                        <a href="#" class="btn btn-default" onclick=" commandShow('user/genres/{{id}}/artists', '#artistList');">
+                        <a href="#" class="btn btn-default" onclick="getMethod('user/genres/{{id}}/artists', '#artistList');">
                             <span class="glyphicon glyphicon-search"/></a>
                     </center>
                 </div>
@@ -23,7 +23,6 @@
                     <div class="card-text size">
                         <span class="text-muted">{{description}}</span>
                     </div>
-
                 </div>
             </div>
         </div>

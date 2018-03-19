@@ -85,7 +85,7 @@ public class SqlArtistDao extends AbstractModelDao<Artist> implements ArtistDao 
         PreparedStatement ps = con.prepareStatement(query);
 
         Artist artist =  model;
-        ps.setInt(1, artist.getGenre().getId());
+        ps.setLong(1, artist.getGenre().getId());
         ps.setString(2, artist.getDescription());
         ps.setString(3, artist.getImage());
         ps.setString(4, artist.getTitle());

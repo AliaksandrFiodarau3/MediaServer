@@ -14,7 +14,7 @@
                         </center>
                         <center>
                             <a href="#" class="btn btn-default"
-                               onclick="commandShow(
+                               onclick="getMethod(
                                     'user/genres/{{artist.genre.id}}/artists/{{artist.id}}/albums/{{id}}/songs',
                                     '#songTable');">
                                 <span class="glyphicon glyphicon-search"/></a>

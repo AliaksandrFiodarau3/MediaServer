@@ -79,8 +79,8 @@ public class SqlBonusKeeperDao extends AbstractModelDao<BonusKeeper> implements 
         PreparedStatement ps = con.prepareStatement(query);
 
         BonusKeeper bonusKeeper = (BonusKeeper) model;
-        ps.setInt(1, bonusKeeper.getBonus().getId());
-        ps.setInt(2, bonusKeeper.getUser().getId());
+        ps.setLong(1, bonusKeeper.getBonus().getId());
+        ps.setLong(2, bonusKeeper.getUser().getId());
 
         return ps.executeUpdate();
     }
@@ -98,7 +98,7 @@ public class SqlBonusKeeperDao extends AbstractModelDao<BonusKeeper> implements 
         PreparedStatement ps = con.prepareStatement(query);
         BonusKeeper bonusKeeper = (BonusKeeper) model;
 
-        ps.setInt(1, bonusKeeper.getUser().getId());
+        ps.setLong(1, bonusKeeper.getUser().getId());
 
         return ps.executeUpdate();
     }

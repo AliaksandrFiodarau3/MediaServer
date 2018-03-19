@@ -12,7 +12,7 @@ function addArtist() {
                url: "Controller",
                data: msg,
                success: function (data) {
-                   commandShow('show-genre', '#genre-list');
+                   ajaxRequest('show-genre', '#genre-list');
                },
                dataType: "text"
            });
@@ -39,7 +39,7 @@ function editArtist() {
                url: "Controller",
                data: msg,
                success: function () {
-                   commandShow('show-genre', '#genre-list');
+                   ajaxRequest('show-genre', '#genre-list');
                },
                dataType: "text"
            });
@@ -70,7 +70,7 @@ function deleteArtist(id) {
                    url: "Controller",
                    data: {command: "delete-artist", idArtist: id},
                    success: function (data) {
-                       commandShow('show-genre', '#genre-list');
+                       ajaxRequest('show-genre', '#genre-list');
                    },
                    dataType: "text"
                });

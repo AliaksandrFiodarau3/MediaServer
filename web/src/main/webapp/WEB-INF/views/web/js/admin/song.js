@@ -7,7 +7,7 @@ function addSong() {
                url: "Controller",
                data: msg,
                success: function () {
-                   commandShow('show-genre', '#genre-list');
+                   ajaxRequest('show-genre', '#genre-list');
                },
                dataType: "text"
            });

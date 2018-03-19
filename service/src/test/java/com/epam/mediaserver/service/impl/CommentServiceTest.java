@@ -1,4 +1,4 @@
-package com.epam.mediaserver.service.impl;
+/*package com.epam.mediaserver.service.impl;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -43,4 +43,4 @@ public class CommentServiceTest {
         assertThat(commentService.getAll().size(), equalTo(2));
     }
 
-}
+}*/

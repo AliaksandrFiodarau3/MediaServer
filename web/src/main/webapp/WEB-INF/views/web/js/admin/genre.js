@@ -6,7 +6,7 @@ function addGenre() {
                url: "Controller",
                data: msg,
                success: function () {
-                   commandShow('show-genre', '#genre-list');
+                   ajaxRequest('show-genre', '#genre-list');
                },
                error: function (xhr, error) {
                    console.debug(xhr);
@@ -51,7 +51,7 @@ function deleteGenre(id) {
                    url: "Controller",
                    data: {command: "delete-genre", idGenre: id},
                    success: function () {
-                       commandShow('show-genre', '#genre-list');
+                       ajaxRequest('show-genre', '#genre-list');
                    },
                    dataType: "text"
                });

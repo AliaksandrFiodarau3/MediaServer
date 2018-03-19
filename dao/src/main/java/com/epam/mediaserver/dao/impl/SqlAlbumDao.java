@@ -86,7 +86,7 @@ public class SqlAlbumDao extends AbstractModelDao<Album> implements AlbumDao {
 
         try (PreparedStatement ps = con.prepareStatement(query)) {
             Album album = (Album) model;
-            ps.setInt(1, album.getArtist().getId());
+            ps.setLong(1, album.getArtist().getId());
             ps.setInt(2, album.getYear());
             ps.setString(3, album.getDescription());
             ps.setString(4, album.getImage());

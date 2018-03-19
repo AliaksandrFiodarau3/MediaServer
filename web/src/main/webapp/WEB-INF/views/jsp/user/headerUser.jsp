@@ -2,7 +2,7 @@
     <div class="container">
         <ul class="navbar-left">
             <li>
-                <a href="#" onclick="commandShow('user/genres', '#genreList')"><img class="center navbar-brand" src="web/img/logo.png"></a>
+                <a href="#" onclick="getMethod('user/genres', '#genreList')"><img class="center navbar-brand" src="web/img/logo.png"></a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">

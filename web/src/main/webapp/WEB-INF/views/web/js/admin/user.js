@@ -39,7 +39,7 @@ function deleteUser(id) {
                    data: {command: "delete-user", idUser: id},
                    success: function (data) {
                        if (data === 'true') {
-                           commandShow('show-user', '#user-table');
+                           ajaxRequest('show-user', '#user-table');
                        } else {
                            console.log(data.toString());
                        }

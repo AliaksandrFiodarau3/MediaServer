@@ -121,4 +121,23 @@ public class UserController {
 
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "genres/{genreId}/artists/{artistId}/albums/{albumId}/songs/{songId}/addGood",
+        method = RequestMethod.POST)
+    public ResponseEntity<Map<String, List<Comment>>> addGood(
+        @PathVariable
+            long artistId,
+        @PathVariable
+            long genreId,
+        @PathVariable
+            long albumId,
+        @PathVariable
+            long songId) throws ServiceException {
+
+        Map<String, List<Comment>> comments = new HashMap<>(1);
+
+        comments.put("comments", commentService.getBySong(songId));
+
+        return new ResponseEntity<>(comments, HttpStatus.OK);
+    }
 }

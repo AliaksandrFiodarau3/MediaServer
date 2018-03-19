@@ -7,7 +7,7 @@ function addAlbum() {
                url: "Controller",
                data: msg,
                success: function () {
-                   commandShow('show-genre', '#genre-list');
+                   ajaxRequest('show-genre', '#genre-list');
                },
                dataType: "text"
            });
@@ -72,7 +72,7 @@ function deleteAlbum(id) {
                    url: "Controller",
                    data: {command: "delete-album", idAlbum: id},
                    success: function (data) {
-                       commandShow('show-genre', '#genre-list');
+                       ajaxRequest('show-genre', '#genre-list');
                    },
                    dataType: "text"
                });
@@ -86,7 +86,7 @@ function deleteSong(id) {
                    url: "Controller",
                    data: {command: "delete-song", idSong: id},
                    success: function (data) {
-                       commandShow('show-genre', '#genre-list');
+                       ajaxRequest('show-genre', '#genre-list');
                    },
                    dataType: "text"
                });

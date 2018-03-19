@@ -22,7 +22,10 @@
             <td class="text-center">{{duration}}</td>
             <td class="text-center">{{price}}</td>
             <td class="text-center">
-                <a id="showComments" class='btn btn-info btn-xs' href="#" onclick="showComments('{{id}}')">
+                <a id="showComments" class='btn btn-info btn-xs' href="#"
+                   onclick="getMethod(
+                   'user/genres/{{album.artist.genre.id}}/artists/{{album.artist.id}}/albums/{{album.id}}/songs/{{id}}/comments',
+                   '#commentsList')">
                     <span class="glyphicon  glyphicon-comment"></span><fmt:message key="admin.table.show"/>
                 </a>
                 <a id="addToCart" onclick="addGood('{{id}}')" href="#" class="btn  btn-info btn-xs">

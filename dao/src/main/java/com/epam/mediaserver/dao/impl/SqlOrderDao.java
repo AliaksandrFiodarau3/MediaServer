@@ -82,7 +82,7 @@ public class SqlOrderDao extends AbstractModelDao<Order> implements OrderDao {
 
         Order order = (Order) model;
 
-        ps.setInt(1, order.getUser().getId());
+        ps.setLong(1, order.getUser().getId());
         ps.setDouble(2, order.getPrice());
         ps.setTime(3, order.getTime());
         ps.setDate(4, order.getDate());
@@ -98,12 +98,12 @@ public class SqlOrderDao extends AbstractModelDao<Order> implements OrderDao {
 
         Order order = (Order) model;
 
-        ps.setInt(1, order.getUser().getId());
+        ps.setLong(1, order.getUser().getId());
         ps.setDouble(2, order.getPrice());
         ps.setTime(3, order.getTime());
         ps.setDate(4, order.getDate());
         ps.setInt(5, order.getNumber());
-        ps.setInt(6, order.getId());
+        ps.setLong(6, order.getId());
 
         return ps.executeUpdate();
     }
@@ -115,7 +115,7 @@ public class SqlOrderDao extends AbstractModelDao<Order> implements OrderDao {
 
         Order order = (Order) model;
 
-        ps.setInt(1, order.getId());
+        ps.setLong(1, order.getId());
 
         return ps.executeUpdate();
     }

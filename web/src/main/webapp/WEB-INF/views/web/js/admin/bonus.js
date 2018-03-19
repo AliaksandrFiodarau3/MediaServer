@@ -13,7 +13,7 @@ function addBonus() {
                        error.className = "has-error alert alert-danger";
                        error.innerHTML = data.toString();
                    }
-                   commandShow('show-bonus', '#bonus-table');
+                   ajaxRequest('show-bonus', '#bonus-table');
 
                },
                dataType: "text"
@@ -28,7 +28,7 @@ function deleteBonus(id) {
                    url: "Controller",
                    data: {command: "delete-bonus", idBonus: id},
                    success: function () {
-                       commandShow('show-bonus', '#bonus-table');
+                       ajaxRequest('show-bonus', '#bonus-table');
 
                    },
                    dataType: "text"

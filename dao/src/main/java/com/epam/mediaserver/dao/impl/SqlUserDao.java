@@ -196,11 +196,7 @@ public class SqlUserDao extends AbstractModelDao<User> implements UserDao {
     public User registration(String login, long password, String email, String name, String surname)
         throws DAOException {
 
-        User user =
-
-            new User(login, password, email, name, surname, false);
-
-
+        User user = new User(login, password, email, name, surname, false);
 
         add(user);
 
