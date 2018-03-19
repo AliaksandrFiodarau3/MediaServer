@@ -134,7 +134,7 @@ public class SqlUserDao extends AbstractModelDao<User> implements UserDao {
         ps.setString(4, user.getEmail());
         ps.setBoolean(5, user.isAdminRoot());
         ps.setString(6, user.getPhoto());
-        ps.setInt(7, user.getId());
+        ps.setLong(7, user.getId());
 
         return ps.executeUpdate();
     }
@@ -154,7 +154,7 @@ public class SqlUserDao extends AbstractModelDao<User> implements UserDao {
     protected User parseResult(ResultSet rs) throws SQLException {
 
         User user = new User();
-        user.setId(rs.getInt(USER_ID));
+        user.setId(rs.getLong(USER_ID));
         user.setLogin(rs.getString(USER_LOGIN));
         user.setPassword(rs.getLong(USER_PASSWORD));
         user.setName(rs.getString(USER_NAME));
@@ -196,7 +196,11 @@ public class SqlUserDao extends AbstractModelDao<User> implements UserDao {
     public User registration(String login, long password, String email, String name, String surname)
         throws DAOException {
 
-        User user = new User(login, password, email, name, surname, false);
+        User user =
+
+            new User(login, password, email, name, surname, false);
+
+
 
         add(user);
 

@@ -19,7 +19,7 @@ public interface SongDao {
      * @throws DAOException if database error was detected
      */
 
-    List<Song> getByAlbum(String album) throws DAOException;
+    List<Song> getByAlbum(Long album) throws DAOException;
 
     /**
      * Method add user photo in Data Base

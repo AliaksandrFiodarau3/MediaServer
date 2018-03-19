@@ -5,7 +5,6 @@ import com.epam.mediaserver.dao.OrderDao;
 import com.epam.mediaserver.dao.impl.pool.ConnectionPool;
 import com.epam.mediaserver.entity.Model;
 import com.epam.mediaserver.entity.Order;
-import com.epam.mediaserver.entity.User;
 import com.epam.mediaserver.exeption.ConnectionPoolException;
 import com.epam.mediaserver.exeption.DAOException;
 import org.apache.logging.log4j.LogManager;
@@ -132,7 +131,7 @@ public class SqlOrderDao extends AbstractModelDao<Order> implements OrderDao {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                order = (Order) parseResult(rs);
+                order = parseResult(rs);
             }
 
         } catch (ConnectionPoolException e) {
@@ -156,7 +155,7 @@ public class SqlOrderDao extends AbstractModelDao<Order> implements OrderDao {
 
             List<Order> list = new ArrayList<>();
             while (rs.next()) {
-                Order order = (Order) parseResult(rs);
+                Order order = parseResult(rs);
                 list.add(order);
             }
             return list;
@@ -178,9 +177,9 @@ public class SqlOrderDao extends AbstractModelDao<Order> implements OrderDao {
         Order order = new Order();
 
         try {
-            order.setId(rs.getInt(ORDER_ID));
+            order.setId(    rs.getLong(ORDER_ID));
             order.setNumber(rs.getInt(ORDER_NUMBER));
-            order.setUser((User) userDao.getById(rs.getInt(USER_ID)));
+            order.setUser(userDao.getById(rs.getLong(USER_ID)));
             order.setPrice(rs.getDouble(ORDER_PRICE));
             order.setTime(rs.getTime(ORDER_TIME));
             order.setDate(rs.getDate(ORDER_DATE));

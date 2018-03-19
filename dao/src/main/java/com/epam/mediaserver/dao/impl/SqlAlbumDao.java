@@ -122,8 +122,8 @@ public class SqlAlbumDao extends AbstractModelDao<Album> implements AlbumDao {
         Album album = new Album();
 
         try {
-            album.setId(rs.getInt(ALBUM_ID));
-            Artist artist = artistDao.getById(rs.getInt(ARTIST_ID));
+            album.setId(rs.getLong(ALBUM_ID));
+            Artist artist = artistDao.getById(rs.getLong(ARTIST_ID));
             album.setArtist(artist);
             album.setYear(rs.getInt(ALBUM_YEAR));
             album.setTitle(rs.getString(ALBUM_TITLE));

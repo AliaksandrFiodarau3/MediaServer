@@ -33,7 +33,7 @@ public class GoodTableService {
         return goods;
     }
 
-    public void delete(int idGood) throws ServiceException {
+    public void delete(Long idGood) throws ServiceException {
 
         try {
             OrderSong good = orderSongDao.getById(idGood);

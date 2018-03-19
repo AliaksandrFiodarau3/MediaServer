@@ -109,8 +109,8 @@ public class SqlBonusKeeperDao extends AbstractModelDao<BonusKeeper> implements 
         BonusKeeper bonusKeeper = new BonusKeeper();
 
         try {
-            User user = (User) userDao.getById(rs.getInt(USER_ID));
-            Bonus bonus = (Bonus) bonusDao.getById(rs.getInt(BONUS_ID));
+            User user = (User) userDao.getById(    rs.getLong(USER_ID));
+            Bonus bonus = (Bonus) bonusDao.getById(rs.getLong(BONUS_ID));
             bonusKeeper.setBonus(bonus);
             bonusKeeper.setUser(user);
 

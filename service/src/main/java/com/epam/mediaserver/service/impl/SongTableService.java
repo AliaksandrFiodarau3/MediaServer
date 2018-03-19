@@ -28,7 +28,7 @@ public class SongTableService {
     @Autowired
     private SqlAlbumDao albumDao;
 
-    public Song getById(int id) throws ServiceException {
+    public Song getById(Long id) throws ServiceException {
 
         Song song = null;
 
@@ -43,11 +43,11 @@ public class SongTableService {
     }
 
 
-    public List<Song> getByAlbum(String album) throws ServiceException {
+    public List<Song> getByAlbum(Long albumId) throws ServiceException {
         List<Song> songs = null;
 
         try {
-            songs = songDao.getByAlbum(album);
+            songs = songDao.getByAlbum(albumId);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -82,7 +82,7 @@ public class SongTableService {
     }
 
 
-    public void edit(int id, String title, String album, String duration, String price)
+    public void edit(Long id, String title, String album, String duration, String price)
         throws ServiceException, ValidateException {
 
         try {
@@ -104,7 +104,7 @@ public class SongTableService {
         }
     }
 
-    public void delete(int id) throws ServiceException {
+    public void delete(Long id) throws ServiceException {
 
         try {
             Song song = songDao.getById(id);

@@ -139,7 +139,7 @@ public class UserTableService {
     }
 
 
-    public void edit(int id, String login, String name, String surname, String email, boolean isRoot)
+    public void edit(Long id, String login, String name, String surname, String email, boolean isRoot)
         throws ServiceException, ValidateException {
 
         User user = getById(id);
@@ -163,7 +163,7 @@ public class UserTableService {
         }
     }
 
-    public void editPhoto(int id, String photo) throws ServiceException, ValidateException {
+    public void editPhoto(Long id, String photo) throws ServiceException, ValidateException {
 
         try {
             User user = userDao.getById(id);
@@ -180,7 +180,7 @@ public class UserTableService {
     }
 
 
-    public void delete(int id) throws ServiceException {
+    public void delete(Long id) throws ServiceException {
 
         try {
             User user = userDao.getById(id);
@@ -191,7 +191,7 @@ public class UserTableService {
         }
     }
 
-    public User getById(int id) throws ServiceException {
+    public User getById(Long id) throws ServiceException {
 
         User user = null;
 

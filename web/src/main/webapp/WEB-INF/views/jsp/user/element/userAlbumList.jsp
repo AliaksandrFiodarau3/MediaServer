@@ -13,7 +13,10 @@
                             <img src="{{image}}" class="img-thumbnail">
                         </center>
                         <center>
-                            <a href="#" class="btn btn-default" onclick=" commandShow('user/genres/{{}}/artist/{{id}}/albums', '#genreList');">
+                            <a href="#" class="btn btn-default"
+                               onclick="commandShow(
+                                    'user/genres/{{artist.genre.id}}/artists/{{artist.id}}/albums/{{id}}/songs',
+                                    '#songTable');">
                                 <span class="glyphicon glyphicon-search"/></a>
                         </center>
                     </div>

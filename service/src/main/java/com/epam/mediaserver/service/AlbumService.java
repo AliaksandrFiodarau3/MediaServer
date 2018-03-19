@@ -16,10 +16,10 @@ public interface AlbumService {
                                                                                                 ServiceException;
 
 
-    void edit(int id, String title, String artist, String year, String description, String image)
+    void edit(Long id, String title, String artist, String year, String description, String image)
      throws ServiceException, ValidateException;
 
-    void delete(int id) throws ServiceException;
+    void delete(Long id) throws ServiceException;
 
     List<Album> getAll() throws ServiceException;
 

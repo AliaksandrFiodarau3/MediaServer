@@ -88,8 +88,8 @@ public class SqlCommentDao extends AbstractModelDao<Comment> implements CommentD
         PreparedStatement ps = con.prepareStatement(query);
 
         ps.setString(1, comment.getCommentText());
-        ps.setInt(2, comment.getUser().getId());
-        ps.setInt(3, comment.getSong().getId());
+        ps.setLong(2, comment.getUser().getId());
+        ps.setLong(3, comment.getSong().getId());
         ps.setTime(4, comment.getCommentTime());
         ps.setDate(5, comment.getCommentDate());
 
@@ -113,10 +113,10 @@ public class SqlCommentDao extends AbstractModelDao<Comment> implements CommentD
 
         Comment comment = new Comment();
         try {
-            User user = userDao.getById(rs.getInt(USER_ID));
-            Song song = songDao.getById(rs.getInt(SONG_ID));
+            User user = userDao.getById(rs.getLong(USER_ID));
+            Song song = songDao.getById(rs.getLong(SONG_ID));
 
-            comment.setId(rs.getInt(COMMENT_ID));
+            comment.setId(rs.getLong(COMMENT_ID));
             comment.setSong(song);
             comment.setUser(user);
             comment.setCommentText(rs.getString(COMMENT_TEXT));

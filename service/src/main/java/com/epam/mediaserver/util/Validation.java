@@ -68,7 +68,7 @@ public class Validation {
      */
 
 
-    public static boolean userCheck(int id, String login, String name, String surname, String email) {
+    public static boolean userCheck(Long id, String login, String name, String surname, String email) {
 
         if (id <= 0) {
             return false;

@@ -37,7 +37,8 @@ public class CommentTableService implements CommentService{
 
     private static final Logger LOGGER = LogManager.getLogger(CommentTableService.class);
 
-    public void add(int songId, String userLogin, String text) throws ServiceException {
+    @Override
+    public void add(Long songId, String userLogin, String text) throws ServiceException {
 
         try {
 
@@ -58,14 +59,13 @@ public class CommentTableService implements CommentService{
 
     }
 
-    public List<Comment> getBySong(String id) throws ServiceException {
+    public List<Comment> getBySong(Long songId) throws ServiceException {
 
-        Song song = null;
         List<Comment> comments = null;
 
         try {
-            song = (Song) songDao.getById(Integer.parseInt(id));
 
+            Song  song =  songDao.getById(songId);
             comments = commentDao.getBySong(song.getTitle());
 
         } catch (DAOException e) {

@@ -88,7 +88,7 @@ public class AlbumTableService implements AlbumService {
     }
 
 
-    public void edit(int id, String title, String artist, String year, String description, String image)
+    public void edit(Long id, String title, String artist, String year, String description, String image)
         throws ServiceException, ValidateException {
 
         try {
@@ -114,7 +114,7 @@ public class AlbumTableService implements AlbumService {
         }
     }
 
-    public void delete(int id) throws ServiceException {
+    public void delete(Long id) throws ServiceException {
 
         try {
             Album album = (Album) albumDao.getById(id);

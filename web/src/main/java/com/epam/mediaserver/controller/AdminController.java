@@ -12,9 +12,6 @@ public class AdminController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String homePage() {
-
-
-
         return "admin";
     }
 

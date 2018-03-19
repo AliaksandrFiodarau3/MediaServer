@@ -124,8 +124,8 @@ public class SqlArtistDao extends AbstractModelDao<Artist> implements ArtistDao 
 
 
         try {
-            artist.setId(rs.getInt(ARTIST_ID));
-            Genre genre = genreDao.getById(rs.getInt(GENRE_ID));
+            artist.setId(rs.getLong(ARTIST_ID));
+            Genre genre = genreDao.getById(rs.getLong(GENRE_ID));
             artist.setGenre(genre);
             artist.setTitle(rs.getString(ARTIST_TITLE));
             artist.setDescription(rs.getString(ARTIST_DESCRIPTION));

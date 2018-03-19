@@ -134,16 +134,16 @@ public abstract class AbstractModelDao<T extends Model> {
     /**
      * Find field in table by ID
      *
-     * @param id unique ID in the table
+     * @param songId unique ID in the table
      */
 
-    public T getById(int id) throws DAOException {
+    public T getById(Long songId) throws DAOException {
 
         T model = null;
         try (Connection con = ConnectionPool.takeConnection();
              PreparedStatement ps = con.prepareStatement(getSelectQueryWithID())) {
 
-            ps.setInt(1, id);
+            ps.setLong(1, songId);
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {

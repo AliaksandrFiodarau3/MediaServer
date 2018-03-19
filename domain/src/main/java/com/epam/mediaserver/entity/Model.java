@@ -1,23 +1,24 @@
 package com.epam.mediaserver.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Model implements Serializable, Cloneable {
 
-    protected int id;
+    protected Long id;
 
     public Model() {
     }
 
-    public Model(int id) {
+    public Model(Long id) {
         this.id = id;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -37,7 +38,8 @@ public class Model implements Serializable, Cloneable {
 
     @Override
     public int hashCode() {
-        return getId();
+
+        return Objects.hash(id);
     }
 
     @Override

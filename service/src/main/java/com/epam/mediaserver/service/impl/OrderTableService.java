@@ -58,7 +58,7 @@ public class OrderTableService {
 
     }
 
-    public void edit(int id, double price, String user, int number) throws ServiceException, ValidateException {
+    public void edit(Long id, double price, String user, int number) throws ServiceException, ValidateException {
 
         try {
             Order order = orderDao.getById(id);
@@ -82,7 +82,7 @@ public class OrderTableService {
     }
 
 
-    public void delete(int id) throws ServiceException {
+    public void delete(Long id) throws ServiceException {
 
         try {
             Order order = orderDao.getById(id);
@@ -93,7 +93,7 @@ public class OrderTableService {
         }
     }
 
-    public Order getById(int id) throws ServiceException {
+    public Order getById(Long id) throws ServiceException {
 
         Order order = null;
 

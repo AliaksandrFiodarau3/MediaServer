@@ -15,10 +15,10 @@ public interface ArtistService {
     void add(String title, String genre, String description, String image)
      throws ValidateException, ServiceException ;
 
-    void edit(int id, String title, String description, String image)
+    void edit(Long id, String title, String description, String image)
      throws ServiceException, ValidateException;
 
-    void delete(int id) throws ServiceException ;
+    void delete(Long id) throws ServiceException ;
 
     List<Artist> getAll() throws ServiceException ;
 

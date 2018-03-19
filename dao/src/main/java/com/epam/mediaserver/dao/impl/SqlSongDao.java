@@ -42,9 +42,7 @@ public class SqlSongDao extends AbstractModelDao<Song> implements SongDao {
         UPDATE_QUERY =
         "update t_song set album_id = ?, song_duration = ? ,song_price = ?, song_title = ? where song_id = ?;";
     private static final String DELETE_QUERY = "DELETE FROM t_song WHERE song_id = ?;";
-    private static final String
-        BY_ALBUM_QUERY =
-        "SELECT * FROM t_song WHERE album_id = (SELECT album_id FROM t_album WHERE album_title = ?);";
+    private static final String BY_ALBUM_QUERY = "SELECT * FROM t_song WHERE album_id = ?";
     private static final String BY_NAME_QUERY = "SELECT * FROM t_song WHERE song_title = ?;";
 
     private static final String SONG_ID = "song_id";
@@ -123,7 +121,7 @@ public class SqlSongDao extends AbstractModelDao<Song> implements SongDao {
             int id = rs.getInt(SONG_ID);
             song.setId(id);
 
-            Album album = albumDao.getById(rs.getInt(ALBUM_ID));
+            Album album = albumDao.getById(rs.getLong(ALBUM_ID));
             song.setAlbum(album);
             song.setTitle(rs.getString(SONG_TITLE));
             song.setDuration(rs.getTime(SONG_DURATION));
@@ -138,12 +136,12 @@ public class SqlSongDao extends AbstractModelDao<Song> implements SongDao {
 
 
     @Override
-    public List<Song> getByAlbum(String album) throws DAOException {
+    public List<Song> getByAlbum(Long albumId) throws DAOException {
 
         try (Connection con = ConnectionPool.takeConnection();
              PreparedStatement ps = con.prepareStatement(BY_ALBUM_QUERY);) {
 
-            ps.setString(1, album);
+            ps.setLong(1, albumId);
             ResultSet rs = ps.executeQuery();
 
             List<Song> list = new ArrayList<>();

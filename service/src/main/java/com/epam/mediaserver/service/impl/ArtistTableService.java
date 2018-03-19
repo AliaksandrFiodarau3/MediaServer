@@ -82,7 +82,7 @@ public class ArtistTableService implements ArtistService{
 
     }
 
-    public void edit(int id, String title, String description, String image)
+    public void edit(Long id, String title, String description, String image)
         throws ServiceException, ValidateException {
 
         try {
@@ -105,7 +105,7 @@ public class ArtistTableService implements ArtistService{
         }
     }
 
-    public void delete(int id) throws ServiceException {
+    public void delete(Long id) throws ServiceException {
 
         try {
             Artist artist = artistDao.getById(id);

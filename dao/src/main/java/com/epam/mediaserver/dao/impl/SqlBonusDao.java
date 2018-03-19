@@ -106,7 +106,7 @@ public class SqlBonusDao extends AbstractModelDao<Bonus> implements BonusDao {
     public Bonus parseResult(ResultSet rs) throws SQLException {
         Bonus bonus = new Bonus();
 
-        bonus.setId(rs.getInt(BONUS_ID));
+        bonus.setId(rs.getLong(BONUS_ID));
         bonus.setTitle(rs.getString(BONUS_TITLE));
         bonus.setDescription(rs.getString(BONUS_DESCRIPTION));
         bonus.setDiscount(rs.getInt(BONUS_DISCOUNT));
