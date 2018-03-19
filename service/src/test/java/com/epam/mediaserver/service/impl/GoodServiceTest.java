@@ -27,7 +27,7 @@ class GoodServiceTest {
 
     @Test
     public void delete() throws ServiceException {
-        verify(goodTableService, times(1)).delete(15);
+        verify(goodTableService, times(1)).delete(15L);
 
     }
 

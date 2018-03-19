@@ -23,10 +23,6 @@ public class UserTableService {
     @Autowired
     private SqlUserDao userDao;
 
-   /* @Autowired
-    private UserTableService userService;*/
-
-
     public User signUp(String login, String password, String name, String surname, String email)
         throws  ServiceException {
 
@@ -38,7 +34,7 @@ public class UserTableService {
         User account = new User();
 
         account.setLogin(login);
-        account.setPassword(password.hashCode());
+        account.setPassword(String.valueOf(password.hashCode()));
         account.setName(name);
         account.setSurname(surname);
         account.setEmail(email);
@@ -90,10 +86,8 @@ public class UserTableService {
             throw new ServiceException(Error.VALIDATION);
         } else {
             account = getByLogin(login);
-            if (!account.getLogin().equals(login) || !(account.getPassword() == password)) {
-                System.out.println(!account.getLogin().equals(login));
-                System.out.println(!(account.getPassword() == password));
 
+            if (!account.getLogin().equals(login) || !(account.getPassword().equals(String.valueOf(password.hashCode())))) {
                 LOGGER.info(Error.PASSWORD_INCORRECT);
                 throw new ServiceException(Error.PASSWORD_INCORRECT);
             }
@@ -113,7 +107,7 @@ public class UserTableService {
         User account = new User();
 
         account.setLogin(login);
-        account.setPassword(password.hashCode());
+        account.setPassword(String.valueOf(password.hashCode()));
         account.setName(name);
         account.setSurname(surname);
         account.setEmail(email);

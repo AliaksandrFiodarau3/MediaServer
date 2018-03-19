@@ -1,5 +1,6 @@
 package com.epam.mediaserver.service.impl;
 
+import com.epam.mediaserver.builder.BuilderFactory;
 import com.epam.mediaserver.constant.Error;
 import com.epam.mediaserver.dao.impl.SqlOrderDao;
 import com.epam.mediaserver.dao.impl.SqlUserDao;
@@ -13,8 +14,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.List;
 
 @Service
@@ -34,18 +33,11 @@ public class OrderTableService {
         try {
             if (Validation.orderCheck(price, user)) {
 
-                Order order = new Order();
-
-                order.setPrice(price);
-                order.setUser(userDao.authorisation(user));
-
-                Date date = new Date(System.currentTimeMillis());
-                order.setDate(date);
-
-                Time time = new Time(System.currentTimeMillis());
-                order.setTime(time);
-
-                orderDao.add(order);
+                orderDao.add(
+                    BuilderFactory.getOrderBuilder()
+                        .setPrice(price)
+                        .setUser(userDao.authorisation(user))
+                        .build());
 
             } else {
                 LOGGER.info(Error.VALIDATION);
@@ -95,7 +87,7 @@ public class OrderTableService {
 
     public Order getById(Long id) throws ServiceException {
 
-        Order order = null;
+        Order order;
 
         try {
             order = orderDao.getById(id);
@@ -107,9 +99,9 @@ public class OrderTableService {
 
     }
 
-    public List<Order> getByUser(int id) throws ServiceException {
+    public List<Order> getByUser(Long id) throws ServiceException {
 
-        List<Order> orders = null;
+        List<Order> orders;
 
         try {
             orders = orderDao.getByUser(id);
@@ -123,7 +115,7 @@ public class OrderTableService {
 
     public List<Order> getAll() throws ServiceException {
 
-        List<Order> orders = null;
+        List<Order> orders;
 
         try {
             orders = orderDao.getAll();

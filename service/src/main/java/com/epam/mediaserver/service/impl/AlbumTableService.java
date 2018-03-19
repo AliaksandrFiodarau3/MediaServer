@@ -27,12 +27,6 @@ public class AlbumTableService implements AlbumService {
     @Autowired
     private SqlArtistDao artistDao;
 
-   /* @Autowired
-    public AlbumTableService(SqlAlbumDao sqlAlbumDao, SqlArtistDao sqlArtistDao) {
-        this.albumDao = sqlAlbumDao;
-        this.artistDao = sqlArtistDao;
-    }*/
-
     private static final Logger LOGGER = LogManager.getLogger(AlbumTableService.class);
 
 
@@ -65,9 +59,9 @@ public class AlbumTableService implements AlbumService {
     }
 
     public void add(String artist, String title, String year, String description, String image)
-        throws ValidateException, ServiceException {
+        throws ServiceException, ValidateException {
         try {
-            if (Validation.albumCheck(title, year, description, image)) {
+            if (Validation.albumCheck(year)) {
                 Album album = new Album();
                 album.setArtist(artistDao.getByName(artist));
                 album.setTitle(title);
@@ -94,7 +88,7 @@ public class AlbumTableService implements AlbumService {
         try {
             Album album =  albumDao.getById(id);
 
-            if (Validation.albumCheck(title, year, description, image)) {
+            if (Validation.albumCheck(year)) {
 
                 album.setTitle(title);
                 album.setYear(Integer.parseInt(year));

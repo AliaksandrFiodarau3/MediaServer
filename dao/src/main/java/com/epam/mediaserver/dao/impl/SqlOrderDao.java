@@ -1,5 +1,6 @@
 package com.epam.mediaserver.dao.impl;
 
+import com.epam.mediaserver.builder.BuilderFactory;
 import com.epam.mediaserver.dao.AbstractModelDao;
 import com.epam.mediaserver.dao.OrderDao;
 import com.epam.mediaserver.dao.impl.pool.ConnectionPool;
@@ -102,7 +103,7 @@ public class SqlOrderDao extends AbstractModelDao<Order> implements OrderDao {
         ps.setDouble(2, order.getPrice());
         ps.setTime(3, order.getTime());
         ps.setDate(4, order.getDate());
-        ps.setInt(5, order.getNumber());
+        ps.setLong(5, order.getNumber());
         ps.setLong(6, order.getId());
 
         return ps.executeUpdate();
@@ -145,12 +146,12 @@ public class SqlOrderDao extends AbstractModelDao<Order> implements OrderDao {
         return order;
     }
 
-    public List<Order> getByUser(int userId) throws DAOException {
+    public List<Order> getByUser(Long userId) throws DAOException {
 
         try (Connection con = ConnectionPool.takeConnection();
              PreparedStatement ps = con.prepareStatement(SELECT_QUERY_BY_USER)) {
 
-            ps.setInt(1, userId);
+            ps.setLong(1, userId);
             ResultSet rs = ps.executeQuery();
 
             List<Order> list = new ArrayList<>();
@@ -174,20 +175,22 @@ public class SqlOrderDao extends AbstractModelDao<Order> implements OrderDao {
 
     @Override
     protected Order parseResult(ResultSet rs) throws DAOException {
-        Order order = new Order();
 
         try {
-            order.setId(    rs.getLong(ORDER_ID));
-            order.setNumber(rs.getInt(ORDER_NUMBER));
-            order.setUser(userDao.getById(rs.getLong(USER_ID)));
-            order.setPrice(rs.getDouble(ORDER_PRICE));
-            order.setTime(rs.getTime(ORDER_TIME));
-            order.setDate(rs.getDate(ORDER_DATE));
+            return BuilderFactory.getOrderBuilder()
+                .setId(rs.getLong(ORDER_ID))
+                .setNumber(rs.getInt(ORDER_NUMBER))
+                .setUser(userDao.getById(rs.getLong(USER_ID)))
+                .setPrice(rs.getDouble(ORDER_PRICE))
+                .setData(rs.getDate(ORDER_DATE))
+                .setTime(rs.getTime(ORDER_TIME))
+                .build();
+
         } catch (SQLException e) {
             LOGGER.error("SQL Exception");
             throw new DAOException("SQL Exception");
         }
 
-        return order;
+
     }
 }

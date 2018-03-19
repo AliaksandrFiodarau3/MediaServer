@@ -138,8 +138,9 @@ public class SqlOrderSongDao extends AbstractModelDao<OrderSong> implements Orde
 
         try {
             orderSong.setId(rs.getLong(ORDER_SONG_ID));
-            orderSong.setSong((Song) songDao.getById(   rs.getLong(SONG_ID)));
-            orderSong.setOrder((Order) orderDao.getById(rs.getLong(ORDER_ID)));
+            orderSong.setSong( songDao.getById(   rs.getLong(SONG_ID)));
+            orderSong.setOrder(orderDao.getById(rs.getLong(ORDER_ID)));
+
 
         } catch (SQLException e) {
             LOGGER.error("SQL Exception");

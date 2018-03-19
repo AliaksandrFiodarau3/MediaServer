@@ -1,5 +1,6 @@
 package com.epam.mediaserver.dao.impl;
 
+import com.epam.mediaserver.builder.BuilderFactory;
 import com.epam.mediaserver.dao.AbstractModelDao;
 import com.epam.mediaserver.dao.CommentDao;
 import com.epam.mediaserver.dao.impl.pool.ConnectionPool;
@@ -111,19 +112,18 @@ public class SqlCommentDao extends AbstractModelDao<Comment> implements CommentD
     @Override
     protected Comment parseResult(ResultSet rs) throws DAOException {
 
-        Comment comment = new Comment();
         try {
             User user = userDao.getById(rs.getLong(USER_ID));
             Song song = songDao.getById(rs.getLong(SONG_ID));
 
-            comment.setId(rs.getLong(COMMENT_ID));
-            comment.setSong(song);
-            comment.setUser(user);
-            comment.setCommentText(rs.getString(COMMENT_TEXT));
-            comment.setCommentTime(rs.getTime(COMMENT_TIME));
-            comment.setCommentDate(rs.getDate(COMMENT_DATE));
-
-            return comment;
+            return BuilderFactory.getCommentBuilder()
+                .setId(rs.getLong(COMMENT_ID))
+                .setSong(song)
+                .setUser(user)
+                .setCommentText(rs.getString(COMMENT_TEXT))
+                .setTime(rs.getTime(COMMENT_TIME))
+                .setData(rs.getDate(COMMENT_DATE))
+                .build();
 
         } catch (SQLException e) {
             LOGGER.error("SQL Exception");
@@ -136,7 +136,7 @@ public class SqlCommentDao extends AbstractModelDao<Comment> implements CommentD
     public List<Comment> getBySong(String song) throws DAOException {
 
         try (Connection con = ConnectionPool.takeConnection();
-             PreparedStatement ps = con.prepareStatement(BY_COMMENT_QUERY);) {
+             PreparedStatement ps = con.prepareStatement(BY_COMMENT_QUERY)) {
 
             ps.setString(1, song);
             ResultSet rs = ps.executeQuery();

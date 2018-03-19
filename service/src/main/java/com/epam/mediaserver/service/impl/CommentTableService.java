@@ -21,7 +21,7 @@ import java.sql.Time;
 import java.util.List;
 
 @Service
-public class CommentTableService implements CommentService{
+public class CommentTableService implements CommentService {
 
     @Autowired
     private SqlGenreDao genreDao;
@@ -36,6 +36,7 @@ public class CommentTableService implements CommentService{
     private SqlUserDao userDao;
 
     private static final Logger LOGGER = LogManager.getLogger(CommentTableService.class);
+
 
     @Override
     public void add(Long songId, String userLogin, String text) throws ServiceException {
@@ -61,20 +62,14 @@ public class CommentTableService implements CommentService{
 
     public List<Comment> getBySong(Long songId) throws ServiceException {
 
-        List<Comment> comments = null;
-
         try {
-
-            Song  song =  songDao.getById(songId);
-            comments = commentDao.getBySong(song.getTitle());
+            Song song = songDao.getById(songId);
+            return commentDao.getBySong(song.getTitle());
 
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
         }
-
-        return comments;
-
     }
 
     public List<Comment> getAll() throws ServiceException {

@@ -1,49 +1,16 @@
 package com.epam.mediaserver.entity;
 
+import java.util.Objects;
 public class User extends Model {
 
     private String login;
-    private long password;
+    private String password;
     private String name;
     private String surname;
     private String email;
     private String photo;
-    private boolean adminRoot = false;
 
-    public User() {
-    }
-
-    public User(Long id, String login, long password, String name, String surname, String email, String photo,
-                boolean adminRoot) {
-        super(id);
-        this.login = login;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.photo = photo;
-        this.adminRoot = adminRoot;
-    }
-
-    public User(String login, long password, String name, String surname, String email, boolean adminRoot) {
-        this.login = login;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.adminRoot = adminRoot;
-    }
-
-    public User(String login, long password, String name, String surname, String email, String photo,
-                boolean adminRoot) {
-        this.login = login;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.photo = photo;
-        this.adminRoot = adminRoot;
-    }
+    private Boolean adminRoot = false;
 
     public String getLogin() {
         return login;
@@ -53,11 +20,11 @@ public class User extends Model {
         this.login = login;
     }
 
-    public long getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(long password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -93,11 +60,11 @@ public class User extends Model {
         this.photo = photo;
     }
 
-    public boolean isAdminRoot() {
+    public Boolean getAdminRoot() {
         return adminRoot;
     }
 
-    public void setAdminRoot(boolean adminRoot) {
+    public void setAdminRoot(Boolean adminRoot) {
         this.adminRoot = adminRoot;
     }
 
@@ -106,43 +73,26 @@ public class User extends Model {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof User)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
+        if (!super.equals(o)) {
+            return false;
+        }
         User user = (User) o;
-
-        if (getPassword() != user.getPassword()) {
-            return false;
-        }
-        if (isAdminRoot() != user.isAdminRoot()) {
-            return false;
-        }
-        if (getLogin() != null ? !getLogin().equals(user.getLogin()) : user.getLogin() != null) {
-            return false;
-        }
-        if (getName() != null ? !getName().equals(user.getName()) : user.getName() != null) {
-            return false;
-        }
-        if (getSurname() != null ? !getSurname().equals(user.getSurname()) : user.getSurname() != null) {
-            return false;
-        }
-        if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null) {
-            return false;
-        }
-        return getPhoto() != null ? getPhoto().equals(user.getPhoto()) : user.getPhoto() == null;
+        return Objects.equals(login, user.login) &&
+               Objects.equals(password, user.password) &&
+               Objects.equals(name, user.name) &&
+               Objects.equals(surname, user.surname) &&
+               Objects.equals(email, user.email) &&
+               Objects.equals(photo, user.photo) &&
+               Objects.equals(adminRoot, user.adminRoot);
     }
 
     @Override
     public int hashCode() {
-        int result = getLogin() != null ? getLogin().hashCode() : 0;
-        result = 31 * result + (int) (getPassword() ^ (getPassword() >>> 32));
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + (getSurname() != null ? getSurname().hashCode() : 0);
-        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
-        result = 31 * result + (getPhoto() != null ? getPhoto().hashCode() : 0);
-        result = 31 * result + (isAdminRoot() ? 1 : 0);
-        return result;
+
+        return Objects.hash(super.hashCode(), login, password, name, surname, email, photo, adminRoot);
     }
 
     @Override

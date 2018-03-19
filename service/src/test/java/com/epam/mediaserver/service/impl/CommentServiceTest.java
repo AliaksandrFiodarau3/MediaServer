@@ -19,7 +19,7 @@ import java.util.Arrays;
 @RunWith(MockitoJUnitRunner.class)
 public class CommentServiceTest {
 
-    private static final int SONG_ID = 5;
+    private static final Long SONG_ID = 5L;
     private static final String USER_NAME = "User";
     private static final String MESSAGE = "Message Text";
     @Mock

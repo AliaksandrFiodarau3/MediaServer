@@ -137,7 +137,9 @@ public abstract class AbstractModelDao<T extends Model> {
      * @param songId unique ID in the table
      */
 
+
     public T getById(Long songId) throws DAOException {
+
 
         T model = null;
         try (Connection con = ConnectionPool.takeConnection();
@@ -246,6 +248,5 @@ public abstract class AbstractModelDao<T extends Model> {
         }
         return list;
     }
-
 
 }

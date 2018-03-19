@@ -2,6 +2,9 @@ package com.epam.mediaserver.exception;
 
 public class ValidateException extends Exception {
 
+    public ValidateException() {
+    }
+
     public ValidateException(String message) {
         super(message);
     }

@@ -52,7 +52,7 @@ public interface UserDao{
      * @throws DAOException if database error was detected
      */
 
-    User registration(String login, long password, String email, String name, String surname) throws DAOException;
+    User registration(String login, String password, String email, String name, String surname) throws DAOException;
 
     boolean checkLogin(String login) throws DAOException;
 

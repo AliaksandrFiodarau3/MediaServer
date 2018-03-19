@@ -38,7 +38,6 @@ public class Model implements Serializable, Cloneable {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id);
     }
 

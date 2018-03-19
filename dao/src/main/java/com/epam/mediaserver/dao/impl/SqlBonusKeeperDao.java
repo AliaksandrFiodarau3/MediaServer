@@ -109,8 +109,9 @@ public class SqlBonusKeeperDao extends AbstractModelDao<BonusKeeper> implements 
         BonusKeeper bonusKeeper = new BonusKeeper();
 
         try {
-            User user = (User) userDao.getById(    rs.getLong(USER_ID));
-            Bonus bonus = (Bonus) bonusDao.getById(rs.getLong(BONUS_ID));
+            User user = userDao.getById(rs.getLong(USER_ID));
+            Bonus bonus = bonusDao.getById(rs.getLong(BONUS_ID));
+
             bonusKeeper.setBonus(bonus);
             bonusKeeper.setUser(user);
 
@@ -144,8 +145,8 @@ public class SqlBonusKeeperDao extends AbstractModelDao<BonusKeeper> implements 
             return list;
 
         } catch (ConnectionPoolException e) {
-            LOGGER.error( "Connection is not open", e);
-            throw new DAOException( "Connection is not open");
+            LOGGER.error("Connection is not open", e);
+            throw new DAOException("Connection is not open");
         } catch (SQLException e) {
             LOGGER.error("SQL Exception", e);
             throw new DAOException("SQL Exception");

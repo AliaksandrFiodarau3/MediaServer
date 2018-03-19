@@ -123,6 +123,7 @@ public class SqlAlbumDao extends AbstractModelDao<Album> implements AlbumDao {
 
         try {
             album.setId(rs.getLong(ALBUM_ID));
+
             Artist artist = artistDao.getById(rs.getLong(ARTIST_ID));
             album.setArtist(artist);
             album.setYear(rs.getInt(ALBUM_YEAR));

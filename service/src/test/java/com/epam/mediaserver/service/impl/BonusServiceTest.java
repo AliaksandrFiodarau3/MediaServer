@@ -1,5 +1,9 @@
+
 /*
 package com.epam.mediaserver.service.impl;
+=======
+/*package com.epam.mediaserver.service.impl;
+>>>>>>> master
 
 import static junit.framework.TestCase.assertTrue;
 
@@ -92,5 +96,7 @@ public class BonusServiceTest {
         assertTrue(finalTest);
     }
 
+<<<<<<< HEAD
 }
 */
+

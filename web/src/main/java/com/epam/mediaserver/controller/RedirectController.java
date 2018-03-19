@@ -42,7 +42,7 @@ public class RedirectController {
             User account = userService.signIn(login, (long) password.hashCode());
             session.setAttribute(Attribute.ATTRIBUTE_USER, account);
 
-            if (account.isAdminRoot()) {
+            if (account.getAdminRoot()) {
 
                 return new RedirectView("admin");
             } else {

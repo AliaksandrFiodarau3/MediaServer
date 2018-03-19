@@ -1,5 +1,7 @@
 package com.epam.mediaserver.entity;
 
+import java.util.Objects;
+
 public class Genre extends Model {
 
     private String title;
@@ -45,32 +47,22 @@ public class Genre extends Model {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Genre)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         if (!super.equals(o)) {
             return false;
         }
-
         Genre genre = (Genre) o;
-
-        if (getTitle() != null ? !getTitle().equals(genre.getTitle()) : genre.getTitle() != null) {
-            return false;
-        }
-        if (getDescription() != null ? !getDescription().equals(genre.getDescription())
-                                     : genre.getDescription() != null) {
-            return false;
-        }
-        return getImage() != null ? getImage().equals(genre.getImage()) : genre.getImage() == null;
+        return Objects.equals(title, genre.title) &&
+               Objects.equals(description, genre.description) &&
+               Objects.equals(image, genre.image);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
-        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
-        result = 31 * result + (getImage() != null ? getImage().hashCode() : 0);
-        return result;
+
+        return Objects.hash(super.hashCode(), title, description, image);
     }
 
     @Override

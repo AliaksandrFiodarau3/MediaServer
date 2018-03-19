@@ -18,6 +18,7 @@ public class Validation {
 
     public static boolean userCheck(String login, String password, String name, String surname, String email) {
 
+
         if (login == null || login.isEmpty()) {
             return false;
         }
@@ -70,7 +71,7 @@ public class Validation {
 
     public static boolean userCheck(Long id, String login, String name, String surname, String email) {
 
-        if (id <= 0) {
+        if (id == null) {
             return false;
         }
 
@@ -136,21 +137,9 @@ public class Validation {
      * Validate form for add new album
      */
 
-    public static boolean albumCheck(String title, String year, String description, String image) {
+    public static boolean albumCheck(String year) {
 
-        if (title == null) {
-            return false;
-        }
-        if (year == null) {
-            return false;
-        }
         if (!checkField(Validate.FIELD_YEAR, year)) {
-            return false;
-        }
-        if (description == null) {
-            return false;
-        }
-        if (image == null) {
             return false;
         }
 

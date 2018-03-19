@@ -1,11 +1,13 @@
 package com.epam.mediaserver.entity;
 
 
+import java.util.Objects;
+
 public class Album extends Model {
 
     private Artist artist;
     private String title;
-    private int year;
+    private Integer year;
     private String description;
     private String image;
 
@@ -14,7 +16,7 @@ public class Album extends Model {
         super();
     }
 
-    public Album(Artist artist, String title, int year, String description, String image) {
+    public Album(Artist artist, String title, Integer year, String description, String image) {
         this.artist = artist;
         this.title = title;
         this.year = year;
@@ -46,7 +48,7 @@ public class Album extends Model {
         this.title = title;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
@@ -67,36 +69,24 @@ public class Album extends Model {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Album)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
+        if (!super.equals(o)) {
+            return false;
+        }
         Album album = (Album) o;
-
-        if (getYear() != album.getYear()) {
-            return false;
-        }
-        if (getArtist() != null ? !getArtist().equals(album.getArtist()) : album.getArtist() != null) {
-            return false;
-        }
-        if (getTitle() != null ? !getTitle().equals(album.getTitle()) : album.getTitle() != null) {
-            return false;
-        }
-        if (getDescription() != null ? !getDescription().equals(album.getDescription())
-                                     : album.getDescription() != null) {
-            return false;
-        }
-        return getImage() != null ? getImage().equals(album.getImage()) : album.getImage() == null;
+        return Objects.equals(artist, album.artist) &&
+               Objects.equals(title, album.title) &&
+               Objects.equals(year, album.year) &&
+               Objects.equals(description, album.description) &&
+               Objects.equals(image, album.image);
     }
 
     @Override
     public int hashCode() {
-        int result = getArtist() != null ? getArtist().hashCode() : 0;
-        result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
-        result = 31 * result + getYear();
-        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
-        result = 31 * result + (getImage() != null ? getImage().hashCode() : 0);
-        return result;
+
+        return Objects.hash(super.hashCode(), artist, title, year, description, image);
     }
 
     @Override

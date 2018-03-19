@@ -1,6 +1,7 @@
 package com.epam.mediaserver.entity;
 
 import java.sql.Time;
+import java.util.Objects;
 
 public class Song extends Model {
 
@@ -58,35 +59,23 @@ public class Song extends Model {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Song)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         if (!super.equals(o)) {
             return false;
         }
-
         Song song = (Song) o;
-
-        if (getPrice() != song.getPrice()) {
-            return false;
-        }
-        if (getAlbum() != null ? !getAlbum().equals(song.getAlbum()) : song.getAlbum() != null) {
-            return false;
-        }
-        if (getTitle() != null ? !getTitle().equals(song.getTitle()) : song.getTitle() != null) {
-            return false;
-        }
-        return getDuration() != null ? getDuration().equals(song.getDuration()) : song.getDuration() == null;
+        return price == song.price &&
+               Objects.equals(album, song.album) &&
+               Objects.equals(title, song.title) &&
+               Objects.equals(duration, song.duration);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (getAlbum() != null ? getAlbum().hashCode() : 0);
-        result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
-        result = 31 * result + (getDuration() != null ? getDuration().hashCode() : 0);
-        result = 31 * result + getPrice();
-        return result;
+
+        return Objects.hash(super.hashCode(), album, title, duration, price);
     }
 
     @Override

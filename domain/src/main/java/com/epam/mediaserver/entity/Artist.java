@@ -1,22 +1,13 @@
 package com.epam.mediaserver.entity;
 
+import java.util.Objects;
+
 public class Artist extends Model {
 
     private Genre genre;
     private String title;
     private String description;
     private String image;
-
-    public Artist() {
-        super();
-    }
-
-    public Artist(Genre genre, String title, String description, String image) {
-        this.genre = genre;
-        this.title = title;
-        this.description = description;
-        this.image = image;
-    }
 
     public Genre getGenre() {
         return genre;
@@ -55,36 +46,23 @@ public class Artist extends Model {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Artist)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         if (!super.equals(o)) {
             return false;
         }
-
         Artist artist = (Artist) o;
-
-        if (getGenre() != null ? !getGenre().equals(artist.getGenre()) : artist.getGenre() != null) {
-            return false;
-        }
-        if (getTitle() != null ? !getTitle().equals(artist.getTitle()) : artist.getTitle() != null) {
-            return false;
-        }
-        if (getDescription() != null ? !getDescription().equals(artist.getDescription())
-                                     : artist.getDescription() != null) {
-            return false;
-        }
-        return getImage() != null ? getImage().equals(artist.getImage()) : artist.getImage() == null;
+        return Objects.equals(genre, artist.genre) &&
+               Objects.equals(title, artist.title) &&
+               Objects.equals(description, artist.description) &&
+               Objects.equals(image, artist.image);
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (getGenre() != null ? getGenre().hashCode() : 0);
-        result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
-        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
-        result = 31 * result + (getImage() != null ? getImage().hashCode() : 0);
-        return result;
+
+        return Objects.hash(super.hashCode(), genre, title, description, image);
     }
 
     @Override

@@ -12,8 +12,9 @@ public interface AlbumService {
 
     List<Album> getByArtist(Long artistId) throws ServiceException;
 
-    void add(String artist, String title, String year, String description, String image) throws ValidateException,
-                                                                                                ServiceException;
+    void add(String artist, String title, String year, String description, String image) throws
+                                                                                         ServiceException,
+                                                                                         ValidateException;
 
 
     void edit(Long id, String title, String artist, String year, String description, String image)
