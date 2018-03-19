@@ -24,7 +24,7 @@ public class UserTableService {
     private SqlUserDao userDao;
 
     public User signUp(String login, String password, String name, String surname, String email)
-        throws  ServiceException {
+        throws ServiceException {
 
         if (!Validation.userCheck(login, password, name, surname, email)) {
             LOGGER.info(Error.VALIDATION);
@@ -77,7 +77,7 @@ public class UserTableService {
 
 
     public User signIn(String login, Long password)
-        throws ServiceException{
+        throws ServiceException {
 
         User account;
 
@@ -87,9 +87,10 @@ public class UserTableService {
         } else {
             account = getByLogin(login);
 
-            if (!account.getLogin().equals(login) || !(account.getPassword().equals(String.valueOf(password.hashCode())))) {
+            if (!account.getLogin().equals(login) || !(account.getPassword()).equals(String.valueOf(password))) {
                 LOGGER.info(Error.PASSWORD_INCORRECT);
                 throw new ServiceException(Error.PASSWORD_INCORRECT);
+
             }
         }
         return account;
@@ -200,15 +201,12 @@ public class UserTableService {
 
     public User getByLogin(String login) throws ServiceException {
 
-        User user = null;
-
         try {
-            user = userDao.authorisation(login);
+            return userDao.authorisation(login);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
         }
-        return user;
     }
 
     public List<User> getAll() throws ServiceException {
@@ -241,7 +239,6 @@ public class UserTableService {
 
 
     public int getPage() throws ServiceException {
-
 
         Integer pages;
 

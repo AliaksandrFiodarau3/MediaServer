@@ -43,11 +43,8 @@ public class RedirectController {
             session.setAttribute(Attribute.ATTRIBUTE_USER, account);
 
             if (account.getAdminRoot()) {
-
                 return new RedirectView("admin");
             } else {
-
-                System.out.println("user redirect");
                 return new RedirectView("user");
             }
 
