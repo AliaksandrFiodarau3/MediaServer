@@ -8,6 +8,7 @@
             <div class=" navbar-right center-block navbar-form">
                 <ul>
                     <form method="post" action="/login" role="form">
+
                        <%-- <li class="btn-group">
                             <a class="btn btn-default" href="Controller?command=change-locale&lang=ru"><fmt:message
                                     key="button.ru"/></a>

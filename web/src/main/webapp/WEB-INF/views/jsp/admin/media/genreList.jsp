@@ -16,8 +16,6 @@
                     </center>
                     <center>
                         <div class="btn-group">
-                            <%--<a href="#" class="btn btn-default" &lt;%&ndash;onclick="inputGenre('{{id}','{{title}}','{{description}}')"&ndash;%&gt;>
-                                <span class="glyphicon glyphicon-edit"/></a>--%>
                             <a href="#" class="btn btn-default" onclick="deleteGenre('{{id}}')">
                                 <span class="glyphicon glyphicon-trash"/></a>
                             <a href="#" class="btn btn-default" onclick="showArtist('{{title}}')">

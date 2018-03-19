@@ -2,7 +2,7 @@
     <div class="container">
         <ul class="navbar-left">
             <li>
-                <a href=""><img class="center navbar-brand" src="../../web/img/logo.png"></a>
+                <a href=""><img class="center navbar-brand" src="web/img/logo.png"></a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">

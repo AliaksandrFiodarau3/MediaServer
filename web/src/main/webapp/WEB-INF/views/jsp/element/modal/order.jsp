@@ -1,4 +1,4 @@
-<%--<!-- Modal -->
+<!-- Modal -->
 
 <div id="orderList" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -23,5 +23,5 @@
             </div>
         </div>
     </div>
-</div>--%>
+</div>
 

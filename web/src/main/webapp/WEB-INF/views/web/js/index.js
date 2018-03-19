@@ -14,23 +14,6 @@ window.onload = function () {
     }
 }
 
-/*function requestForm() {
-
-    var msg = $('#register-form').serialize();
-
-    $.ajax({
-        type: "POST",
-        url: "Controller",
-        data: msg,
-        success: function (data) {
-            var error = doc.getElementById("error");
-            error.style = "color: red";
-            error.innerHTML = data;
-        },
-        dataType: "text"
-    });
-}*/
-
 function checkField(command, parameter) {
 
     var div = doc.getElementById('error');

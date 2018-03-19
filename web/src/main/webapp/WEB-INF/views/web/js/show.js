@@ -1,10 +1,9 @@
 var doc = document;
-var lastParametr;
-var loginUser = doc.getElementById("loginUser");
 
-window.onload = function () {
-    ajaxRequest('user/genres', '#genreList');
-}
+/*window.onload = function () {
+    getMethod('user/genres', '#genreList');
+    getMethod('user/order', '#userGoodsTable');
+}*/
 
 function Buy() {
 

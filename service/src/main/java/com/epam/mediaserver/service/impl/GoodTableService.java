@@ -21,7 +21,7 @@ public class GoodTableService {
     private SqlOrderSongDao orderSongDao;
 
 
-    public List<OrderSong> getByOrder(int orderId) throws ServiceException {
+    public List<OrderSong> getByOrder(Long orderId) throws ServiceException {
 
         List<OrderSong> goods = null;
         try {

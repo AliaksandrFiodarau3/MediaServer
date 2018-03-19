@@ -56,6 +56,8 @@
 <script src="web/js/framework/jquery-3.2.1.js"></script>
 <script src="web/js/framework/bootstrap.js"></script>
 <script src="web/js/framework/handlebars-v4.0.10.js"></script>
+
+<script src="web/js/show.js"></script>
 <script src="web/js/admin/genre.js"></script>
 <script src="web/js/admin/order.js"></script>
 <script src="web/js/admin/user.js"></script>

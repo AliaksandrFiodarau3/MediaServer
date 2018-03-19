@@ -8,7 +8,7 @@
                 </center>
             </div>
             <!-- Add new user form -->
-            <form class="add-genre-form" method="POST" action="javascript:void(null);" onsubmit="addGenre()">
+            <form class="add-genre-form" method="POST" action="javascript:void(null);" onsubmit="postMethod('admin/addGenre','#genre-list')">
                 <div class="modal-body">
                     <div class="container">
                         <input name="command" value="add-genre" hidden>

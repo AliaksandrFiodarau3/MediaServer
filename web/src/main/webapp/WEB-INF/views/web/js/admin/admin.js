@@ -1,16 +1,16 @@
 var doc = document;
 
 window.onload = function () {
-    commandShow('user/genres', '#genre-list');
+    getMethod('admin/genres', '#genre-list');
 
     doc.querySelector('#users').onclick = function () {
-        commandShowWithPage('show-user-list', '#user-table', 1);
+        getMethod('admin/users', '#user-table');
     }
     doc.querySelector('#bonuses').onclick = function () {
-        commandShow('show-bonus', '#bonus-table');
+        getMethod('admin/bonuses', '#bonus-table');
     }
     doc.querySelector('#genres').onclick = function () {
-        commandShow('show-genre', '#genre-list');
+        getMethod('admin/genres', '#genre-list');
     }
 }
 

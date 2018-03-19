@@ -28,7 +28,11 @@
                    '#commentsList')">
                     <span class="glyphicon  glyphicon-comment"></span><fmt:message key="admin.table.show"/>
                 </a>
-                <a id="addToCart" onclick="addGood('{{id}}')" href="#" class="btn  btn-info btn-xs">
+                <a id="addToCart"
+                   onclick="postMethod(
+                   'user/genres/{{album.artist.genre.id}}/artists/{{album.artist.id}}/albums/{{album.id}}/songs/{{id}}/addGood',
+                   '#songTable')"
+                   href="#" class="btn  btn-info btn-xs">
                     <span class="glyphicon glyphicon-shopping-cart"></span><fmt:message
                         key="admin.table.songs.add.cart"/>
                 </a>

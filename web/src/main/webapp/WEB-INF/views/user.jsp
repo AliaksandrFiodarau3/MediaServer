@@ -46,7 +46,6 @@
 <script src="web/js/framework/bootstrap-select.js"></script>
 <script src="web/js/framework/bootstrap.js"></script>
 <script src="web/js/framework/handlebars-v4.0.10.js"></script>
-<script src="web/js/user/show.js"></script>
-<script src="web/js/user/comments.js"></script>
+<script src="web/js/show.js"></script>
 </body>
 </html>

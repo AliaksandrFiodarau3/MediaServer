@@ -1,16 +1,25 @@
 package com.epam.mediaserver.controller;
 
+import com.epam.mediaserver.constant.Attribute;
 import com.epam.mediaserver.entity.Album;
 import com.epam.mediaserver.entity.Artist;
 import com.epam.mediaserver.entity.Comment;
 import com.epam.mediaserver.entity.Genre;
+import com.epam.mediaserver.entity.Order;
+import com.epam.mediaserver.entity.OrderSong;
 import com.epam.mediaserver.entity.Song;
+import com.epam.mediaserver.entity.User;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.service.impl.AlbumTableService;
 import com.epam.mediaserver.service.impl.ArtistTableService;
 import com.epam.mediaserver.service.impl.CommentTableService;
 import com.epam.mediaserver.service.impl.GenreTableService;
+import com.epam.mediaserver.service.impl.GoodTableService;
+import com.epam.mediaserver.service.impl.OrderUserService;
 import com.epam.mediaserver.service.impl.SongTableService;
+import com.epam.mediaserver.service.impl.UserTableService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +32,16 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @EnableWebMvc
 @RequestMapping("user")
 public class UserController {
+
+    private static final Logger LOGGER = LogManager.getLogger(UserController.class);
 
     @Autowired
     private GenreTableService genreService;
@@ -44,13 +58,40 @@ public class UserController {
     @Autowired
     private CommentTableService commentService;
 
+    @Autowired
+    private OrderUserService orderUserService;
+
+    @Autowired
+    private GoodTableService goodService;
+
+    @Autowired
+    private UserTableService userService;
+
     @RequestMapping()
     public String userPage() {
         return "user";
     }
 
-    @RequestMapping(value = "genres",
-        method = RequestMethod.GET)
+
+    @RequestMapping(value = "order")
+    public ResponseEntity<Map<String, Set<OrderSong>>> getOrder(HttpSession session) throws ServiceException {
+
+        Order order = (Order) session.getAttribute("order");
+
+        if (Objects.isNull(order)){
+            orderUserService.create((User) session.getAttribute(Attribute.ATTRIBUTE_USER));
+            order = orderUserService.getOrder();
+        }
+
+        Map<String, Set<OrderSong>> orders = new HashMap<>(1);
+
+        orders.put("orders",  orderUserService.getAllGoodsInOrder());
+
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "genres")
     public ResponseEntity<Map<String, List<Genre>>> getGenres() throws ServiceException {
 
         Map<String, List<Genre>> genres = new HashMap<>(1);
@@ -59,20 +100,19 @@ public class UserController {
         return new ResponseEntity<>(genres, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "genres/{genreId}/artists",
-        method = RequestMethod.GET)
+    @RequestMapping(value = "genres/{genreId}/artists")
     public ResponseEntity<Map<String, List<Artist>>> getArtists(
         @PathVariable
             long genreId) throws ServiceException {
 
         Map<String, List<Artist>> artists = new HashMap<>(1);
+
         artists.put("artists", artistService.getByGenre(genreId));
 
         return new ResponseEntity<>(artists, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "genres/{genreId}/artists/{artistId}/albums",
-        method = RequestMethod.GET)
+    @RequestMapping(value = "genres/{genreId}/artists/{artistId}/albums")
     public ResponseEntity<Map<String, List<Album>>> getAlbums(
         @PathVariable
             long artistId,
@@ -86,8 +126,7 @@ public class UserController {
         return new ResponseEntity<>(albums, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "genres/{genreId}/artists/{artistId}/albums/{albumId}/songs",
-        method = RequestMethod.GET)
+    @RequestMapping(value = "genres/{genreId}/artists/{artistId}/albums/{albumId}/songs")
     public ResponseEntity<Map<String, List<Song>>> getSongs(
         @PathVariable
             long artistId,
@@ -103,8 +142,7 @@ public class UserController {
         return new ResponseEntity<>(songs, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "genres/{genreId}/artists/{artistId}/albums/{albumId}/songs/{songId}/comments",
-        method = RequestMethod.GET)
+    @RequestMapping(value = "genres/{genreId}/artists/{artistId}/albums/{albumId}/songs/{songId}/comments")
     public ResponseEntity<Map<String, List<Comment>>> getComments(
         @PathVariable
             long artistId,
@@ -124,20 +162,36 @@ public class UserController {
 
     @RequestMapping(value = "genres/{genreId}/artists/{artistId}/albums/{albumId}/songs/{songId}/addGood",
         method = RequestMethod.POST)
-    public ResponseEntity<Map<String, List<Comment>>> addGood(
+    public ResponseEntity<Map<String, List<Song>>> addGood(
         @PathVariable
-            long artistId,
+            Long artistId,
         @PathVariable
-            long genreId,
+            Long genreId,
         @PathVariable
-            long albumId,
+            Long albumId,
         @PathVariable
-            long songId) throws ServiceException {
+            Long songId,
+        HttpSession session
+    ) throws ServiceException {
 
-        Map<String, List<Comment>> comments = new HashMap<>(1);
+        User account = (User) session.getAttribute(Attribute.ATTRIBUTE_USER);
 
-        comments.put("comments", commentService.getBySong(songId));
+        User user = userService.getByLogin(account.getLogin());
+        orderUserService.create(user);
 
-        return new ResponseEntity<>(comments, HttpStatus.OK);
+        Song song = songService.getById(songId);
+
+        orderUserService.addGoodToOrder(song);
+        orderUserService.getPrice();
+
+        session.setAttribute("order", orderUserService.getOrder());
+        session.setAttribute("orderSongs", orderUserService.getAllGoodsInOrder());
+
+        Map<String, List<Song>> songs = new HashMap<>(1);
+
+        songs.put("songs", songService.getByAlbum(albumId));
+
+        return new ResponseEntity<>(songs, HttpStatus.OK);
     }
+
 }

@@ -4,9 +4,7 @@ import com.epam.mediaserver.dao.AbstractModelDao;
 import com.epam.mediaserver.dao.OrderSongDao;
 import com.epam.mediaserver.dao.impl.pool.ConnectionPool;
 import com.epam.mediaserver.entity.Model;
-import com.epam.mediaserver.entity.Order;
 import com.epam.mediaserver.entity.OrderSong;
-import com.epam.mediaserver.entity.Song;
 import com.epam.mediaserver.exeption.ConnectionPoolException;
 import com.epam.mediaserver.exeption.DAOException;
 import org.apache.logging.log4j.LogManager;
@@ -106,12 +104,12 @@ public class SqlOrderSongDao extends AbstractModelDao<OrderSong> implements Orde
         return ps.executeUpdate();
     }
 
-    public List<OrderSong> getByOrder(int orderId) throws DAOException {
+    public List<OrderSong> getByOrder(Long orderId) throws DAOException {
 
         try (Connection con = ConnectionPool.takeConnection();
              PreparedStatement ps = con.prepareStatement(SELECT_QUERY_BY_ORDER);) {
 
-            ps.setInt(1, orderId);
+            ps.setLong(1, orderId);
             ResultSet rs = ps.executeQuery();
 
             List<OrderSong> list = new ArrayList<>();
