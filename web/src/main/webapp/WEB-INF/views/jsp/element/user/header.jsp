@@ -15,7 +15,7 @@
             <li>
                 <a href="#"><i class="glyphicon glyphicon-cog"></i>Settings</a>
             </li>
-            <li><a href="../../../../index.jsp"><i class="glyphicon glyphicon-log-out"></i>
+            <li><a href="index.jsp"><i class="glyphicon glyphicon-log-out"></i>
                 <span class="text">Logout</span></a>
             </li>
         </ul>

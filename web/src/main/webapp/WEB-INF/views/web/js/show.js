@@ -1,53 +1,37 @@
 var doc = document;
 
-/*window.onload = function () {
-    getMethod('user/genres', '#genreList');
-    getMethod('user/order', '#userGoodsTable');
-}*/
-
-function Buy() {
-
-    $.ajax({
-               type: "POST",
-               url: "Controller",
-               data: {command: 'buy'},
-               success: function () {
-                   userGoodsShow();
-               },
-               dataType: "text"
-           });
-
+function getMethod(url, table, content, form) {
+    ajaxRequest(url, table, "GET", content, form);
 }
 
-function getMethod(url, table) {
-    ajaxRequest(url, table, "GET");
+function postMethod(url, table, content, form) {
+    ajaxRequest(url, table, "POST", content, form);
 }
 
-function postMethod(url, table) {
-    ajaxRequest(url, table, "POST");
+function putMethod(url, table, content, form) {
+    ajaxRequest(url, table, "PUT", content, form);
 }
 
-function putMethod(url, table) {
-    ajaxRequest(url, table, "PUT");
+function deleteMethod(url, table, content, form) {
+    ajaxRequest(url, table, "DELETE", content, form);
 }
 
-function deleteMethod(url, table) {
-    ajaxRequest(url, table, "DELETE");
-}
+function ajaxRequest(url, table, method, element, form) {
 
-function ajaxRequest(url, table, method) {
+
     $.ajax({
                type: method,
                url: url,
-
                success: function (data) {
+                    if (form != null || form != undefined){
+                     data = $(form).serialize()
+                    }
                    var json =  JSON.parse(data),
                        list = $(table).html(),
                        compileTemplate = Handlebars.compile(list),
                        result = compileTemplate(json),
-                       content = doc.getElementById("content");
-                   console.log(JSON.parse(data));
-                   content.innerHTML = result;
+                       content = doc.getElementById(element);
+                  content.innerHTML = result;
                },
                dataType: "text"
            });

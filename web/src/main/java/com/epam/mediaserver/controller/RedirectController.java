@@ -78,12 +78,13 @@ public class RedirectController {
         return "redirect:user";
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping
     public String homePage() {
         return "home";
     }
 
-    @RequestMapping(value = "signOut", method = RequestMethod.GET)
+
+    @RequestMapping(value = "signOut")
     public String signOut(HttpSession session) {
 
         session.setAttribute(Attribute.ATTRIBUTE_USER, null);

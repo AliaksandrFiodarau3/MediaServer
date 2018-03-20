@@ -25,7 +25,6 @@ function checkField(command, parameter) {
                success: function (data) {
                    if (data != null) {
                        error.style = "color: red";
-                       //div.className = "alert alert-danger";
                        div.innerHTML = data;
                    }
                }, error: function () {

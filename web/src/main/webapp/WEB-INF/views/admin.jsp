@@ -57,14 +57,17 @@
 <script src="web/js/framework/bootstrap.js"></script>
 <script src="web/js/framework/handlebars-v4.0.10.js"></script>
 
+
 <script src="web/js/show.js"></script>
-<script src="web/js/admin/genre.js"></script>
+<script src="web/js/admin.js"></script>
+
+<%--<script src="web/js/admin/genre.js"></script>
 <script src="web/js/admin/order.js"></script>
 <script src="web/js/admin/user.js"></script>
 <script src="web/js/admin/admin.js"></script>
 <script src="web/js/admin/artist.js"></script>
 <script src="web/js/admin/album.js"></script>
 <script src="web/js/admin/song.js"></script>
-<script src="web/js/admin/bonus.js"></script>
+<script src="web/js/admin/bonus.js"></script>--%>
 </body>
 </html>

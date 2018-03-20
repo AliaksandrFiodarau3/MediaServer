@@ -8,11 +8,11 @@
                 </center>
             </div>
             <!-- Add new user form -->
-            <form class="add-genre-form" method="POST" action="javascript:void(null);" onsubmit="postMethod('admin/addGenre','#genre-list')">
+            <form class="add-genre-form" id="add-genre" method="POST" action="javascript:void(null);"
+                  onsubmit="postMethod('admin/addGenre','#genre-list', 'content', '#add-genre')">
                 <div class="modal-body">
                     <div class="container">
-                        <input name="command" value="add-genre" hidden>
-                        <input name="idGenre" value="" hidden>
+
                         <div class="form-group row">
                             <label for="titleGenre" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.title"/>:</label>
@@ -21,6 +21,7 @@
                                        class="form-control form-control-plaintext" required>
                             </div>
                         </div>
+
                         <div class="form-group row">
                             <label for="descriptionGenre" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.description"/>:</label>
@@ -39,6 +40,7 @@
                                        class="form-control" required>
                             </div>
                         </div>
+
                     </div>
                 </div>
 

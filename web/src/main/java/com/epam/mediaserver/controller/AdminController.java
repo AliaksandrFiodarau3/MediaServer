@@ -87,13 +87,7 @@ public class AdminController {
         @RequestParam("imageGenre")
             String image) throws ServiceException {
 
-        System.out.println("addGenre");
-
         try {
-            System.out.println("title: " + title);
-            System.out.println("description: " + description);
-            System.out.println("image: " + image);
-
             genreService.add(title, description, image);
         } catch (ValidateException e) {
             LOGGER.info("Error validation");
@@ -101,10 +95,12 @@ public class AdminController {
             LOGGER.error("Service Exception");
         }
 
-        Map<String, List<Genre>> genres = new HashMap<>(1);
-        genres.put("genres", genreService.getAll());
+       /* Map<String, List<Genre>> genres = new HashMap<>(1);
+        genres.put("genres", genreService.getAll());*/
 
-        return new ResponseEntity<>(genres, HttpStatus.OK);
+        /*return new ResponseEntity<>(genres, HttpStatus.OK);*/
+
+        return getGenres();
     }
 
 

@@ -11,7 +11,7 @@
                 <a href="#" data-toggle="modal" data-target="#profileModal"><i
                         class="glyphicon glyphicon-cog"></i><fmt:message key="admin.link.setting"/></a>
             </li>
-            <li><a href=""><i class="glyphicon glyphicon-log-out"></i>
+            <li><a href="signOut"><i class="glyphicon glyphicon-log-out"></i>
                 <span class="text"><fmt:message key="label.sign.out"/></span></a>
             </li>
             <li class="btn-group">

@@ -23,7 +23,6 @@ function checkField(field) {
     }
 }
 
-/* функция для задания текста и цвета для него определенному span */
 function setSpanText(spanName, text, colorName) {
     document.getElementById(spanName).innerText = text;
     document.getElementById(spanName).style.color = colorName;
