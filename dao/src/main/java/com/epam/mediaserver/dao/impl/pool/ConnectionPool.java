@@ -110,10 +110,11 @@ public class ConnectionPool {
         Connection connection;
         try {
             while ((connection = queue.poll()) != null) {
+
                 if (!connection.getAutoCommit()) {
                     connection.commit();
                 }
-                connection.close();
+                closeConnection(connection);
             }
         } catch (SQLException e) {
             LOGGER.warn("Connection queue not closed", e);
@@ -139,9 +140,8 @@ public class ConnectionPool {
             connectionQueue = new ArrayBlockingQueue<>(poolSize);
             for (int i = 0; i < poolSize; i++) {
                 Connection connection = DriverManager.getConnection(url, user, password);
-                PooledConnection pooledConnection = new PooledConnection(connection);
 
-                connectionQueue.add((Connection) pooledConnection);
+                connection.setAutoCommit(true);
             }
         } catch (SQLException e) {
             LOGGER.warn("SQL Exeption in ConnectionPoll");
@@ -159,5 +159,26 @@ public class ConnectionPool {
     @PreDestroy
     public void dispose() throws ConnectionPoolException {
         clearConnectionQueue();
+    }
+
+    private static void closeConnection(Connection connection) throws SQLException {
+        if (connection.isClosed()) {
+            throw new SQLException("Attempting to close closed connection.");
+        }
+
+        if (!connection.getAutoCommit()) {
+            connection.setAutoCommit(true);
+        }
+
+        if (connection.isReadOnly()) {
+            connection.setReadOnly(false);
+        }
+        if (!ConnectionPool.getGivenArrayConQueue().remove(connection)) {
+            throw new SQLException("Error deleting connection from the given away connections pool.");
+        }
+
+        if (!ConnectionPool.getConnectionQueue().offer(connection)) {
+            throw new SQLException("Error allocating connection in the pool.");
+        }
     }
 }
