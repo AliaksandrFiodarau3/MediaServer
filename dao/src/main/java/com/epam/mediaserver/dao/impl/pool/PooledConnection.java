@@ -30,28 +30,6 @@ public class PooledConnection implements Connection {
         this.connection.setAutoCommit(true);
     }
 
-    public void reallyClose() throws SQLException {
-        if (connection.isClosed()) {
-            throw new SQLException("Attempting to close closed connection.");
-        }
-
-        if (!connection.getAutoCommit()) {
-            connection.setAutoCommit(true);
-        }
-
-        if (connection.isReadOnly()) {
-            connection.setReadOnly(false);
-        }
-        if (!ConnectionPool.getGivenArrayConQueue().remove(this)) {
-            throw new SQLException("Error deleting connection from the given away connections pool.");
-        }
-
-        if (!ConnectionPool.getConnectionQueue().offer(this)) {
-            throw new SQLException("Error allocating connection in the pool.");
-        }
-
-    }
-
     @Override
     public Statement createStatement() throws SQLException {
         return connection.createStatement();
@@ -94,7 +72,24 @@ public class PooledConnection implements Connection {
 
     @Override
     public void close() throws SQLException {
+        if (connection.isClosed()) {
+            throw new SQLException("Attempting to close closed connection.");
+        }
 
+        if (!connection.getAutoCommit()) {
+            connection.setAutoCommit(true);
+        }
+
+        if (connection.isReadOnly()) {
+            connection.setReadOnly(false);
+        }
+        if (!ConnectionPool.getGivenArrayConQueue().remove(this)) {
+            throw new SQLException("Error deleting connection from the given away connections pool.");
+        }
+
+        if (!ConnectionPool.getConnectionQueue().offer(this)) {
+            throw new SQLException("Error allocating connection in the pool.");
+        }
     }
 
     @Override

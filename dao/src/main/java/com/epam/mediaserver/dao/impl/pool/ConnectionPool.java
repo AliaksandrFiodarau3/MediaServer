@@ -27,8 +27,6 @@ public class ConnectionPool {
     private static final int DEFAULT_POOL_SIZE = 6;
 
 
-
-
     /**
      * Synchronized queue of prepared available connections
      */
@@ -115,7 +113,7 @@ public class ConnectionPool {
                 if (!connection.getAutoCommit()) {
                     connection.commit();
                 }
-                ((PooledConnection) connection).reallyClose();
+                connection.close();
             }
         } catch (SQLException e) {
             LOGGER.warn("Connection queue not closed", e);
@@ -143,7 +141,7 @@ public class ConnectionPool {
                 Connection connection = DriverManager.getConnection(url, user, password);
                 PooledConnection pooledConnection = new PooledConnection(connection);
 
-                connectionQueue.add(pooledConnection);
+                connectionQueue.add((Connection) pooledConnection);
             }
         } catch (SQLException e) {
             LOGGER.warn("SQL Exeption in ConnectionPoll");
