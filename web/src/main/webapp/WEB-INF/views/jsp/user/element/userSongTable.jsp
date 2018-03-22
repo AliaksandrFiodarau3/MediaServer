@@ -25,13 +25,13 @@
                 <a id="showComments" class='btn btn-info btn-xs' href="#"
                    onclick="getMethod(
                    'user/genres/{{album.artist.genre.id}}/artists/{{album.artist.id}}/albums/{{album.id}}/songs/{{id}}/comments',
-                   '#commentsList')">
+                   '#commentsList', 'content')">
                     <span class="glyphicon  glyphicon-comment"></span><fmt:message key="admin.table.show"/>
                 </a>
                 <a id="addToCart"
-                   onclick="postMethod(
-                   'user/genres/{{album.artist.genre.id}}/artists/{{album.artist.id}}/albums/{{album.id}}/songs/{{id}}/addGood',
-                   '#songTable')"
+                   onclick="putMethod(
+                   'user/addGood',
+                   '#userGoodsTable', 'order')"
                    href="#" class="btn  btn-info btn-xs">
                     <span class="glyphicon glyphicon-shopping-cart"></span><fmt:message
                         key="admin.table.songs.add.cart"/>

@@ -23,6 +23,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql-driver.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>5.0.2.RELEASE</version>
+        </dependency>
     </dependencies>
     <build>
         <defaultGoal>dao</defaultGoal>

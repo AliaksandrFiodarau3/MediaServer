@@ -2,12 +2,12 @@
     <div class="container">
         <ul class="navbar-left">
             <li>
-                <a href="#" onclick="getMethod('user/genres', '#genreList')"><img class="center navbar-brand" src="web/img/logo.png"></a>
+                <a href="#" onclick="getMethod('user/genres', '#genreList', 'content')"><img class="center navbar-brand" src="web/img/logo.png"></a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a href="#" data-toggle="modal" data-target="#profileModal"><i
+                <a href="#" onclick="getMethod('user/profile', '#profile', 'profileModal')" data-toggle="modal" data-target="#profileModal"><i
                         class="glyphicon glyphicon-cog"></i><fmt:message key="admin.link.setting"/></a>
             </li>
             <li><a href="signOut"><i class="glyphicon glyphicon-log-out"></i>

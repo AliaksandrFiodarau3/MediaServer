@@ -17,15 +17,13 @@ function deleteMethod(url, table, content, form) {
 }
 
 function ajaxRequest(url, table, method, element, form) {
-
-
     $.ajax({
                type: method,
                url: url,
                success: function (data) {
-                    if (form != null || form != undefined){
-                     data = $(form).serialize()
-                    }
+
+                   if (typeof(form) !== "undefined" && form != null) data = $(form).serialize();
+
                    var json =  JSON.parse(data),
                        list = $(table).html(),
                        compileTemplate = Handlebars.compile(list),

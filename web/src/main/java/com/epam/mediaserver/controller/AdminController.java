@@ -1,4 +1,4 @@
-package com.epam.mediaserver.controller;
+/*package com.epam.mediaserver.controller;
 
 import com.epam.mediaserver.entity.Album;
 import com.epam.mediaserver.entity.Artist;
@@ -36,11 +36,20 @@ import java.util.Map;
 @RequestMapping("admin")
 public class AdminController {
 
-    private static final Logger LOGGER = LogManager.getLogger(AdminController.class);
-
     @Autowired
     private GenreTableService genreService;
 
+
+    @RequestMapping(value = "genres")
+    public ResponseEntity<Map<String, List<Genre>>> getGenres() throws ServiceException {
+
+        Map<String, List<Genre>> genres = new HashMap<>(1);
+        genres.put("genres", genreService.getAll());
+
+        return new ResponseEntity<>(genres, HttpStatus.OK);
+    }
+
+    private static final Logger LOGGER = LogManager.getLogger(AdminController.class);
     @Autowired
     private ArtistTableService artistService;
 
@@ -68,14 +77,7 @@ public class AdminController {
     }
 
 
-    @RequestMapping(value = "genres")
-    public ResponseEntity<Map<String, List<Genre>>> getGenres() throws ServiceException {
 
-        Map<String, List<Genre>> genres = new HashMap<>(1);
-        genres.put("genres", genreService.getAll());
-
-        return new ResponseEntity<>(genres, HttpStatus.OK);
-    }
 
     @RequestMapping(value = "addGenre",
         method = RequestMethod.POST)
@@ -95,10 +97,10 @@ public class AdminController {
             LOGGER.error("Service Exception");
         }
 
-       /* Map<String, List<Genre>> genres = new HashMap<>(1);
-        genres.put("genres", genreService.getAll());*/
+       *//* Map<String, List<Genre>> genres = new HashMap<>(1);
+        genres.put("genres", genreService.getAll());*//*
 
-        /*return new ResponseEntity<>(genres, HttpStatus.OK);*/
+        *//*return new ResponseEntity<>(genres, HttpStatus.OK);*//*
 
         return getGenres();
     }
@@ -163,4 +165,4 @@ public class AdminController {
 
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
-}
+}*/

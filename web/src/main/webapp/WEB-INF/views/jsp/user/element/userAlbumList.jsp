@@ -16,7 +16,8 @@
                             <a href="#" class="btn btn-default"
                                onclick="getMethod(
                                     'user/genres/{{artist.genre.id}}/artists/{{artist.id}}/albums/{{id}}/songs',
-                                    '#songTable');">
+                                    '#songTable',
+                                    'content');">
                                 <span class="glyphicon glyphicon-search"/></a>
                         </center>
                     </div>

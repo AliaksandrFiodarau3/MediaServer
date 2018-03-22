@@ -1,3 +1,4 @@
+/*
 package com.epam.mediaserver.controller;
 
 
@@ -93,3 +94,4 @@ public class RedirectController {
     }
 
 }
+*/

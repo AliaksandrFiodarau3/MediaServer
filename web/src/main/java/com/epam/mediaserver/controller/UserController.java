@@ -1,6 +1,7 @@
 package com.epam.mediaserver.controller;
 
 import com.epam.mediaserver.constant.Attribute;
+import com.epam.mediaserver.constant.Message;
 import com.epam.mediaserver.entity.Album;
 import com.epam.mediaserver.entity.Artist;
 import com.epam.mediaserver.entity.Comment;
@@ -24,10 +25,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +42,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @EnableWebMvc
-@RequestMapping("user")
+@RequestMapping("/")
 public class UserController {
 
     private static final Logger LOGGER = LogManager.getLogger(UserController.class);
@@ -67,31 +71,111 @@ public class UserController {
     @Autowired
     private UserTableService userService;
 
+    @RequestMapping(method = RequestMethod.POST,
+        value = "login")
+    public RedirectView signIn(
+        @RequestParam("loginUser")
+            String login,
+        @RequestParam("passwordUser")
+            String password,
+        HttpSession session) {
+        System.out.println("LOGIN!");
+        try {
+            User account = userService.signIn(login, (long) password.hashCode());
+            session.setAttribute(Attribute.ATTRIBUTE_USER, account);
+
+            if (account.getAdminRoot()) {
+                return new RedirectView("admin");
+            } else {
+                return new RedirectView("user");
+            }
+
+        } catch (ServiceException e) {
+            LOGGER.info(Message.AUTHORIZATION_ERROR, e);
+            return new RedirectView("home");
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.POST,
+        value = "registration")
+    public String signUp(
+        @ModelAttribute("loginUser")
+            String login,
+        @ModelAttribute("passwordUser")
+            String password,
+        @ModelAttribute("nameUser")
+            String name,
+        @ModelAttribute("surnameUser")
+            String surname,
+        @ModelAttribute("emailUser")
+            String email,
+        HttpSession session) {
+
+        try {
+            session.setAttribute(Attribute.ATTRIBUTE_USER, userService.signUp(login, password, name, surname, email));
+        } catch (ServiceException e) {
+            LOGGER.info(Message.CLIENT_SERVICE_ERROR);
+            return "redirect:home";
+        }
+        return "redirect:user";
+    }
+
     @RequestMapping()
+    public String homePage() {
+        return "home";
+    }
+
+
+    @RequestMapping(value = "signOut")
+    public String signOut(HttpSession session) {
+
+        session.setAttribute(Attribute.ATTRIBUTE_USER, null);
+
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "admin")
+    public String adminPage() {
+        return "admin";
+    }
+
+    @RequestMapping(value = "user")
     public String userPage() {
         return "user";
     }
 
 
-    @RequestMapping(value = "order")
+    @RequestMapping(value = "user/order")
     public ResponseEntity<Map<String, Set<OrderSong>>> getOrder(HttpSession session) throws ServiceException {
 
         Order order = (Order) session.getAttribute("order");
 
-        if (Objects.isNull(order)){
+        if (Objects.isNull(order)) {
             orderUserService.create((User) session.getAttribute(Attribute.ATTRIBUTE_USER));
             order = orderUserService.getOrder();
         }
 
         Map<String, Set<OrderSong>> orders = new HashMap<>(1);
 
-        orders.put("orders",  orderUserService.getAllGoodsInOrder());
+        orders.put("orders", orderUserService.getAllGoodsInOrder());
 
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
+    @RequestMapping(value = {"admin/profile", "user/profile"})
+    public ResponseEntity<Map<String, User>> getProfile(HttpSession session) {
 
-    @RequestMapping(value = "genres")
+        User account = (User) session.getAttribute("user");
+
+        Map<String, User> user = new HashMap<>(1);
+
+        user.put("user", account);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = {"admin/genres", "user/genres"})
     public ResponseEntity<Map<String, List<Genre>>> getGenres() throws ServiceException {
 
         Map<String, List<Genre>> genres = new HashMap<>(1);
@@ -100,7 +184,9 @@ public class UserController {
         return new ResponseEntity<>(genres, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "genres/{genreId}/artists")
+    @RequestMapping(value = {
+        "admin/genres/{genreId}/artists",
+        "user/genres/{genreId}/artists"})
     public ResponseEntity<Map<String, List<Artist>>> getArtists(
         @PathVariable
             long genreId) throws ServiceException {
@@ -112,7 +198,9 @@ public class UserController {
         return new ResponseEntity<>(artists, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "genres/{genreId}/artists/{artistId}/albums")
+    @RequestMapping(value = {
+        "admin/genres/{genreId}/artists/{artistId}/albums",
+        "user/genres/{genreId}/artists/{artistId}/albums"})
     public ResponseEntity<Map<String, List<Album>>> getAlbums(
         @PathVariable
             long artistId,
@@ -126,7 +214,9 @@ public class UserController {
         return new ResponseEntity<>(albums, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "genres/{genreId}/artists/{artistId}/albums/{albumId}/songs")
+    @RequestMapping(value = {
+                 "admin/genres/{genreId}/artists/{artistId}/albums/{albumId}/songs",
+                 "user/genres/{genreId}/artists/{artistId}/albums/{albumId}/songs"})
     public ResponseEntity<Map<String, List<Song>>> getSongs(
         @PathVariable
             long artistId,
@@ -142,7 +232,9 @@ public class UserController {
         return new ResponseEntity<>(songs, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "genres/{genreId}/artists/{artistId}/albums/{albumId}/songs/{songId}/comments")
+    @RequestMapping(value = {
+         "admin/genres/{genreId}/artists/{artistId}/albums/{albumId}/songs/{songId}/comments",
+         "user/genres/{genreId}/artists/{artistId}/albums/{albumId}/songs/{songId}/comments"})
     public ResponseEntity<Map<String, List<Comment>>> getComments(
         @PathVariable
             long artistId,
@@ -160,15 +252,8 @@ public class UserController {
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "genres/{genreId}/artists/{artistId}/albums/{albumId}/songs/{songId}/addGood",
-        method = RequestMethod.POST)
-    public ResponseEntity<Map<String, List<Song>>> addGood(
-        @PathVariable
-            Long artistId,
-        @PathVariable
-            Long genreId,
-        @PathVariable
-            Long albumId,
+    @RequestMapping(value = "user/addGood", method = RequestMethod.PUT)
+    public ResponseEntity<Map<String, Set<OrderSong>>> addGood(
         @PathVariable
             Long songId,
         HttpSession session
@@ -187,9 +272,9 @@ public class UserController {
         session.setAttribute("order", orderUserService.getOrder());
         session.setAttribute("orderSongs", orderUserService.getAllGoodsInOrder());
 
-        Map<String, List<Song>> songs = new HashMap<>(1);
+        Map<String, Set<OrderSong>> songs = new HashMap<>(1);
 
-        songs.put("songs", songService.getByAlbum(albumId));
+        songs.put("songs", orderUserService.getAllGoodsInOrder());
 
         return new ResponseEntity<>(songs, HttpStatus.OK);
     }

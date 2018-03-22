@@ -1,30 +1,22 @@
-<!-- Modal -->
-<div id="profileModal" class="modal fade" role="dialog">
-
-</div>
-<%--
-<div id="profileModal" class="modal fade" role="dialog">
+<script id="profile" type="text/x-handlebars-template">
     <div class="modal-dialog">
-
-        <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
-                <input id="loginUser" value="${cookie.loginUser}" hidden>
                 <center>
-                    <h1>${cookie.nameUser.value} ${surnameUser}</h1>
+                    <h1>{{user.name}} {{user.surname}}</h1>
                 </center>
             </div>
             <div class="modal-body">
                 <center>
-                    <img src="${photoUser}"
+                    <img src="{{photo}}"
                          name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
-                    <h3 class="media-heading">${nameUser} ${surnameUser}</h3>
+                    <h3 class="media-heading">{{user.name}} {{user.surname}}</h3>
                 </center>
                 <hr>
                 <center>
-                    <p class="text-center"><strong><fmt:message key="admin.table.user.email"/>: </strong> ${emailUser}
+                    <p class="text-center"><strong><fmt:message key="admin.table.user.email"/>: </strong> {{user.email}}
                     </p>
-                    <p class="text-center"><strong><fmt:message key="admin.table.user.login"/>: </strong> ${loginUser}
+                    <p class="text-center"><strong><fmt:message key="admin.table.user.login"/>: </strong> {{user.login}}
                     </p>
                 </center>
             </div>
@@ -36,4 +28,5 @@
             </div>
         </div>
     </div>
-</div>--%>
+    </div>
+</script>

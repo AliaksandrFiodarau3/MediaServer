@@ -33,6 +33,7 @@
 </div>
 
 <%@include file='jsp/user/element/userGenreList.jsp' %>
+<%@include file='jsp/user/element/profileList.jsp' %>
 <%@include file='jsp/user/element/userAlbumList.jsp' %>
 <%@include file='jsp/user/element/userArtistList.jsp' %>
 <%@include file='jsp/user/element/userSongTable.jsp' %>
