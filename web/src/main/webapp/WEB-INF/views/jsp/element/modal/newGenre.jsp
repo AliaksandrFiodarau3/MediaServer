@@ -8,8 +8,8 @@
                 </center>
             </div>
             <!-- Add new user form -->
-            <form class="add-genre-form" id="add-genre" method="POST" action="javascript:void(null);"
-                  onsubmit="postMethod('admin/addGenre','#genre-list', 'content', '#add-genre')">
+           <%-- <form class="add-genre-form" id="add-genre" method="POST" action="javascript:void(null);"
+                  onsubmit="postMethod('/admin/genre','#genre-list', 'content', '#add-genre')">--%>
                 <div class="modal-body">
                     <div class="container">
 
@@ -43,18 +43,20 @@
 
                     </div>
                 </div>
-
-                <div id=error></div>
-
                 <div class="modal-footer">
                     <center>
-                        <button id="submit" type="submit" class="btn btn-success">
+                        <button id="submit" type="button" onclick="putMethod('/admin/genre/title/' +
+                        getNode('titleGenre').value +'/description/'+ getNode('descriptionGenre').value +
+                        '/image/'+ getNode('imageGenre').value
+                        ,'#genre-list', 'content', '#add-genre'); getMethod('admin/genres', '#genre-list', 'content'); "
+
+                                data-dismiss="modal" class="btn btn-success">
                             <fmt:message key="admin.table.sign"/></button>
                         <button class="btn btn-default" type="button" data-dismiss="modal">
                             <fmt:message key="admin.table.close"/></button>
                     </center>
                 </div>
-            </form>
+            <%--</form>--%>
         </div>
     </div>
 </div>

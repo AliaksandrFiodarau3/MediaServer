@@ -10,10 +10,8 @@
                 </center>
             </div>
             <!-- Add new artist form -->
-            <form class="add-artist-form" method="POST" action="javascript:void(null);" onsubmit="addArtist()">
                 <div class="modal-body">
                     <div class="container">
-                        <input name="command" value="add-artist" hidden>
                         <input id="genreArtist" name="genreArtist" hidden>
                         <div class="form-group row">
                             <label for="titleArtist" class="col-sm-1 col-form-label"><fmt:message
@@ -55,14 +53,17 @@
 
                 <div class="modal-footer">
                     <center>
-                        <button id="submit" type="submit" class="btn btn-success"><fmt:message
+                        <button id="submit" type="button" class="btn btn-success" data-dismiss="modal"
+                        onclick="putMethod('/admin/genre/genre/' + getNode('genreArtist').value + '/title/' +
+                        getNode('titleArtist').value +'/description/'+ getNode('descriptionArtist').value + '/image/'+ getNode('imageArtist').value
+                        ,'#genre-list', 'content', '#add-genre'); getMethod('admin/genres', '#genre-list', 'content');"
+                        ><fmt:message
                                 key="admin.table.sign"/></button>
                         <button class="btn btn-default" type="button" data-dismiss="modal"><fmt:message
                                 key="admin.table.close"/></button>
                         <div id=error></div>
                     </center>
                 </div>
-            </form>
         </div>
     </div>
 </div>

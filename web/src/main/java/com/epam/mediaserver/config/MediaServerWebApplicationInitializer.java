@@ -15,7 +15,7 @@ public class MediaServerWebApplicationInitializer implements WebApplicationIniti
 
         AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
 
-        applicationContext.register(BeanConfig.class, WebConfig.class);
+        applicationContext.register(BeanConfig.class, WebConfig.class, SecurityConfig.class, SecurityConfig.class);
         applicationContext.setServletContext(servletContext);
 
         DispatcherServlet servlet = new DispatcherServlet(applicationContext);

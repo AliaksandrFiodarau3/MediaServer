@@ -1,5 +1,12 @@
 var doc = document;
 
+function getNode(nameClass) {
+    if(nameClass[0] ==='.') {
+        return document.querySelector(nameClass);
+    }
+    return document.getElementById(nameClass);
+}
+
 function getMethod(url, table, content, form) {
     ajaxRequest(url, table, "GET", content, form);
 }
@@ -22,14 +29,16 @@ function ajaxRequest(url, table, method, element, form) {
                url: url,
                success: function (data) {
 
-                   if (typeof(form) !== "undefined" && form != null) data = $(form).serialize();
+                   if (form != null || form != undefined) {
+                       data = $(form).serialize()
+                   }
 
-                   var json =  JSON.parse(data),
+                   var json = JSON.parse(data),
                        list = $(table).html(),
                        compileTemplate = Handlebars.compile(list),
                        result = compileTemplate(json),
                        content = doc.getElementById(element);
-                  content.innerHTML = result;
+                   content.innerHTML = result;
                },
                dataType: "text"
            });

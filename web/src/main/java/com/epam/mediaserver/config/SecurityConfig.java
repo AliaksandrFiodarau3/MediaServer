@@ -1,4 +1,3 @@
-/*
 package com.epam.mediaserver.config;
 
 
@@ -11,8 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import javax.sql.DataSource;
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
@@ -20,50 +17,23 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-
-        auth.jdbcAuthentication().dataSource(dataSource)
-            .usersByUsernameQuery("select user_login, user_password, enabled from t_user where username=?")
-            .authoritiesByUsernameQuery("select user_login, r_role from users join role on u_role = r_id where username = ?");
-
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication().withUser("user").password("123").roles("USER");
+        auth.inMemoryAuthentication().withUser("admin").password("123").roles("ADMIN");
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       */
-/* http.formLogin().loginPage("/login").loginProcessingUrl("/appLogin").usernameParameter("user_login")
-            .passwordParameter("user_password").defaultSuccessUrl("/manager").and().logout().logoutUrl("/appLogout")
-            .logoutSuccessUrl("/login");*//*
 
-
-        http
-            .authorizeRequests()
-            .antMatchers("/admin/**").hasRole("true")
-            .antMatchers("/db/**").access("hasRole(true)")
+        http.authorizeRequests()
             .anyRequest().authenticated()
+            .antMatchers("user/**").access("hasRole('ROLE_USER')")
+            .antMatchers("admin/**").access("hasRole('ROLE_ADMIN')")
             .and()
-            .authorizeRequests()
-            .antMatchers("/user/**").hasRole("false")
-            .antMatchers("/db/**").access("hasRole(false)")
-            .anyRequest().authenticated()
+            .formLogin().loginPage("/login").loginProcessingUrl("spring_security").failureUrl("/login").permitAll()
             .and()
-            .formLogin().loginPage("/login").permitAll();
-
-      */
-/*  http
-            .logout()
-            .logoutUrl("/my/logout")
-            //.logoutSuccessUrl("/home")
-            .logoutSuccessHandler(logoutSuccessHandler)
-            .invalidateHttpSession(true)
-            .addLogoutHandler(logoutHandler)
-            .deleteCookies(cookieNamesToClear)
-            .and();*//*
+            .logout().logoutUrl("/login");
 
     }
-
 }
-*/

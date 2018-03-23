@@ -26,7 +26,7 @@
             <td class="text-center">{{duration}}</td>
             <td class="text-center">{{price}}</td>
             <td class="text-center">
-                <a id="delete" onclick="deleteSong('{{id}}')" href="#" class="btn btn-danger btn-xs">
+                <a id="delete" onclick="deleteMethod('admin/song/{{id}}','#songTable','content')" href="#" class="btn btn-danger btn-xs">
                     <span class="glyphicon glyphicon-remove"></span> <fmt:message key="admin.table.delete"/>
                 </a>
             </td>

@@ -9,10 +9,10 @@
 
 
     <modules>
-        <module>web</module>
         <module>domain</module>
         <module>dao</module>
         <module>service</module>
+        <module>web</module>
     </modules>
 
     <properties>
@@ -174,7 +174,7 @@
         </dependency>
 
 
-       <!-- <dependency>
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
             <version>${spring.version}</version>
@@ -188,7 +188,7 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <version>${spring.version}</version>
-        </dependency>-->
+        </dependency>
 
     </dependencies>
 

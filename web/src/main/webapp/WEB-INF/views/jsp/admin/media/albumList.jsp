@@ -17,9 +17,12 @@
                         </center>
                         <center>
                             <div class="btn-group">
-                                <a href="#" class="btn btn-default" onclick="deleteAlbum('{{id}}')">
+                                <a href="#" class="btn btn-default" onclick="deleteMethod('admin/album/{{id}}','#albumList','content')">
                                     <span class="glyphicon glyphicon-trash"/></a>
-                                <a href="#" class="btn btn-default" onclick="showSong('{{title}}')">
+                                <a href="#" class="btn btn-default" onclick="getMethod(
+                                    'user/genres/{{artist.genre.id}}/artists/{{artist.id}}/albums/{{id}}/songs',
+                                    '#songTable',
+                                    'content');">
                                     <span class="glyphicon glyphicon-search"/></a>
                             </div>
                         </center>
