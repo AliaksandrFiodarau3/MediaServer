@@ -2,8 +2,8 @@ package com.epam.mediaserver.service.impl;
 
 import com.epam.mediaserver.builder.BuilderFactory;
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.dao.impl.SqlOrderDao;
-import com.epam.mediaserver.dao.impl.SqlUserDao;
+import com.epam.mediaserver.dao.impl.OrderDaoImpl;
+import com.epam.mediaserver.dao.impl.UserDaoImpl;
 import com.epam.mediaserver.entity.Order;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
@@ -20,10 +20,10 @@ import java.util.List;
 public class OrderTableService {
 
     @Autowired
-    private SqlOrderDao orderDao;
+    private OrderDaoImpl orderDao;
 
     @Autowired
-    private SqlUserDao userDao;
+    private UserDaoImpl userDao;
 
 
     private static final Logger LOGGER = LogManager.getLogger(OrderTableService.class);

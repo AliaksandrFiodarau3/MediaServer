@@ -7,7 +7,7 @@ import com.epam.mediaserver.exeption.DAOException;
 import java.util.List;
 
 
-public interface SongDao {
+public interface SongDao extends CrudDao<Song, Long>{
 
 
 

@@ -9,7 +9,7 @@ import com.epam.mediaserver.exeption.DAOException;
  */
 
 
-public interface ArtistDao {
+public interface ArtistDao extends CrudDao<Artist,Long>{
 
 
 

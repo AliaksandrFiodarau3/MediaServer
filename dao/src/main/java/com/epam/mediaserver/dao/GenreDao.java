@@ -4,7 +4,7 @@ import com.epam.mediaserver.entity.Genre;
 import com.epam.mediaserver.exeption.DAOException;
 
 
-public interface GenreDao {
+public interface GenreDao extends CrudDao<Genre,Long> {
 
 
     /**

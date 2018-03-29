@@ -5,7 +5,7 @@ import com.epam.mediaserver.exeption.DAOException;
 
 import java.util.List;
 
-public interface BonusKeeperDao {
+public interface BonusKeeperDao extends CrudDao<BonusKeeper, Long> {
 
     /**
      * Method receives id of user and find equal fields in table t_bonus_keeper

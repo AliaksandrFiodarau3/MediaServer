@@ -2,8 +2,8 @@ package com.epam.mediaserver.service.impl;
 
 
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.dao.impl.SqlArtistDao;
-import com.epam.mediaserver.dao.impl.SqlGenreDao;
+import com.epam.mediaserver.dao.impl.ArtistDaoImpl;
+import com.epam.mediaserver.dao.impl.GenreDaoImpl;
 import com.epam.mediaserver.entity.Artist;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
@@ -23,10 +23,10 @@ import java.util.List;
 public class ArtistTableService implements ArtistService{
 
     @Autowired
-    private SqlGenreDao genreDao;
+    private GenreDaoImpl genreDao;
 
     @Autowired
-    private SqlArtistDao artistDao;
+    private ArtistDaoImpl artistDao;
 
     private static final Logger LOGGER = LogManager.getLogger(ArtistTableService.class);
 

@@ -2,8 +2,8 @@ package com.epam.mediaserver.service.impl;
 
 import com.epam.mediaserver.builder.BuilderFactory;
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.dao.impl.SqlOrderDao;
-import com.epam.mediaserver.dao.impl.SqlOrderSongDao;
+import com.epam.mediaserver.dao.impl.OrderDaoImpl;
+import com.epam.mediaserver.dao.impl.OrderSongDaoImpl;
 import com.epam.mediaserver.entity.Bonus;
 import com.epam.mediaserver.entity.Order;
 import com.epam.mediaserver.entity.OrderSong;
@@ -27,10 +27,10 @@ public class OrderUserService {
     private static final Logger LOGGER = LogManager.getLogger(OrderUserService.class);
 
     @Autowired
-    private SqlOrderDao orderDao;
+    private OrderDaoImpl orderDao;
 
     @Autowired
-    private SqlOrderSongDao orderSongDao;
+    private OrderSongDaoImpl orderSongDao;
 
     DiscountService discount = null;
     Order order = null;

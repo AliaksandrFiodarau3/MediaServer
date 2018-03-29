@@ -2,7 +2,7 @@ package com.epam.mediaserver.service.impl;
 
 
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.dao.impl.SqlGenreDao;
+import com.epam.mediaserver.dao.impl.GenreDaoImpl;
 import com.epam.mediaserver.entity.Genre;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
@@ -19,7 +19,7 @@ import java.util.List;
 public class GenreTableService {
 
     @Autowired
-    private SqlGenreDao genreDao;
+    private GenreDaoImpl genreDao;
 
     private static final Logger LOGGER = LogManager.getLogger(GenreTableService.class);
 

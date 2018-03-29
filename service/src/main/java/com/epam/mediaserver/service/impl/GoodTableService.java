@@ -1,7 +1,7 @@
 package com.epam.mediaserver.service.impl;
 
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.dao.impl.SqlOrderSongDao;
+import com.epam.mediaserver.dao.impl.OrderSongDaoImpl;
 import com.epam.mediaserver.entity.OrderSong;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exeption.DAOException;
@@ -18,7 +18,7 @@ public class GoodTableService {
     private static final Logger LOGGER = LogManager.getLogger(GoodTableService.class);
 
     @Autowired
-    private SqlOrderSongDao orderSongDao;
+    private OrderSongDaoImpl orderSongDao;
 
 
     public List<OrderSong> getByOrder(Long orderId) throws ServiceException {

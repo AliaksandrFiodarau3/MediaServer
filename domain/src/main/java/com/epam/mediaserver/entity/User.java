@@ -1,6 +1,7 @@
 package com.epam.mediaserver.entity;
 
 import java.util.Objects;
+
 public class User extends Model {
 
     private String login;

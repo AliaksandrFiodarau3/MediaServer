@@ -2,8 +2,8 @@ package com.epam.mediaserver.service.impl;
 
 
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.dao.impl.SqlAlbumDao;
-import com.epam.mediaserver.dao.impl.SqlSongDao;
+import com.epam.mediaserver.dao.impl.AlbumDaoImpl;
+import com.epam.mediaserver.dao.impl.SongDaoImpl;
 import com.epam.mediaserver.entity.Song;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
@@ -23,10 +23,10 @@ public class SongTableService {
     private static final Logger LOGGER = LogManager.getLogger(SongTableService.class);
 
     @Autowired
-    private SqlSongDao songDao;
+    private SongDaoImpl songDao;
 
     @Autowired
-    private SqlAlbumDao albumDao;
+    private AlbumDaoImpl albumDao;
 
 
     public Song getById(Long id) throws ServiceException {

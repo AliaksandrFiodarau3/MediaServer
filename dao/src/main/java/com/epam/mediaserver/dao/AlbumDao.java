@@ -11,7 +11,7 @@ import java.util.List;
  */
 
 
-public interface AlbumDao {
+public interface AlbumDao extends CrudDao<Album, Long>{
 
 
     /**

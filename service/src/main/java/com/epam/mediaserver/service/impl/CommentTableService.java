@@ -1,10 +1,10 @@
 package com.epam.mediaserver.service.impl;
 
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.dao.impl.SqlCommentDao;
-import com.epam.mediaserver.dao.impl.SqlGenreDao;
-import com.epam.mediaserver.dao.impl.SqlSongDao;
-import com.epam.mediaserver.dao.impl.SqlUserDao;
+import com.epam.mediaserver.dao.impl.CommentDaoImpl;
+import com.epam.mediaserver.dao.impl.GenreDaoImpl;
+import com.epam.mediaserver.dao.impl.SongDaoImpl;
+import com.epam.mediaserver.dao.impl.UserDaoImpl;
 import com.epam.mediaserver.entity.Comment;
 import com.epam.mediaserver.entity.Song;
 import com.epam.mediaserver.entity.User;
@@ -24,16 +24,16 @@ import java.util.List;
 public class CommentTableService implements CommentService {
 
     @Autowired
-    private SqlGenreDao genreDao;
+    private GenreDaoImpl genreDao;
 
     @Autowired
-    private SqlCommentDao commentDao;
+    private CommentDaoImpl commentDao;
 
     @Autowired
-    private SqlSongDao songDao;
+    private SongDaoImpl songDao;
 
     @Autowired
-    private SqlUserDao userDao;
+    private UserDaoImpl userDao;
 
     private static final Logger LOGGER = LogManager.getLogger(CommentTableService.class);
 

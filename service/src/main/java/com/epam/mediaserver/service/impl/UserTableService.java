@@ -2,7 +2,7 @@ package com.epam.mediaserver.service.impl;
 
 import com.epam.mediaserver.constant.Error;
 import com.epam.mediaserver.constant.Path;
-import com.epam.mediaserver.dao.impl.SqlUserDao;
+import com.epam.mediaserver.dao.impl.UserDaoImpl;
 import com.epam.mediaserver.entity.User;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
@@ -21,7 +21,7 @@ public class UserTableService {
     private static final Logger LOGGER = LogManager.getLogger(UserTableService.class);
 
     @Autowired
-    private SqlUserDao userDao;
+    private UserDaoImpl userDao;
 
     public User signUp(String login, String password, String name, String surname, String email)
         throws ServiceException {

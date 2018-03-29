@@ -6,7 +6,7 @@ import com.epam.mediaserver.exeption.DAOException;
 import java.util.List;
 
 
-public interface CommentDao {
+public interface CommentDao extends CrudDao<Comment,Long> {
 
 
     /**

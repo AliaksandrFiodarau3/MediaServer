@@ -9,7 +9,7 @@ import com.epam.mediaserver.exeption.DAOException;
  */
 
 
-public interface BonusDao {
+public interface BonusDao extends CrudDao<Bonus,Long>{
 
 
     /**

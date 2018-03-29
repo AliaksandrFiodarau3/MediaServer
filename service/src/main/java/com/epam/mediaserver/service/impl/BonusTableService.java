@@ -1,7 +1,7 @@
 package com.epam.mediaserver.service.impl;
 
 import com.epam.mediaserver.constant.Error;
-import com.epam.mediaserver.dao.impl.SqlBonusDao;
+import com.epam.mediaserver.dao.impl.BonusDaoImpl;
 import com.epam.mediaserver.entity.Bonus;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
@@ -20,7 +20,7 @@ import java.util.List;
 public class BonusTableService implements BonusService{
 
     @Autowired
-    private SqlBonusDao bonusDao;
+    private BonusDaoImpl bonusDao;
 
 
     private static final Logger LOGGER = LogManager.getLogger(BonusTableService.class);
