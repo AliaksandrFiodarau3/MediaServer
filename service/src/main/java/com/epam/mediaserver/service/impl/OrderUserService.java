@@ -1,7 +1,5 @@
 package com.epam.mediaserver.service.impl;
 
-import com.epam.mediaserver.builder.BuilderFactory;
-import com.epam.mediaserver.constant.Error;
 import com.epam.mediaserver.dao.impl.OrderDaoImpl;
 import com.epam.mediaserver.dao.impl.OrderSongDaoImpl;
 import com.epam.mediaserver.entity.Bonus;
@@ -9,8 +7,6 @@ import com.epam.mediaserver.entity.Order;
 import com.epam.mediaserver.entity.OrderSong;
 import com.epam.mediaserver.entity.Song;
 import com.epam.mediaserver.entity.User;
-import com.epam.mediaserver.exception.ServiceException;
-import com.epam.mediaserver.exeption.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +37,9 @@ public class OrderUserService {
         int number = new Random().nextInt(9999) + 1000;
 
         if (songSet.size() == 0 && order == null) {
-            this.order = BuilderFactory.getOrderBuilder()
-                .setNumber(number)
-                .setUser(user)
+            this.order = Order.builder()
+                .number(number)
+                .user(user)
                 .build();
         }
     }
@@ -51,7 +47,10 @@ public class OrderUserService {
 
     public void addGoodToOrder(Song song) {
 
-        OrderSong good = new OrderSong(order, song);
+        OrderSong good = OrderSong.builder()
+            .order(order)
+            .song(song)
+            .build();
 
         songSet.add(good);
     }
@@ -59,7 +58,10 @@ public class OrderUserService {
 
     public void remove(Song song) {
 
-        OrderSong good = new OrderSong(order, song);
+        OrderSong good = OrderSong.builder()
+            .order(order)
+            .song(song)
+            .build();
 
         songSet.remove(good);
 
@@ -97,10 +99,10 @@ public class OrderUserService {
         return price;
     }
 
-    public void saveOrder() throws ServiceException {
+   /* public void saveOrder() throws ServiceException {
 
         try {
-            orderDao.add(order);
+            orderDao.create(order);
 
             Order orderNew = orderDao.getByNumber(order.getNumber());
 
@@ -116,7 +118,7 @@ public class OrderUserService {
             throw new ServiceException(Error.DAO_EXCEPTION);
         }
 
-    }
+    }*/
 
     public void clearOrder() {
         order = null;

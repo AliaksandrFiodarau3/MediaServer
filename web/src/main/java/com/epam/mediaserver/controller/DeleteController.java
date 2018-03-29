@@ -3,13 +3,13 @@ package com.epam.mediaserver.controller;
 import com.epam.mediaserver.entity.Artist;
 import com.epam.mediaserver.entity.Genre;
 import com.epam.mediaserver.exception.ServiceException;
-import com.epam.mediaserver.service.impl.AlbumTableService;
-import com.epam.mediaserver.service.impl.ArtistTableService;
-import com.epam.mediaserver.service.impl.CommentTableService;
-import com.epam.mediaserver.service.impl.GenreTableService;
-import com.epam.mediaserver.service.impl.GoodTableService;
+import com.epam.mediaserver.service.impl.AlbumServiceImpl;
+import com.epam.mediaserver.service.impl.ArtistServiceImpl;
+import com.epam.mediaserver.service.impl.CommentServiceImpl;
+import com.epam.mediaserver.service.impl.GenreServiceImpl;
+import com.epam.mediaserver.service.impl.OrderSongServiceImpl;
 import com.epam.mediaserver.service.impl.OrderUserService;
-import com.epam.mediaserver.service.impl.SongTableService;
+import com.epam.mediaserver.service.impl.SongServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,25 +33,25 @@ public class DeleteController {
     private static final Logger LOGGER = LogManager.getLogger(DeleteController.class);
 
     @Autowired
-    private GenreTableService genreService;
+    private GenreServiceImpl genreService;
 
     @Autowired
-    private ArtistTableService artistService;
+    private ArtistServiceImpl artistService;
 
     @Autowired
-    private AlbumTableService albumService;
+    private AlbumServiceImpl albumService;
 
     @Autowired
     private OrderUserService orderUserService;
 
     @Autowired
-    private GoodTableService goodService;
+    private OrderSongServiceImpl goodService;
 
     @Autowired
-    private SongTableService songService;
+    private SongServiceImpl songService;
 
     @Autowired
-    private CommentTableService commentService;
+    private CommentServiceImpl commentService;
 
     @RequestMapping(value = "admin/genre/{idGenre}",
         method = RequestMethod.DELETE)

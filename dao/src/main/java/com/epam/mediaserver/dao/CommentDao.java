@@ -16,5 +16,5 @@ public interface CommentDao extends CrudDao<Comment,Long> {
      * @throws DAOException if database error was detected
      */
 
-    List<Comment> getBySong(String song) throws DAOException;
+    List<Comment> getBySong(Long song) throws DAOException;
 }

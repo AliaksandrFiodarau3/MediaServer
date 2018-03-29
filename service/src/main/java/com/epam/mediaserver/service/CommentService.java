@@ -7,9 +7,5 @@ import java.util.List;
 
 public interface CommentService {
 
-    void add(Long songId, String userLogin, String text) throws ServiceException ;
-
     List<Comment> getBySong(Long id) throws ServiceException ;
-
-    List<Comment> getAll() throws ServiceException ;
 }

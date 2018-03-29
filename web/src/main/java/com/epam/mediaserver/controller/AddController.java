@@ -7,14 +7,14 @@ import com.epam.mediaserver.entity.Song;
 import com.epam.mediaserver.entity.User;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.exception.ValidateException;
-import com.epam.mediaserver.service.impl.AlbumTableService;
-import com.epam.mediaserver.service.impl.ArtistTableService;
-import com.epam.mediaserver.service.impl.CommentTableService;
-import com.epam.mediaserver.service.impl.GenreTableService;
-import com.epam.mediaserver.service.impl.GoodTableService;
+import com.epam.mediaserver.service.impl.AlbumServiceImpl;
+import com.epam.mediaserver.service.impl.ArtistServiceImpl;
+import com.epam.mediaserver.service.impl.CommentServiceImpl;
+import com.epam.mediaserver.service.impl.GenreServiceImpl;
+import com.epam.mediaserver.service.impl.OrderSongServiceImpl;
 import com.epam.mediaserver.service.impl.OrderUserService;
-import com.epam.mediaserver.service.impl.SongTableService;
-import com.epam.mediaserver.service.impl.UserTableService;
+import com.epam.mediaserver.service.impl.SongServiceImpl;
+import com.epam.mediaserver.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,31 +39,6 @@ import javax.servlet.http.HttpSession;
 public class AddController {
 
     private static final Logger LOGGER = LogManager.getLogger(AddController.class);
-
-    @Autowired
-    private GenreTableService genreService;
-
-    @Autowired
-    private ArtistTableService artistService;
-
-    @Autowired
-    private AlbumTableService albumService;
-
-    @Autowired
-    private SongTableService songService;
-
-    @Autowired
-    private CommentTableService commentService;
-
-    @Autowired
-    private OrderUserService orderUserService;
-
-    @Autowired
-    private GoodTableService goodService;
-
-    @Autowired
-    private UserTableService userService;
-
 
     @RequestMapping(value = "user/addGood",
         method = RequestMethod.PUT)

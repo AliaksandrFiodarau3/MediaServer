@@ -42,7 +42,6 @@ public class OrderDaoImpl extends AbstractModelDao<Order, Long> implements Order
         super(Order.class);
     }
 
-
     @Override
     Long getKey(Order entity) {
         return null;

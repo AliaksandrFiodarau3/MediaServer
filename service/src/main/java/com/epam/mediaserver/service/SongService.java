@@ -1,5 +1,5 @@
 package com.epam.mediaserver.service;
 
-public interface BonusService {
+public interface SongService {
 
 }

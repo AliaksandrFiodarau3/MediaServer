@@ -6,6 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * #AbstractModelDao extends for call CRUD commands for the MySQL db
  */
@@ -34,6 +36,11 @@ public class OrderSongDaoImpl extends AbstractModelDao<OrderSong, Long> implemen
 
     @Override
     Long getKey(OrderSong entity) {
+        return null;
+    }
+
+    @Override
+    public List<OrderSong> getByOrder(Long orderId) {
         return null;
     }
 }

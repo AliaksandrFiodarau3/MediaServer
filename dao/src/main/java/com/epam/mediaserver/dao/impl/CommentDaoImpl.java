@@ -49,7 +49,7 @@ public class CommentDaoImpl extends AbstractModelDao<Comment, Long> implements C
     }
 
     @Override
-    public List<Comment> getBySong(String song) throws DAOException {
+    public List<Comment> getBySong(Long song) throws DAOException {
         return null;
     }
 }

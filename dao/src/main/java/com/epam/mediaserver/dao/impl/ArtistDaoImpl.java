@@ -6,6 +6,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * #ArtistDao interface implementation for the MySQL db {@link Artist}
  * #AbstractModelDao extends for call CRUD commands for the MySQL db
@@ -40,6 +42,11 @@ public class ArtistDaoImpl extends AbstractModelDao<Artist, Long> implements Art
 
     @Override
     public Artist getByName(String title) {
+        return null;
+    }
+
+    @Override
+    public List<Artist> getByGenre(Long id) {
         return null;
     }
 

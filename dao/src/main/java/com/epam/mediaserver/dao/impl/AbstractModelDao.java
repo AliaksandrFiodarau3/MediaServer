@@ -1,7 +1,6 @@
 package com.epam.mediaserver.dao.impl;
 
 import com.epam.mediaserver.dao.CrudDao;
-import com.epam.mediaserver.entity.Model;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,7 +11,7 @@ import javax.persistence.PersistenceContext;
  * Abstract class for CRUD model DAO
  */
 
-public abstract class AbstractModelDao<T extends Model, K extends Serializable> implements CrudDao<T, K> {
+public abstract class AbstractModelDao<T, K extends Serializable> implements CrudDao<T, K> {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -27,7 +26,7 @@ public abstract class AbstractModelDao<T extends Model, K extends Serializable> 
         this.type = type;
     }
 
-    EntityManager getEntityManager() {
+    public EntityManager getEntityManager() {
         return entityManager;
     }
 

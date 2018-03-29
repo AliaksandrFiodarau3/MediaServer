@@ -3,7 +3,7 @@ package com.epam.mediaserver.controller;
 import com.epam.mediaserver.constant.Attribute;
 import com.epam.mediaserver.constant.Message;
 import com.epam.mediaserver.exception.ServiceException;
-import com.epam.mediaserver.service.impl.UserTableService;
+import com.epam.mediaserver.service.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class UserController {
     private static final Logger LOGGER = LogManager.getLogger(UserController.class);
 
     @Autowired
-    private UserTableService userService;
+    private UserServiceImpl userService;
 
   /*  @RequestMapping(method = RequestMethod.POST,
         value = "login")

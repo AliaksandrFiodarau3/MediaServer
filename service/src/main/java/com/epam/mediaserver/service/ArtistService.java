@@ -2,24 +2,14 @@ package com.epam.mediaserver.service;
 
 import com.epam.mediaserver.entity.Artist;
 import com.epam.mediaserver.exception.ServiceException;
-import com.epam.mediaserver.exception.ValidateException;
+import com.epam.mediaserver.exeption.DAOException;
 
 import java.util.List;
 
 public interface ArtistService {
 
-    Artist getByName(String title) throws ServiceException ;
+    Artist getByName(String title) throws ServiceException, DAOException;
 
     List<Artist> getByGenre(Long genreId) throws ServiceException ;
-
-    void add(String title, String genre, String description, String image)
-     throws ValidateException, ServiceException ;
-
-    void edit(Long id, String title, String description, String image)
-     throws ServiceException, ValidateException;
-
-    void delete(Long id) throws ServiceException ;
-
-    List<Artist> getAll() throws ServiceException ;
 
 }

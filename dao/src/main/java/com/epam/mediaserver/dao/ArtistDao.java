@@ -3,6 +3,8 @@ package com.epam.mediaserver.dao;
 import com.epam.mediaserver.entity.Artist;
 import com.epam.mediaserver.exeption.DAOException;
 
+import java.util.List;
+
 /**
  * Interface for the Data Access Object that the Artist entity uses
  * {@link Artist}
@@ -22,4 +24,6 @@ public interface ArtistDao extends CrudDao<Artist,Long>{
      */
 
     Artist getByName(String title) throws DAOException;
+
+    List<Artist> getByGenre(Long id);
 }
