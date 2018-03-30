@@ -6,27 +6,44 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "users")
+@Entity
+@Table(name = "albums")
 public class Album {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "id_artist", foreignKey = @ForeignKey(name = "ARTISTS_ID_FK"))
     private Artist artist;
+
+    @Column(length = 100, unique = true, nullable = false)
     private String title;
+
+    @Column
     private Integer year;
+
+    @Column(length = 10000)
     private String description;
+
+    @Column(length = 10000)
     private String image;
 
 }

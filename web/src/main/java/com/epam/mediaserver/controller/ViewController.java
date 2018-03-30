@@ -1,86 +1,33 @@
 package com.epam.mediaserver.controller;
 
-import com.epam.mediaserver.constant.Attribute;
-import com.epam.mediaserver.entity.Album;
-import com.epam.mediaserver.entity.Artist;
-import com.epam.mediaserver.entity.Comment;
-import com.epam.mediaserver.entity.Genre;
-import com.epam.mediaserver.entity.Order;
-import com.epam.mediaserver.entity.OrderSong;
-import com.epam.mediaserver.entity.Song;
-import com.epam.mediaserver.entity.User;
-import com.epam.mediaserver.exception.ServiceException;
-import com.epam.mediaserver.service.impl.AlbumServiceImpl;
-import com.epam.mediaserver.service.impl.ArtistServiceImpl;
-import com.epam.mediaserver.service.impl.CommentServiceImpl;
-import com.epam.mediaserver.service.impl.GenreServiceImpl;
-import com.epam.mediaserver.service.impl.OrderSongServiceImpl;
-import com.epam.mediaserver.service.impl.OrderUserService;
-import com.epam.mediaserver.service.impl.SongServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import javax.servlet.http.HttpSession;
 
 @Controller
-@EnableWebMvc
 @RequestMapping("/")
 public class ViewController {
 
     private static final Logger LOGGER = LogManager.getLogger(ViewController.class);
 
-    @Autowired
-    private GenreServiceImpl genreService;
-
-    @Autowired
-    private ArtistServiceImpl artistService;
-
-    @Autowired
-    private AlbumServiceImpl albumService;
-
-    @Autowired
-    private OrderUserService orderUserService;
-
-    @Autowired
-    private OrderSongServiceImpl goodService;
-
-    @Autowired
-    private SongServiceImpl songService;
-
-    @Autowired
-    private CommentServiceImpl commentService;
-
-    @RequestMapping()
+    @GetMapping()
     public String homePage() {
-        return "home";
+        return "login";
     }
 
 
-    @RequestMapping(value = "admin")
-    @Secured("ROLE_ADMIN")
+    @GetMapping(value = "admin")
     public String adminPage() {
         return "admin";
     }
 
-    @RequestMapping(value = "user")
-    @Secured("ROLE_USER")
+    @GetMapping(value = "user")
     public String userPage() {
         return "user";
     }
-
+/*
     @RequestMapping(value = "user/order")
     public ResponseEntity<Map<String, Set<OrderSong>>> getOrder(HttpSession session) throws ServiceException {
 
@@ -114,7 +61,7 @@ public class ViewController {
     public ResponseEntity<Map<String, List<Genre>>> getGenres() throws ServiceException {
 
         Map<String, List<Genre>> genres = new HashMap<>(1);
-        genres.put("genres", genreService.getAll());
+        genres.put("genres", genreService.findAll());
 
         return new ResponseEntity<>(genres, HttpStatus.OK);
     }
@@ -185,10 +132,5 @@ public class ViewController {
         comments.put("comments", commentService.getBySong(songId));
 
         return new ResponseEntity<>(comments, HttpStatus.OK);
-    }
-
-   /* private void addUsersAndAdminsToModel(ModelMap model) {
-        model.addAttribute("users", userService.findOnlyUsers());
-        model.addAttribute("admins", userService.findOnlyAdmins());
     }*/
 }

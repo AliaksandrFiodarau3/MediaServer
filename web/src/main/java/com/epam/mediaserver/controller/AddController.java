@@ -1,3 +1,4 @@
+/*
 package com.epam.mediaserver.controller;
 
 import com.epam.mediaserver.constant.Attribute;
@@ -116,4 +117,4 @@ public class AddController {
         return new ResponseEntity<>(genres, HttpStatus.OK);
     }
 
-}
+}*/

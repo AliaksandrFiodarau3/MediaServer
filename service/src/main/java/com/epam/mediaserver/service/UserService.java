@@ -5,7 +5,7 @@ import com.epam.mediaserver.exception.ServiceException;
 
 public interface UserService {
 
-    User signUp(User account);
+    User signUp(User account) throws ServiceException;
 
     User signIn(String login, Long password)
         throws ServiceException;

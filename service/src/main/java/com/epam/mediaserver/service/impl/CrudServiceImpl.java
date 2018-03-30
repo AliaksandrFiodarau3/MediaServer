@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.transaction.Transactional;
 
+
 public abstract class CrudServiceImpl<T, K extends Serializable> implements CrudService<T, K>{
 
     private CrudDao<T, K> dao;

@@ -5,23 +5,20 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 public class MediaServerWebApplicationInitializer implements WebApplicationInitializer {
 
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-
+    public void onStartup(ServletContext servletContext) {
         AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
 
-        applicationContext.register(BeanConfig.class, WebConfig.class, SecurityConfig.class, SecurityConfig.class);
+        applicationContext.register(WebConfig.class, SecurityConfig.class, BeanConfig.class);
         applicationContext.setServletContext(servletContext);
 
         DispatcherServlet servlet = new DispatcherServlet(applicationContext);
         ServletRegistration.Dynamic registration = servletContext.addServlet("app", servlet);
         registration.setLoadOnStartup(1);
         registration.addMapping("/");
-
     }
 }

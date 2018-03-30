@@ -1,7 +1,6 @@
+/*
 package com.epam.mediaserver.service.impl;
 
-import com.epam.mediaserver.dao.impl.OrderDaoImpl;
-import com.epam.mediaserver.dao.impl.OrderSongDaoImpl;
 import com.epam.mediaserver.entity.Bonus;
 import com.epam.mediaserver.entity.Order;
 import com.epam.mediaserver.entity.OrderSong;
@@ -9,7 +8,6 @@ import com.epam.mediaserver.entity.Song;
 import com.epam.mediaserver.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
@@ -22,11 +20,6 @@ public class OrderUserService {
 
     private static final Logger LOGGER = LogManager.getLogger(OrderUserService.class);
 
-    @Autowired
-    private OrderDaoImpl orderDao;
-
-    @Autowired
-    private OrderSongDaoImpl orderSongDao;
 
     DiscountService discount = null;
     Order order = null;
@@ -99,7 +92,8 @@ public class OrderUserService {
         return price;
     }
 
-   /* public void saveOrder() throws ServiceException {
+   */
+/* public void saveOrder() throws ServiceException {
 
         try {
             orderDao.create(order);
@@ -118,10 +112,12 @@ public class OrderUserService {
             throw new ServiceException(Error.DAO_EXCEPTION);
         }
 
-    }*/
+    }*//*
+
 
     public void clearOrder() {
         order = null;
         songSet.clear();
     }
 }
+*/

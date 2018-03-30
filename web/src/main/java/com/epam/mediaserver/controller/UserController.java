@@ -2,8 +2,9 @@ package com.epam.mediaserver.controller;
 
 import com.epam.mediaserver.constant.Attribute;
 import com.epam.mediaserver.constant.Message;
+import com.epam.mediaserver.entity.User;
 import com.epam.mediaserver.exception.ServiceException;
-import com.epam.mediaserver.service.impl.UserServiceImpl;
+import com.epam.mediaserver.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,39 +23,12 @@ public class UserController {
 
     private static final Logger LOGGER = LogManager.getLogger(UserController.class);
 
+    private UserService userService;
+
     @Autowired
-    private UserServiceImpl userService;
-
-  /*  @RequestMapping(method = RequestMethod.POST,
-        value = "login")
-    public ModelAndView signIn(
-        @RequestParam("loginUser")
-            String login,
-        @RequestParam("passwordUser")
-            String password,
-        HttpSession session) {
-
-        ModelAndView model = new ModelAndView();
-        model.addObject("title", "Spring Security Hello World");
-        model.addObject("message", "This is welcome page!");
-        model.setViewName(login);
-        return model;*/
-
-/*
-        try {
-            User account = userService.signIn(login, (long) password.hashCode());
-            session.setAttribute(Attribute.ATTRIBUTE_USER, account);
-
-            if (account.getAdminRoot()) {
-                return new RedirectView("admin");
-            } else {
-                return new RedirectView("user");
-            }
-
-        } catch (ServiceException e) {
-            LOGGER.info(Message.AUTHORIZATION_ERROR, e);
-            return new RedirectView("home");
-        }*/
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
 
     @RequestMapping(method = RequestMethod.POST,
@@ -73,7 +47,16 @@ public class UserController {
         HttpSession session) {
 
         try {
-            session.setAttribute(Attribute.ATTRIBUTE_USER, userService.signUp(login, password, name, surname, email));
+            User user = User.builder()
+                .login(login)
+                .password(password)
+                .name(name)
+                .surname(surname)
+                .email(email)
+                .build();
+
+            session.setAttribute(Attribute.ATTRIBUTE_USER, userService.signUp(user));
+
         } catch (ServiceException e) {
             LOGGER.info(Message.CLIENT_SERVICE_ERROR);
             return "redirect:home";
@@ -88,4 +71,5 @@ public class UserController {
 
         return "redirect:/";
     }
+
 }

@@ -1,3 +1,4 @@
+/*
 package com.epam.mediaserver.controller;
 
 import com.epam.mediaserver.entity.Artist;
@@ -89,3 +90,4 @@ public class DeleteController {
         return new ResponseEntity<>(artists, HttpStatus.OK);
     }
 }
+*/

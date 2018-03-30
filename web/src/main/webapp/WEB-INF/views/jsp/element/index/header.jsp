@@ -8,8 +8,8 @@
             <!-- Sign in form -->
             <div class=" navbar-right center-block navbar-form">
                 <ul>
-                    <form action="/spring_security" method="post">       1
-                        <c:if test="${param.error != null}">        2
+                    <form action="/login" method="post">       1
+                      <%--  <c:if test="${param.error != null}">        2
                             <p>
                                 Invalid username and password.
                             </p>
@@ -18,7 +18,7 @@
                             <p>
                                 You have been logged out.
                             </p>
-                        </c:if>
+                        </c:if>--%>
                         <p>
                             <label for="username">Username</label>
                             <input type="text" id="username" name="username"/>	4

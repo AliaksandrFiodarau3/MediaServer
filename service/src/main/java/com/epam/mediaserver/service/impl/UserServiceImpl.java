@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl extends CrudServiceImpl<User,Long> implements UserService{
+public class UserServiceImpl extends CrudServiceImpl<User, Long> implements UserService {
 
     private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
 
@@ -21,17 +21,19 @@ public class UserServiceImpl extends CrudServiceImpl<User,Long> implements UserS
     }
 
     @Override
-    public User signUp(User account) {
-
-        (getDao()).create(account);
-
+    public User signUp(User account) throws ServiceException {
+        try {
+            (getDao()).create(account);
+        } catch (Exception e) {
+            throw new ServiceException("Service exception");
+        }
         return account;
     }
 
     public boolean checkLogin(String login) throws ServiceException {
 
         try {
-            if (((UserDao)getDao()).checkLogin(login)) {
+            if (((UserDao) getDao()).checkLogin(login)) {
                 return true;
             }
         } catch (DAOException e) {
@@ -44,7 +46,7 @@ public class UserServiceImpl extends CrudServiceImpl<User,Long> implements UserS
 
     public boolean checkEmail(String email) throws ServiceException {
         try {
-            if (((UserDao)getDao()).checkEmail(email)) {
+            if (((UserDao) getDao()).checkEmail(email)) {
                 return true;
             }
         } catch (DAOException e) {
@@ -78,7 +80,7 @@ public class UserServiceImpl extends CrudServiceImpl<User,Long> implements UserS
     public void addPhoto(String photo, String login) throws ServiceException {
 
         try {
-            ((UserDao)getDao()).setPhoto(photo, login);
+            ((UserDao) getDao()).setPhoto(photo, login);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
@@ -89,7 +91,7 @@ public class UserServiceImpl extends CrudServiceImpl<User,Long> implements UserS
     public User getByLogin(String login) throws ServiceException {
 
         try {
-            return ((UserDao)getDao()).authorisation(login);
+            return ((UserDao) getDao()).authorisation(login);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
