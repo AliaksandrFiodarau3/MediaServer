@@ -1,16 +1,18 @@
+/*
 package com.epam.mediaserver.dao.impl;
 
 import com.epam.mediaserver.dao.OrderSongDao;
-import com.epam.mediaserver.entity.OrderSong;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+*/
 /**
  * #AbstractModelDao extends for call CRUD commands for the MySQL db
- */
+ *//*
+
 
 @Repository
 public class OrderSongDaoImpl extends AbstractModelDao<OrderSong, Long> implements OrderSongDao {
@@ -44,3 +46,4 @@ public class OrderSongDaoImpl extends AbstractModelDao<OrderSong, Long> implemen
         return null;
     }
 }
+*/

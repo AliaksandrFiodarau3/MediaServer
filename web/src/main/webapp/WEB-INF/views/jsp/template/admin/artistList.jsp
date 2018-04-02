@@ -19,7 +19,7 @@
                             <div class="btn-group">
                                 <a href="#" class="btn btn-default" onclick="deleteMethod('admin/artist/{{id}}','#artistList', 'content')">
                                     <span class="glyphicon glyphicon-trash"/></a>
-                                <a href="#" class="btn btn-default" onclick="getMethod('user/genres/{{genre.id}}/artists/{{id}}/albums', '#albumList','content')">
+                                <a href="#" class="btn btn-default" onclick="getMethod('userDetails/genres/{{genre.id}}/artists/{{id}}/albums', '#albumList','content')">
                                     <span class="glyphicon glyphicon-search"/></a>
                             </div>
                         </center>

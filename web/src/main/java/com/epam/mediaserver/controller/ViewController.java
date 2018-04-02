@@ -4,48 +4,78 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
 public class ViewController {
 
     private static final Logger LOGGER = LogManager.getLogger(ViewController.class);
 
-    @GetMapping()
-    public String homePage() {
-        return "login";
+  /*  private UserService userService;
+    private OrderService orderService;
+    private GenreService genreService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
+
+    @Autowired
+    public void setGenreService(GenreService genreService) {
+        this.genreService = genreService;
+    }
+
+    @Autowired
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    @RequestMapping(value = "user", method = RequestMethod.GET)
+    public ModelAndView dashboard() {
+        ModelAndView model = new ModelAndView();
+        model.addObject("users", userService.findAll());
+        model.setViewName("user");
+        return model;
+    }*/
+
+    @GetMapping(value = "home")
+    public String homePage() {
+        return "home";
+    }
+
+    @GetMapping()
+    public String mainPage() {
+        return "redirect:home";
+    }
 
     @GetMapping(value = "admin")
     public String adminPage() {
         return "admin";
     }
 
-    @GetMapping(value = "user")
+   /* @GetMapping(value = "user")
     public String userPage() {
         return "user";
-    }
-/*
-    @RequestMapping(value = "user/order")
+    }*/
+
+  /*  @RequestMapping(value = "user/order")
     public ResponseEntity<Map<String, Set<OrderSong>>> getOrder(HttpSession session) throws ServiceException {
 
         Order order = (Order) session.getAttribute("order");
 
         if (Objects.isNull(order)) {
-            orderUserService.create((User) session.getAttribute(Attribute.ATTRIBUTE_USER));
-            order = orderUserService.getOrder();
+            orderService.create((User) session.getAttribute(Attribute.ATTRIBUTE_USER));
+            order = orderService.getOrder();
         }
 
         Map<String, Set<OrderSong>> orders = new HashMap<>(1);
 
-        orders.put("orders", orderUserService.getAllGoodsInOrder());
+        orders.put("orders", orderSongService.getAllGoodsInOrder());
 
         return new ResponseEntity<>(orders, HttpStatus.OK);
-    }
+    }*/
 
-    @RequestMapping(value = {"admin/profile", "user/profile"})
+   /* @RequestMapping(value = {"admin/profile", "user/profile"})
     public ResponseEntity<Map<String, User>> getProfile(HttpSession session) {
 
         User account = (User) session.getAttribute("user");
@@ -64,9 +94,9 @@ public class ViewController {
         genres.put("genres", genreService.findAll());
 
         return new ResponseEntity<>(genres, HttpStatus.OK);
-    }
+    }*/
 
-    @RequestMapping(value = {
+   /* @RequestMapping(value = {
         "admin/genres/{genreId}/artists",
         "user/genres/{genreId}/artists"})
     public ResponseEntity<Map<String, List<Artist>>> getArtists(
@@ -78,9 +108,9 @@ public class ViewController {
         artists.put("artists", artistService.getByGenre(genreId));
 
         return new ResponseEntity<>(artists, HttpStatus.OK);
-    }
+    }*/
 
-    @RequestMapping(value = {
+    /*@RequestMapping(value = {
         "admin/genres/{genreId}/artists/{artistId}/albums",
         "user/genres/{genreId}/artists/{artistId}/albums"})
     public ResponseEntity<Map<String, List<Album>>> getAlbums(
@@ -94,9 +124,9 @@ public class ViewController {
         albums.put("albums", albumService.getByArtist(artistId));
 
         return new ResponseEntity<>(albums, HttpStatus.OK);
-    }
+    }*/
 
-    @RequestMapping(value = {
+  /*  @RequestMapping(value = {
         "admin/genres/{genreId}/artists/{artistId}/albums/{albumId}/songs",
         "user/genres/{genreId}/artists/{artistId}/albums/{albumId}/songs"})
     public ResponseEntity<Map<String, List<Song>>> getSongs(
@@ -112,9 +142,9 @@ public class ViewController {
         songs.put("songs", songService.getByAlbum(albumId));
 
         return new ResponseEntity<>(songs, HttpStatus.OK);
-    }
+    }*/
 
-    @RequestMapping(value = {
+  /*  @RequestMapping(value = {
         "admin/genres/{genreId}/artists/{artistId}/albums/{albumId}/songs/{songId}/comments",
         "user/genres/{genreId}/artists/{artistId}/albums/{albumId}/songs/{songId}/comments"})
     public ResponseEntity<Map<String, List<Comment>>> getComments(

@@ -2,46 +2,62 @@ package com.epam.mediaserver.config;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+
+import javax.annotation.Resource;
 
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackages = "com.epam.mediaserver")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-   /* @Resource(name = "userDetailService")
-    private UserDetailsService userDetailsService;*/
+    @Resource(name = "userService")
+    private UserDetailsService userDetailsService;
+
+
+    @Bean
+    public NoOpPasswordEncoder passwordEncoder() {
+        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-            auth.inMemoryAuthentication().withUser("User").password("Qwerty1234").roles("USER");
-            auth.inMemoryAuthentication().withUser("admin").password("123").roles("ADMIN");
+        auth.userDetailsService(userDetailsService);
     }
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-      /*  http.authorizeRequests()
-            .anyRequest().authenticated()
-            .antMatchers("user/**").access("hasRole('ROLE_USER')")
-            .antMatchers("admin/**").access("hasRole('ROLE_ADMIN')")
+       /* http.authorizeRequests()
             .and()
-            .formLogin().loginPage("/login").failureUrl("/").defaultSuccessUrl("/user")
+            .formLogin()
+            .loginPage("/").permitAll()
+            .loginProcessingUrl("/login")
+            .successForwardUrl("/user/")
+            .failureHandler(new FailureHandler())
             .and()
-            .logout().logoutUrl("/login").permitAll();*/
+            .logout()
+            .logoutUrl("/")
+            .logoutSuccessUrl("/user/")
+            .invalidateHttpSession(true)
+            .and()
+            .sessionManagement()
+            .maximumSessions(-1)
+            .sessionRegistry(sessionRegistry());*/
 
 
-        http.csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("**/login")).and().authorizeRequests()
-            .antMatchers("/user/**").hasRole("USER")
-            .antMatchers("/admin/**").hasRole("USER")
-            .and().formLogin().defaultSuccessUrl("/user").failureUrl("/login?error=true")
-            .loginPage("/login").and().logout().permitAll();
-    }
+//        http.csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("**/login")).and().authorizeRequests()
+//            .antMatchers("/user").hasRole("USER").and().formLogin().defaultSuccessUrl("/user")
+//            .loginPage("/login")
+//            .and().logout().permitAll();
+}
 }

@@ -9,12 +9,22 @@ import com.epam.mediaserver.service.UserService;
 import com.epam.mediaserver.util.Validation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service
-public class UserServiceImpl extends CrudServiceImpl<User, Long> implements UserService {
+import java.util.Arrays;
+import java.util.List;
+
+@Service("userService")
+public class UserServiceImpl extends CrudServiceImpl<User, Long> implements UserService, UserDetailsService {
 
     private static final Logger LOGGER = LogManager.getLogger(UserServiceImpl.class);
+
+    @Autowired
+    private UserDao userDao;
 
     UserServiceImpl(UserDao dao) {
         super(dao);
@@ -28,20 +38,6 @@ public class UserServiceImpl extends CrudServiceImpl<User, Long> implements User
             throw new ServiceException("Service exception");
         }
         return account;
-    }
-
-    public boolean checkLogin(String login) throws ServiceException {
-
-        try {
-            if (((UserDao) getDao()).checkLogin(login)) {
-                return true;
-            }
-        } catch (DAOException e) {
-            LOGGER.info(Error.LOGIN_EXISTS);
-            throw new ServiceException(Error.LOGIN_EXISTS);
-        }
-        return false;
-
     }
 
     public boolean checkEmail(String email) throws ServiceException {
@@ -96,5 +92,28 @@ public class UserServiceImpl extends CrudServiceImpl<User, Long> implements User
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
         }
+    }
+
+    @Override
+    public org.springframework.security.core.userdetails.User loadUserByUsername(String login)
+        throws UsernameNotFoundException {
+
+        try {
+            User account = userDao.findByLogin(login);
+
+            return new org.springframework.security.core.userdetails.User(
+                account.getLogin(),account.getPassword(),getAuthority());
+
+        } catch (DAOException e) {
+            throw new UsernameNotFoundException("Invalid username or password.");
+        }
+    }
+
+    private List<SimpleGrantedAuthority> getAuthority() {
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    public List<User> getUsers() {
+        return userDao.findAll();
     }
 }

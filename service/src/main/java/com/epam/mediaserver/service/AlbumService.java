@@ -6,7 +6,7 @@ import com.epam.mediaserver.exeption.DAOException;
 
 import java.util.List;
 
-public interface AlbumService {
+public interface AlbumService extends CrudService<Album,Long>{
 
     Album getByName(String title) throws ServiceException, DAOException;
 

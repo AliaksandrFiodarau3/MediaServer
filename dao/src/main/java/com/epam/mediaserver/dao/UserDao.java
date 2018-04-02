@@ -54,7 +54,7 @@ public interface UserDao extends CrudDao<User, Long>{
 
     User registration(String login, String password, String email, String name, String surname) throws DAOException;
 
-    boolean checkLogin(String login) throws DAOException;
+    User findByLogin(String login) throws DAOException;
 
     boolean checkEmail(String email) throws DAOException;
 }

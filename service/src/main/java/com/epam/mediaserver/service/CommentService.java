@@ -5,7 +5,7 @@ import com.epam.mediaserver.exception.ServiceException;
 
 import java.util.List;
 
-public interface CommentService {
+public interface CommentService extends CrudService<Comment,Long>{
 
     List<Comment> getBySong(Long id) throws ServiceException ;
 }

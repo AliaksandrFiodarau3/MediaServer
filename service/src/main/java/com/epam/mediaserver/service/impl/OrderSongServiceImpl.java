@@ -1,7 +1,7 @@
+/*
 package com.epam.mediaserver.service.impl;
 
 import com.epam.mediaserver.dao.OrderSongDao;
-import com.epam.mediaserver.entity.OrderSong;
 import com.epam.mediaserver.service.OrderSongService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,3 +24,4 @@ public class OrderSongServiceImpl extends CrudServiceImpl<OrderSong, Long> imple
     }
 
 }
+*/

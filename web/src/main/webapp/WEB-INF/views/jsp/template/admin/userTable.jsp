@@ -50,7 +50,7 @@
     <div class="bs-example">
         <ul class="pagination">
             <c:forEach var = "i" begin = "1" end = "${page}">
-                <li><a href="#" onclick="commandShowWithPage('show-user-list', '#user-table', ${i});"> <c:out value = "${i}"/></a></li>
+                <li><a href="#" onclick="commandShowWithPage('show-userDetails-list', '#userDetails-table', ${i});"> <c:out value = "${i}"/></a></li>
             </c:forEach>
         </ul>
     </div>

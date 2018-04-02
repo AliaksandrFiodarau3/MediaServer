@@ -3,9 +3,12 @@ package com.epam.mediaserver.dao.impl;
 
 import com.epam.mediaserver.dao.UserDao;
 import com.epam.mediaserver.entity.User;
+import com.epam.mediaserver.exeption.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
+
+import javax.persistence.Query;
 
 
 @Repository
@@ -63,8 +66,12 @@ public class UserDaoImpl extends AbstractModelDao<User, Long> implements UserDao
     }
 
     @Override
-    public boolean checkLogin(String login) {
-        return false;
+    public User findByLogin(String login) throws DAOException {
+
+        Query query = getEntityManager().createQuery("select p FROM User p WHERE p.login = ?1", User.class);
+        query.setParameter(1, login);
+
+        return (User) query.getSingleResult();
     }
 
     @Override

@@ -17,7 +17,30 @@
 </head>
 <body>
 <header>
-    <%@include file='jsp/user/headerUser.jsp' %>
+    <div id="user-nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <ul class="navbar-left">
+                <li>
+                    <a href="#" onclick="getMethod('user/genres', '#genreList', 'content')"><img class="center navbar-brand" src="web/img/logo.png"></a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" onclick="getMethod('user/profile', '#profile', 'profileModal')" data-toggle="modal" data-target="#profileModal"><i
+                            class="glyphicon glyphicon-cog"></i><fmt:message key="admin.link.setting"/></a>
+                </li>
+                <li><a href="signOut"><i class="glyphicon glyphicon-log-out"></i>
+                    <span class="text"><fmt:message key="label.sign.out"/></span></a>
+                </li>
+                <li class="btn-group">
+                    <a class="btn btn-default" href="Controller?command=change-locale&lang=ru"><fmt:message
+                            key="button.ru"/></a>
+                    <a class="btn btn-default" href="Controller?command=change-locale&lang=en"><fmt:message
+                            key="button.en"/></a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </header>
 
 
@@ -32,15 +55,15 @@
     <div id="comments" class="container"></div>
 </div>
 
-<%@include file='jsp/user/element/userGenreList.jsp' %>
-<%@include file='jsp/user/element/profileList.jsp' %>
-<%@include file='jsp/user/element/userAlbumList.jsp' %>
-<%@include file='jsp/user/element/userArtistList.jsp' %>
-<%@include file='jsp/user/element/userSongTable.jsp' %>
-<%@include file='jsp/user/element/userGoodsList.jsp' %>
-<%@include file='jsp/user/element/userCommentShow.jsp' %>
+<%@include file='jsp/template/user/userGenreList.jsp' %>
+<%@include file='jsp/template/user/profileList.jsp' %>
+<%@include file='jsp/template/user/userAlbumList.jsp' %>
+<%@include file='jsp/template/user/userArtistList.jsp' %>
+<%@include file='jsp/template/user/userSongTable.jsp' %>
+<%@include file='jsp/template/user/userGoodsList.jsp' %>
+<%@include file='jsp/template/user/userCommentShow.jsp' %>
 
-<%@include file='jsp/element/modal/profile.jsp' %>
+<%@include file='jsp/modal/profile.jsp' %>
 
 <script src="web/js/framework/jquery-3.2.1.js"></script>
 

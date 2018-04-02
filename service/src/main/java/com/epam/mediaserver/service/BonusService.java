@@ -1,5 +1,7 @@
 package com.epam.mediaserver.service;
 
-public interface BonusService {
+import com.epam.mediaserver.entity.Bonus;
+
+public interface BonusService extends CrudService<Bonus,Long>{
 
 }

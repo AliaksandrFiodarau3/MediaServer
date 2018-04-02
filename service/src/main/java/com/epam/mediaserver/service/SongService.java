@@ -1,5 +1,7 @@
 package com.epam.mediaserver.service;
 
-public interface SongService {
+import com.epam.mediaserver.entity.Song;
+
+public interface SongService extends CrudService<Song,Long>{
 
 }

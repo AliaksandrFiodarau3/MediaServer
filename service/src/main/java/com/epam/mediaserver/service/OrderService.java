@@ -1,5 +1,7 @@
 package com.epam.mediaserver.service;
 
-public interface OrderService {
+import com.epam.mediaserver.entity.Order;
+
+public interface OrderService extends CrudService<Order,Long> {
 
 }

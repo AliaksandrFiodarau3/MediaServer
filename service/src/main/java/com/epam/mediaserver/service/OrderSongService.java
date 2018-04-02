@@ -1,11 +1,11 @@
+/*
 package com.epam.mediaserver.service;
-
-import com.epam.mediaserver.entity.OrderSong;
 
 import java.util.List;
 
-public interface OrderSongService {
+public interface OrderSongService extends CrudService<OrderSong,Long>{
 
     public List<OrderSong> getByOrder(Long orderId);
 
 }
+*/

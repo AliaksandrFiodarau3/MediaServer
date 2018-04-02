@@ -13,7 +13,7 @@ public class MediaServerWebApplicationInitializer implements WebApplicationIniti
     public void onStartup(ServletContext servletContext) {
         AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext();
 
-        applicationContext.register(WebConfig.class, SecurityConfig.class, BeanConfig.class);
+        applicationContext.register(WebConfig.class, /*SecurityConfig.class,*/ BeanConfig.class);
         applicationContext.setServletContext(servletContext);
 
         DispatcherServlet servlet = new DispatcherServlet(applicationContext);

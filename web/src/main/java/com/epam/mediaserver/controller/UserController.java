@@ -30,7 +30,6 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @RequestMapping(method = RequestMethod.POST,
         value = "registration")
     public String signUp(
@@ -71,5 +70,4 @@ public class UserController {
 
         return "redirect:/";
     }
-
 }

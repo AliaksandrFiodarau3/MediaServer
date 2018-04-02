@@ -6,7 +6,7 @@ import com.epam.mediaserver.exeption.DAOException;
 
 import java.util.List;
 
-public interface ArtistService {
+public interface ArtistService extends CrudService<Artist,Long>{
 
     Artist getByName(String title) throws ServiceException, DAOException;
 
