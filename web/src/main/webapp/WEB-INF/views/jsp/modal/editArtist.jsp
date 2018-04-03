@@ -17,29 +17,29 @@
                         <input name="command" value="edit-artist">
                         <input id="idArtist" name="idArtist">
                         <div class="form-group row">
-                            <label for="titleArtist" class="col-sm-1 col-form-label"><fmt:message
+                            <label for="titleEditArtist" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.title"/>:</label>
                             <div class="col-sm-5">
-                                <input id="titleArtist" name="titleArtist"
+                                <input id="titleEditArtist" name="titleEditArtist"
                                        placeholder="<fmt:message key="label.title"/>"
                                        class="form-control form-control-plaintext" required>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="descriptionArtist" class="col-sm-1 col-form-label"><fmt:message
+                            <label for="descriptionEditArtist" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.description"/>:</label>
                             <div class="col-sm-5">
-                                <input name="descriptionArtist" id="descriptionArtist"
+                                <input name="descriptionEditArtist" id="descriptionEditArtist"
                                        placeholder="<fmt:message key="label.description"/>"
                                        class="form-control" required>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="imageArtist" class="col-sm-1 col-form-label"><fmt:message
+                            <label for="imageEditArtist" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.image"/>:</label>
                             <div class="col-sm-5">
-                                <input name="imageArtist" id="imageArtist"
+                                <input name="imageEditArtist" id="imageEditArtist"
                                        placeholder="<fmt:message key="label.image"/>"
                                        class="form-control" required>
                             </div>

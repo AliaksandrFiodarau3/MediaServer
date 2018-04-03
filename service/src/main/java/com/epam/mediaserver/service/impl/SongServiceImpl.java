@@ -28,15 +28,13 @@ public class SongServiceImpl extends CrudServiceImpl<Song,Long> implements SongS
     }
 
     public List<Song> getByAlbum(Long albumId) throws ServiceException {
-        List<Song> songs;
 
         try {
-            songs = ((SongDao)getDao()).getByAlbum(albumId);
+            return ((SongDao)getDao()).getByAlbum(albumId);
+
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
         }
-
-        return songs;
     }
 }

@@ -1,47 +1,38 @@
-/*
 package com.epam.mediaserver.controller;
 
-import com.epam.mediaserver.constant.Attribute;
+import com.epam.mediaserver.entity.Album;
+import com.epam.mediaserver.entity.Artist;
 import com.epam.mediaserver.entity.Genre;
-import com.epam.mediaserver.entity.OrderSong;
-import com.epam.mediaserver.entity.Song;
-import com.epam.mediaserver.entity.User;
-import com.epam.mediaserver.exception.ServiceException;
-import com.epam.mediaserver.exception.ValidateException;
-import com.epam.mediaserver.service.impl.AlbumServiceImpl;
-import com.epam.mediaserver.service.impl.ArtistServiceImpl;
-import com.epam.mediaserver.service.impl.CommentServiceImpl;
-import com.epam.mediaserver.service.impl.GenreServiceImpl;
-import com.epam.mediaserver.service.impl.OrderSongServiceImpl;
-import com.epam.mediaserver.service.impl.OrderUserService;
-import com.epam.mediaserver.service.impl.SongServiceImpl;
-import com.epam.mediaserver.service.impl.UserServiceImpl;
+import com.epam.mediaserver.service.AlbumService;
+import com.epam.mediaserver.service.ArtistService;
+import com.epam.mediaserver.service.GenreService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import javax.servlet.http.HttpSession;
-
 
 @Controller
 @EnableWebMvc
-@RequestMapping("/")
+@RequestMapping("admin")
 public class AddController {
 
     private static final Logger LOGGER = LogManager.getLogger(AddController.class);
 
-    @RequestMapping(value = "user/addGood",
+    @Autowired
+    private GenreService genreService;
+
+    @Autowired
+    private ArtistService artistService;
+
+    @Autowired
+    private AlbumService albumService;
+
+ /*@RequestMapping(value = "user/addGood",
         method = RequestMethod.PUT)
     public ResponseEntity<Map<String, Set<OrderSong>>> addGood(
         @PathVariable
@@ -68,53 +59,71 @@ public class AddController {
 
         return new ResponseEntity<>(songs, HttpStatus.OK);
     }
+*/
 
-    @RequestMapping(value = "admin/genre/title/{titleGenre}/description/{descriptionGenre}/image/{imageGenre}",
+    @RequestMapping(value = "genre/title/{titleGenre}/description/{descriptionGenre}/image/{imageGenre}",
         method = RequestMethod.PUT)
-    public ResponseEntity<Map<String, List<Genre>>> addGenre(
+    public void addGenre(
         @PathVariable("titleGenre")
             String title,
         @PathVariable("descriptionGenre")
             String description,
         @PathVariable("imageGenre")
-            String image) throws ServiceException {
+            String image) {
 
-        try {
-            genreService.add(title, description, image);
-        } catch (ValidateException e) {
-            LOGGER.info("Error validation");
-        } catch (ServiceException e) {
-            LOGGER.error("Service Exception");
-        }
-
-        Map<String, List<Genre>> genres = new HashMap<>(1);
-        genres.put("genres", genreService.getAll());
-
-        return new ResponseEntity<>(genres, HttpStatus.OK);
+        genreService.create(
+            Genre.builder()
+                .title(title)
+                .description(description)
+                .image(image)
+                .build());
     }
 
-    @RequestMapping(value = "admin/artist/title/{titleGenre}/description/{descriptionGenre}/image/{imageGenre}",
+    @RequestMapping(value = "artist/genre/{genreId}/title/{titleGenre}/description/{descriptionGenre}/image/{imageGenre}",
         method = RequestMethod.PUT)
-    public ResponseEntity<Map<String, List<Genre>>> addArtist(
+    public void addArtist(
+        @PathVariable("genreId")
+            Long genreId,
         @PathVariable("titleGenre")
             String title,
         @PathVariable("descriptionGenre")
             String description,
         @PathVariable("imageGenre")
-            String image) throws ServiceException {
+            String image)  {
 
-        try {
-            genreService.add(title, description, image);
-        } catch (ValidateException e) {
-            LOGGER.info("Error validation");
-        } catch (ServiceException e) {
-            LOGGER.error("Service Exception");
-        }
-
-        Map<String, List<Genre>> genres = new HashMap<>(1);
-        genres.put("genres", genreService.getAll());
-
-        return new ResponseEntity<>(genres, HttpStatus.OK);
+        artistService.create(
+            Artist.builder()
+                .genre(genreService.find(genreId))
+                .title(title)
+                .description(description)
+                .image(image)
+                .build());
     }
 
-}*/
+
+    //getNode('titleAlbum').value +'year/'+ getNode('yearAlbum').value +'/description/'+ getNode('descriptionGenre').value + '/image/'+ getNode('imageGenre').value
+
+    @RequestMapping(value = "album/artist/{artistId}/title/{titleAlbum}/year/{yearAlbum}/description/{descriptionGenre}/image/{imageAlbum}",
+        method = RequestMethod.PUT)
+    public void addAlbum(
+        @PathVariable("artistId")
+            Long artistId,
+        @PathVariable("titleAlbum")
+            String title,
+        @PathVariable("yearAlbum")
+            Integer year,
+        @PathVariable("descriptionGenre")
+            String description,
+        @PathVariable("imageAlbum")
+            String image)  {
+
+        albumService.create(
+            Album.builder()
+                .artist(artistService.find(artistId))
+                .title(title)
+                .year(year)
+                .description(description)
+                .image(image)
+                .build());
+    }
+}

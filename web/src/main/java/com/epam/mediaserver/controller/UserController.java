@@ -1,3 +1,4 @@
+/*
 package com.epam.mediaserver.controller;
 
 import com.epam.mediaserver.constant.Attribute;
@@ -71,3 +72,4 @@ public class UserController {
         return "redirect:/";
     }
 }
+*/

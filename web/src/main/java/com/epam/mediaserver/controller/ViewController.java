@@ -1,34 +1,60 @@
 package com.epam.mediaserver.controller;
 
+import com.epam.mediaserver.entity.Comment;
+import com.epam.mediaserver.entity.Genre;
+import com.epam.mediaserver.entity.User;
+import com.epam.mediaserver.exception.ServiceException;
+import com.epam.mediaserver.service.AlbumService;
+import com.epam.mediaserver.service.ArtistService;
+import com.epam.mediaserver.service.CommentService;
+import com.epam.mediaserver.service.GenreService;
+import com.epam.mediaserver.service.OrderService;
+import com.epam.mediaserver.service.SongService;
+import com.epam.mediaserver.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpSession;
 
 @Controller
+@EnableWebMvc
+@RequestMapping("/")
 public class ViewController {
 
     private static final Logger LOGGER = LogManager.getLogger(ViewController.class);
 
-  /*  private UserService userService;
+    @Autowired
+    private UserService userService;
+
+    @Autowired
     private OrderService orderService;
+
+    @Autowired
     private GenreService genreService;
 
     @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
+    private ArtistService artistService;
 
     @Autowired
-    public void setGenreService(GenreService genreService) {
-        this.genreService = genreService;
-    }
+    private AlbumService albumService;
 
     @Autowired
-    public void setOrderService(OrderService orderService) {
-        this.orderService = orderService;
-    }
+    private CommentService commentService;
+
+    @Autowired
+    private SongService songService;
 
     @RequestMapping(value = "user", method = RequestMethod.GET)
     public ModelAndView dashboard() {
@@ -36,19 +62,14 @@ public class ViewController {
         model.addObject("users", userService.findAll());
         model.setViewName("user");
         return model;
-    }*/
+    }
 
-    @GetMapping(value = "home")
-    public String homePage() {
+    @RequestMapping()
+    public String mainPage() {
         return "home";
     }
 
-    @GetMapping()
-    public String mainPage() {
-        return "redirect:home";
-    }
-
-    @GetMapping(value = "admin")
+    @RequestMapping(value = "admin")
     public String adminPage() {
         return "admin";
     }
@@ -75,7 +96,7 @@ public class ViewController {
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }*/
 
-   /* @RequestMapping(value = {"admin/profile", "user/profile"})
+    @RequestMapping(value = {"admin/profile", "user/profile"})
     public ResponseEntity<Map<String, User>> getProfile(HttpSession session) {
 
         User account = (User) session.getAttribute("user");
@@ -88,72 +109,65 @@ public class ViewController {
     }
 
     @RequestMapping(value = {"admin/genres", "user/genres"})
-    public ResponseEntity<Map<String, List<Genre>>> getGenres() throws ServiceException {
+    public ResponseEntity<Map<String, List<Genre>>> getGenres() {
 
         Map<String, List<Genre>> genres = new HashMap<>(1);
         genres.put("genres", genreService.findAll());
 
         return new ResponseEntity<>(genres, HttpStatus.OK);
-    }*/
+    }
 
-   /* @RequestMapping(value = {
-        "admin/genres/{genreId}/artists",
-        "user/genres/{genreId}/artists"})
-    public ResponseEntity<Map<String, List<Artist>>> getArtists(
+    @RequestMapping(value = {
+        "admin/genre/{genreId}/artists",
+        "user/genre/{genreId}/artists"})
+    public ResponseEntity<Map<String, Object>> getArtists(
         @PathVariable
             long genreId) throws ServiceException {
 
-        Map<String, List<Artist>> artists = new HashMap<>(1);
+        Map<String, Object> artists = new HashMap<>();
 
         artists.put("artists", artistService.getByGenre(genreId));
+        artists.put("genreId", genreId);
 
         return new ResponseEntity<>(artists, HttpStatus.OK);
-    }*/
+    }
 
-    /*@RequestMapping(value = {
-        "admin/genres/{genreId}/artists/{artistId}/albums",
-        "user/genres/{genreId}/artists/{artistId}/albums"})
-    public ResponseEntity<Map<String, List<Album>>> getAlbums(
-        @PathVariable
-            long artistId,
-        @PathVariable
-            long genreId) throws ServiceException {
+    @RequestMapping(value = {
+        "admin/artist/{artistId}/albums",
+        "user/artist/{artistId}/albums"})
 
-        Map<String, List<Album>> albums = new HashMap<>(1);
+    public ResponseEntity<Map<String, Object>> getAlbums(
+        @PathVariable
+            long artistId) throws ServiceException {
+
+        System.out.println(artistId);
+
+        Map<String, Object> albums = new HashMap<>();
 
         albums.put("albums", albumService.getByArtist(artistId));
+        albums.put("artistId", artistId);
 
         return new ResponseEntity<>(albums, HttpStatus.OK);
-    }*/
+    }
 
-  /*  @RequestMapping(value = {
-        "admin/genres/{genreId}/artists/{artistId}/albums/{albumId}/songs",
-        "user/genres/{genreId}/artists/{artistId}/albums/{albumId}/songs"})
-    public ResponseEntity<Map<String, List<Song>>> getSongs(
-        @PathVariable
-            long artistId,
-        @PathVariable
-            long genreId,
-        @PathVariable
-            long albumId) throws ServiceException {
+    @RequestMapping(value = {
+        "admin/album/{albumId}/songs",
+        "user/album/{albumId}/songs"})
+    public ResponseEntity<Map<String, Object>> getSongs(
+        @PathVariable long albumId) throws ServiceException{
 
-        Map<String, List<Song>> songs = new HashMap<>(1);
+        Map<String, Object> songs = new HashMap<>();
 
         songs.put("songs", songService.getByAlbum(albumId));
+        songs.put("albumId", albumId);
 
         return new ResponseEntity<>(songs, HttpStatus.OK);
-    }*/
+    }
 
-  /*  @RequestMapping(value = {
-        "admin/genres/{genreId}/artists/{artistId}/albums/{albumId}/songs/{songId}/comments",
-        "user/genres/{genreId}/artists/{artistId}/albums/{albumId}/songs/{songId}/comments"})
+    @RequestMapping(value = {
+        "admin/song/{songId}/comments",
+        "user/song/{songId}/comments"})
     public ResponseEntity<Map<String, List<Comment>>> getComments(
-        @PathVariable
-            long artistId,
-        @PathVariable
-            long genreId,
-        @PathVariable
-            long albumId,
         @PathVariable
             long songId) throws ServiceException {
 
@@ -162,5 +176,5 @@ public class ViewController {
         comments.put("comments", commentService.getBySong(songId));
 
         return new ResponseEntity<>(comments, HttpStatus.OK);
-    }*/
+    }
 }

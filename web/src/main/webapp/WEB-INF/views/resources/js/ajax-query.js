@@ -1,5 +1,11 @@
 var doc = document;
 
+
+
+function getByGenre(id) {
+    getMethod('admin/genre/'+ id +'/artists', '#artistList','content');
+}
+
 function getNode(nameClass) {
     if(nameClass[0] ==='.') {
         return document.querySelector(nameClass);

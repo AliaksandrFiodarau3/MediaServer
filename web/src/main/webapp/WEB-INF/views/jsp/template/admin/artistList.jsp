@@ -5,7 +5,7 @@
     <div>
         <h1 class="page-header"><fmt:message key="admin.table.title.artists"/></h1>
         <a data-toggle="modal" data-target="#newArtist" href="#" class="btn btn-primary btn-xs pull-right"
-           onfocus="inputGenre('{{genre.title}}')"><b>+</b>
+           onfocus="inputId('{{genreId}}', 'genreArtist')"><b>+</b>
             <fmt:message key="admin.table.add.artist"/></a>
         <div class="row placeholders">
             {{#each artists}}
@@ -17,9 +17,13 @@
                         </center>
                         <center>
                             <div class="btn-group">
-                                <a href="#" class="btn btn-default" onclick="deleteMethod('admin/artist/{{id}}','#artistList', 'content')">
+                                <a href="#" class="btn btn-default"
+                                   onclick="
+                                   deleteMethod('admin/artist/{{id}}','#artistList', 'content');
+                                   getMethod('admin/genre/{{id}}/artists', '#artistList','content')">
+
                                     <span class="glyphicon glyphicon-trash"/></a>
-                                <a href="#" class="btn btn-default" onclick="getMethod('userDetails/genres/{{genre.id}}/artists/{{id}}/albums', '#albumList','content')">
+                                <a href="#" class="btn btn-default" onclick="getMethod('admin/artist/{{id}}/albums', '#albumList','content')">
                                     <span class="glyphicon glyphicon-search"/></a>
                             </div>
                         </center>

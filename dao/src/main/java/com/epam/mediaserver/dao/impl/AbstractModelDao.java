@@ -41,13 +41,8 @@ public abstract class AbstractModelDao<T, K extends Serializable> implements Cru
     }
 
     @Override
-    public void delete(T entity) {
-        if (!entityManager.contains(entity)) {
-            entity = find(getKey(entity));
-        }
-        if (entity != null) {
-            entityManager.remove(entity);
-        }
+    public void delete(K id) {
+        entityManager.remove(find(id));
     }
 
     @Override

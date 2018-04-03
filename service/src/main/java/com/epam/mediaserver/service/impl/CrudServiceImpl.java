@@ -34,8 +34,8 @@ public abstract class CrudServiceImpl<T, K extends Serializable> implements Crud
 
     @Transactional
     @Override
-    public void delete(T entity) {
-        dao.delete(entity);
+    public void delete(K id) {
+        dao.delete(id);
     }
 
     @Transactional

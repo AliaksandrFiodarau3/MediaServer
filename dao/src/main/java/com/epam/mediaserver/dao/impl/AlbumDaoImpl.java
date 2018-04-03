@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import javax.persistence.Query;
 
 /**
  * #AlbumDao interface implementation for the MySQL db {@link Album}
@@ -19,14 +20,8 @@ public class AlbumDaoImpl extends AbstractModelDao<Album, Long> implements Album
 
       private static final Logger LOGGER = LogManager.getLogger(AlbumDaoImpl.class);
 
-    private static final String CREATE_QUERY =
-        "INSERT INTO t_album (artist_id, album_year, album_description, album_image ,album_title) VALUES (?,?,?,?,?);";
-    private static final String SELECT_QUERY = "SELECT * FROM t_album;";
+
     private static final String SELECT_QUERY_WITH_ID = "select * from t_album where album_id = ?;";
-    private static final String UPDATE_QUERY =
-        "update t_album set artist_id = ?, album_year = ? ,album_description = ? , album_image = ?" +
-        "where album_title = ?;";
-    private static final String DELETE_QUERY = "DELETE FROM t_album WHERE album_title = ?;";
 
     private static final String BY_ARTIST_QUERY = "SELECT * FROM t_album " +
                                                   "WHERE artist_id = ?";
@@ -44,10 +39,15 @@ public class AlbumDaoImpl extends AbstractModelDao<Album, Long> implements Album
         super(Album.class);
     }
 
-
     @Override
-    public List<Album> getByArtist(Long artistId) throws DAOException {
-        return null;
+    public List<Album> getByArtist(Long id) throws DAOException {
+        Query query = getEntityManager().createQuery("from Album a WHERE a.artist.id = ?1");
+
+        query.setParameter(1, id);
+
+        List<Album> albums =  query.getResultList();
+
+        return albums;
     }
 
     @Override

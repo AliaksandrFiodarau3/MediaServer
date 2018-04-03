@@ -2,11 +2,13 @@ package com.epam.mediaserver.dao.impl;
 
 import com.epam.mediaserver.dao.ArtistDao;
 import com.epam.mediaserver.entity.Artist;
+import com.epam.mediaserver.entity.Genre;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import javax.persistence.Query;
 
 /**
  * #ArtistDao interface implementation for the MySQL db {@link Artist}
@@ -19,14 +21,9 @@ public class ArtistDaoImpl extends AbstractModelDao<Artist, Long> implements Art
 
     private static final Logger LOGGER = LogManager.getLogger(ArtistDaoImpl.class);
 
-    private static final String CREATE_QUERY =
-        "INSERT INTO t_artist (genre_id, artist_description, artist_image, artist_title) VALUES (?,?,?,?);";
-    private static final String SELECT_QUERY = "SELECT * FROM t_artist";
+
     private static final String SELECT_QUERY_WITH_ID = "select * from t_artist where artist_id = ?;";
     private static final String SELECT_QUERY_BY_GENRE = "select * from t_artist where genre_id = ?";
-    private static final String UPDATE_QUERY =
-        "update t_artist set artist_description = ?, artist_image = ? where artist_title = ?;";
-    private static final String DELETE_QUERY = "DELETE FROM t_artist WHERE artist_title = ?;";
     private static final String BY_NAME_QUERY = "select * from t_artist where artist_title = ?;";
 
     private static final String ARTIST_ID = "artist_id";
@@ -47,7 +44,14 @@ public class ArtistDaoImpl extends AbstractModelDao<Artist, Long> implements Art
 
     @Override
     public List<Artist> getByGenre(Long id) {
-        return null;
+
+        Query query = getEntityManager().createQuery("from Artist a WHERE a.genre.id = ?1");
+
+        query.setParameter(1, id);
+
+        List<Artist> artists =  query.getResultList();
+
+        return artists;
     }
 
     @Override

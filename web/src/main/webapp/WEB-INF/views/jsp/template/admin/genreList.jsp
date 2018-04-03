@@ -3,7 +3,7 @@
     <br>
     <br>
     <h1 class="page-header"><fmt:message key="admin.table.title.genres"/></h1>
-    <a data-toggle="modal" data-target="#newGenre" href="#" onfocus="inputGenre('{{title}}')"
+    <a data-toggle="modal" data-target="#newGenre" href="#")
        class="btn btn-primary btn-xs pull-right"><b>+</b>
         <fmt:message key="admin.table.add.genre"/></a>
     <div class="row placeholders">
@@ -16,9 +16,9 @@
                     </center>
                     <center>
                         <div class="btn-group">
-                            <a href="#" class="btn btn-default" onclick="deleteMethod('admin/genre/{{id}}','#genre-list','content')">
+                            <a href="#" class="btn btn-default" onclick="deleteMethod('admin/genre/{{id}}')">
                                 <span class="glyphicon glyphicon-trash"/></a>
-                            <a href="#" class="btn btn-default" onclick="getMethod('admin/genres/{{id}}/artists', '#artistList','content');">
+                            <a href="#" class="btn btn-default" onclick="getByGenre('{{id}}')">
                                 <span class="glyphicon glyphicon-search"/></a>
                         </div>
                     </center>
@@ -30,7 +30,6 @@
                     <div class="card-text size">
                         <span class="text-muted">{{description}}</span>
                     </div>
-
                 </div>
             </div>
         </div>

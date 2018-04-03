@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import javax.persistence.Query;
 
 /**
  * #SongDao interface implementation for the MySQL db {@link SongDao}
@@ -43,8 +44,14 @@ public class SongDaoImpl extends AbstractModelDao<Song, Long> implements SongDao
     }
 
     @Override
-    public List<Song> getByAlbum(Long album) throws DAOException {
-        return null;
+    public List<Song> getByAlbum(Long id) throws DAOException {
+        Query query = getEntityManager().createQuery("from Song a WHERE a.album.id = ?1");
+
+        query.setParameter(1, id);
+
+        List<Song> albums =  query.getResultList();
+
+        return albums;
     }
 
     @Override

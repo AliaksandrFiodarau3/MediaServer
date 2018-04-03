@@ -10,10 +10,10 @@
     <title>Admin page</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="web/css/index/admin.css">
-    <link rel="stylesheet" href="web/css/index/admin/sidebar.css">
-    <link rel="stylesheet" href="web/css/index/admin/header.css">
-    <link rel="stylesheet" href="web/css/index/admin/menu.css">
+    <link rel="stylesheet" href="resources/css/index/admin.css">
+    <link rel="stylesheet" href="resources/css/index/admin/sidebar.css">
+    <link rel="stylesheet" href="resources/css/index/admin/header.css">
+    <link rel="stylesheet" href="resources/css/index/admin/menu.css">
 
 </head>
 <body>
@@ -22,7 +22,7 @@
         <div class="container">
             <ul class="navbar-left">
                 <li>
-                    <a href=""><img class="center navbar-brand" src="web/img/logo.png"></a>
+                    <a href=""><img class="center navbar-brand" src="resources/img/logo.png"></a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -98,13 +98,13 @@
 <%@include file='jsp/modal/newBonus.jsp' %>
 <%@include file='jsp/modal/profile.jsp' %>
 
-<script src="web/js/framework/jquery-3.2.1.js"></script>
-<script src="web/js/framework/bootstrap.js"></script>
-<script src="web/js/framework/handlebars-v4.0.10.js"></script>
+<script src="resources/js/framework/jquery-3.2.1.js"></script>
+<script src="resources/js/framework/bootstrap.js"></script>
+<script src="resources/js/framework/handlebars-v4.0.10.js"></script>
 
 
-<script src="web/js/ajax-query.js"></script>
-<script src="web/js/admin.js"></script>
+<script src="resources/js/ajax-query.js"></script>
+<script src="resources/js/admin.js"></script>
 
 <%--<script src="web/js/admin/genre.js"></script>
 <script src="web/js/admin/order.js"></script>

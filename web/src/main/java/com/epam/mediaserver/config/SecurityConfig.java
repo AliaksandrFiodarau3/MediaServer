@@ -1,3 +1,4 @@
+/*
 package com.epam.mediaserver.config;
 
 
@@ -37,7 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-       /* http.authorizeRequests()
+       */
+/* http.authorizeRequests()
             .and()
             .formLogin()
             .loginPage("/").permitAll()
@@ -52,12 +54,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .sessionManagement()
             .maximumSessions(-1)
-            .sessionRegistry(sessionRegistry());*/
+            .sessionRegistry(sessionRegistry());*//*
 
 
-//        http.csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("**/login")).and().authorizeRequests()
+
+//        http.csrf().requireCsrfProtectionMatcher(new AntPathRequestMatcher("*login")).and().authorizeRequests()
 //            .antMatchers("/user").hasRole("USER").and().formLogin().defaultSuccessUrl("/user")
 //            .loginPage("/login")
 //            .and().logout().permitAll();
 }
 }
+*/

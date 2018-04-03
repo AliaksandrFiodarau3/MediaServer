@@ -2,27 +2,31 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <!DOCTYPE html>
+
 <html>
 <head>
     <c:set var="locale" value="${pageContext.response.locale}"/>
     <fmt:setBundle basename="locale"/>
     <title>Media Server</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="web/css/index/carousel.css">
-    <link rel="stylesheet" href="web/css/index/index.css">
+    <link rel="stylesheet" href="resources/css/index/carousel.css">
+    <link rel="stylesheet" href="resources/css/index/index.css">
 
+    <script src="resources/js/framework/jquery-3.2.1.js"></script>
+    <script src="resources/js/framework/bootstrap.js"></script>
+    <script src="resources/js/index.js"></script>
 </head>
+
+
 <body>
 <header>
-
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header navbar-left center-block">
-                <a class="navbar-brand" href=""><img src="web/img/logo.png"></a>
+                <a class="navbar-brand" href=""><img src="resources/img/logo.png"></a>
             </div>
             <div class="navbar-collapse collapse">
                 <!-- Sign in form -->
@@ -53,21 +57,22 @@
                             <button type="submit" class="btn">Log in</button>
                         </form>--%>
 
-                            <form action="/login" method="post">
-                                <div class="form-group">
-                                    <label for="username">UserName:</label> <input type="text"
-                                                                                   class="form-control" id="username" name="username">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pwd">Password:</label> <input type="password"
-                                                                              class="form-control" id="pwd" name="password">
-                                </div>
+                        <form action="/login" method="post">
+                            <div class="form-group">
+                                <label for="username">UserName:</label> <input type="text"
+                                                                               class="form-control" id="username"
+                                                                               name="username">
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Password:</label> <input type="password"
+                                                                          class="form-control" id="pwd" name="password">
+                            </div>
 
-                                <button type="submit" class="btn btn-success">Submit</button>
-
-                                <input type="hidden" name="${_csrf.parameterName}"
-                                       value="${_csrf.token}" />
-                            </form>
+                            <button type="submit" class="btn btn-success">Submit</button>
+<%--
+                            <input type="hidden" name="${_csrf.parameterName}"
+                                   value="${_csrf.token}"/>--%>
+                        </form>
                         <%--  <form method="POST" action="/login" role="form" >
 
                              &lt;%&ndash; <li class="btn-group">
@@ -122,13 +127,13 @@
         <!-- Wrapper for carousel items -->
         <div class="carousel-inner">
             <div class="item active">
-                <img src="web/img/index/carousel/slide1.jpg" alt="First Slide">
+                <img src="resources/img/index/carousel/slide1.jpg" alt="First Slide">
             </div>
             <div class="item">
-                <img src="web/img/index/carousel/slide2.jpg" alt="Second Slide">
+                <img src="resources/img/index/carousel/slide2.jpg" alt="Second Slide">
             </div>
             <div class="item">
-                <img src="web/img/index/carousel/slide3.jpg" alt="Third Slide">
+                <img src="resources/img/index/carousel/slide3.jpg" alt="Third Slide">
             </div>
         </div>
         <!-- Carousel controls -->
@@ -140,13 +145,7 @@
         </a>
     </div>
 </div>
-
 <%@include file='jsp/modal/registry.jsp' %>
 
-<script src="web/js/framework/jquery-3.2.1.js"></script>
-<script src="web/js/framework/bootstrap.js"></script>
-<script src="web/js/index.js"></script>
-
-</div>
 </body>
 </html>

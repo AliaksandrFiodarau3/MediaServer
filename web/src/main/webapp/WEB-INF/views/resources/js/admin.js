@@ -11,3 +11,15 @@ window.onload = function () {
         getMethod('admin/genres', '#genre-list', "content");
     }
 }
+
+function inputId(id,element) {
+    var album = doc.getElementById(element);
+    album.value = id;
+}
+
+function addGenre(title, description, image) {
+    putMethod('admin/genre/' +
+              'title/' + title +
+              '/description/'+ description +
+              '/image/'+ image);
+}

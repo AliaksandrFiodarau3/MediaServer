@@ -1,30 +1,18 @@
-/*
 package com.epam.mediaserver.controller;
 
-import com.epam.mediaserver.entity.Artist;
-import com.epam.mediaserver.entity.Genre;
-import com.epam.mediaserver.exception.ServiceException;
-import com.epam.mediaserver.service.impl.AlbumServiceImpl;
-import com.epam.mediaserver.service.impl.ArtistServiceImpl;
-import com.epam.mediaserver.service.impl.CommentServiceImpl;
-import com.epam.mediaserver.service.impl.GenreServiceImpl;
-import com.epam.mediaserver.service.impl.OrderSongServiceImpl;
-import com.epam.mediaserver.service.impl.OrderUserService;
-import com.epam.mediaserver.service.impl.SongServiceImpl;
+import com.epam.mediaserver.service.AlbumService;
+import com.epam.mediaserver.service.ArtistService;
+import com.epam.mediaserver.service.CommentService;
+import com.epam.mediaserver.service.GenreService;
+import com.epam.mediaserver.service.SongService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @EnableWebMvc
@@ -34,60 +22,41 @@ public class DeleteController {
     private static final Logger LOGGER = LogManager.getLogger(DeleteController.class);
 
     @Autowired
-    private GenreServiceImpl genreService;
+    private GenreService genreService;
 
     @Autowired
-    private ArtistServiceImpl artistService;
+    private ArtistService artistService;
 
     @Autowired
-    private AlbumServiceImpl albumService;
+    private AlbumService albumService;
 
     @Autowired
-    private OrderUserService orderUserService;
+    private SongService songService;
 
     @Autowired
-    private OrderSongServiceImpl goodService;
-
-    @Autowired
-    private SongServiceImpl songService;
-
-    @Autowired
-    private CommentServiceImpl commentService;
+    private CommentService commentService;
 
     @RequestMapping(value = "admin/genre/{idGenre}",
         method = RequestMethod.DELETE)
-    public ResponseEntity<Map<String, List<Genre>>> deleteGenre(
+    public void deleteGenre(
         @PathVariable("idGenre")
-            Long id) throws ServiceException {
-
-        try {
-            genreService.delete(id);
-        } catch (ServiceException e) {
-            LOGGER.error("Service Exception");
-        }
-
-        Map<String, List<Genre>> genres = new HashMap<>(1);
-        genres.put("genres", genreService.getAll());
-
-        return new ResponseEntity<>(genres, HttpStatus.OK);
+            Long id) {
+        genreService.delete(id);
     }
 
     @RequestMapping(value = "admin/artist/{idArtist}",
         method = RequestMethod.DELETE)
-    public ResponseEntity<Map<String, List<Artist>>> deleteArtist(
+    public void deleteArtist(
         @PathVariable("idArtist")
-            Long id) throws ServiceException {
+            Long id) {
+        artistService.delete(id);
+    }
 
-        try {
-            artistService.delete(id);
-        } catch (ServiceException e) {
-            LOGGER.error("Service Exception");
-        }
-
-        Map<String, List<Artist>> artists = new HashMap<>(1);
-        artists.put("artists", artistService.getAll());
-
-        return new ResponseEntity<>(artists, HttpStatus.OK);
+    @RequestMapping(value = "admin/album/{idAlbum}",
+        method = RequestMethod.DELETE)
+    public void deleteAlbum(
+        @PathVariable("idAlbum")
+            Long id) {
+        albumService.delete(id);
     }
 }
-*/
