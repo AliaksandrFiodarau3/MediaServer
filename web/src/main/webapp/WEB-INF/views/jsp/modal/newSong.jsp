@@ -48,7 +48,7 @@
 
                 <div class="modal-footer">
                     <center>
-                        <button id="submit" type="submit" class="btn btn-success"><fmt:message
+                        <button id="submit" type="submit" class="btn btn-success" data-dismiss="modal"><fmt:message
                                 key="admin.table.sign"/></button>
                         <button class="btn btn-default" type="button" data-dismiss="modal"><fmt:message
                                 key="admin.table.close"/></button>
