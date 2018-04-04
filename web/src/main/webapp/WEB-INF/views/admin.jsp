@@ -102,17 +102,8 @@
 <script src="resources/js/framework/bootstrap.js"></script>
 <script src="resources/js/framework/handlebars-v4.0.10.js"></script>
 
-
 <script src="resources/js/ajax-query.js"></script>
 <script src="resources/js/admin.js"></script>
 
-<%--<script src="web/js/admin/genre.js"></script>
-<script src="web/js/admin/order.js"></script>
-<script src="web/js/admin/user.js"></script>
-<script src="web/js/admin/admin.js"></script>
-<script src="web/js/admin/artist.js"></script>
-<script src="web/js/admin/album.js"></script>
-<script src="web/js/admin/song.js"></script>
-<script src="web/js/admin/bonus.js"></script>--%>
 </body>
 </html>

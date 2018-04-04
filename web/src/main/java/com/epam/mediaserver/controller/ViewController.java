@@ -1,11 +1,13 @@
 package com.epam.mediaserver.controller;
 
+import com.epam.mediaserver.entity.Bonus;
 import com.epam.mediaserver.entity.Comment;
 import com.epam.mediaserver.entity.Genre;
 import com.epam.mediaserver.entity.User;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.service.AlbumService;
 import com.epam.mediaserver.service.ArtistService;
+import com.epam.mediaserver.service.BonusService;
 import com.epam.mediaserver.service.CommentService;
 import com.epam.mediaserver.service.GenreService;
 import com.epam.mediaserver.service.OrderService;
@@ -55,6 +57,9 @@ public class ViewController {
 
     @Autowired
     private SongService songService;
+
+    @Autowired
+    private BonusService bonusService;
 
     @RequestMapping(value = "user", method = RequestMethod.GET)
     public ModelAndView dashboard() {
@@ -176,5 +181,15 @@ public class ViewController {
         comments.put("comments", commentService.getBySong(songId));
 
         return new ResponseEntity<>(comments, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "admin/bonuses")
+    public ResponseEntity<Map<String, List<Bonus>>> getBonuses(){
+
+        Map<String, List<Bonus>> bonuses = new HashMap<>(1);
+
+        bonuses.put("bonuses", bonusService.findAll());
+
+        return new ResponseEntity<>(bonuses, HttpStatus.OK);
     }
 }

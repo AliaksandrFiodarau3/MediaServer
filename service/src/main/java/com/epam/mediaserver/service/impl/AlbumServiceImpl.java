@@ -32,15 +32,11 @@ public class AlbumServiceImpl extends CrudServiceImpl<Album, Long> implements Al
 
     public List<Album> getByArtist(Long artistId) throws ServiceException {
 
-        List<Album> albums = null;
-
         try {
-            albums =((AlbumDao) getDao()).getByArtist(artistId);
+            return ((AlbumDao) getDao()).getByArtist(artistId);
         } catch (DAOException e) {
             LOGGER.error(Error.DAO_EXCEPTION);
             throw new ServiceException(Error.DAO_EXCEPTION);
         }
-
-        return albums;
     }
 }

@@ -2,18 +2,26 @@ package com.epam.mediaserver.controller;
 
 import com.epam.mediaserver.entity.Album;
 import com.epam.mediaserver.entity.Artist;
+import com.epam.mediaserver.entity.Bonus;
 import com.epam.mediaserver.entity.Genre;
+import com.epam.mediaserver.entity.Song;
 import com.epam.mediaserver.service.AlbumService;
 import com.epam.mediaserver.service.ArtistService;
+import com.epam.mediaserver.service.BonusService;
 import com.epam.mediaserver.service.GenreService;
+import com.epam.mediaserver.service.SongService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.sql.Time;
 
 
 @Controller
@@ -31,6 +39,12 @@ public class AddController {
 
     @Autowired
     private AlbumService albumService;
+
+    @Autowired
+    private SongService songService;
+
+    @Autowired
+    private BonusService bonusService;
 
  /*@RequestMapping(value = "user/addGood",
         method = RequestMethod.PUT)
@@ -63,7 +77,7 @@ public class AddController {
 
     @RequestMapping(value = "genre/title/{titleGenre}/description/{descriptionGenre}/image/{imageGenre}",
         method = RequestMethod.PUT)
-    public void addGenre(
+    public ResponseEntity<Void> addGenre(
         @PathVariable("titleGenre")
             String title,
         @PathVariable("descriptionGenre")
@@ -77,11 +91,13 @@ public class AddController {
                 .description(description)
                 .image(image)
                 .build());
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "artist/genre/{genreId}/title/{titleGenre}/description/{descriptionGenre}/image/{imageGenre}",
         method = RequestMethod.PUT)
-    public void addArtist(
+    public  ResponseEntity<Void> addArtist(
         @PathVariable("genreId")
             Long genreId,
         @PathVariable("titleGenre")
@@ -98,14 +114,13 @@ public class AddController {
                 .description(description)
                 .image(image)
                 .build());
+
+        return new ResponseEntity(HttpStatus.OK);
     }
-
-
-    //getNode('titleAlbum').value +'year/'+ getNode('yearAlbum').value +'/description/'+ getNode('descriptionGenre').value + '/image/'+ getNode('imageGenre').value
 
     @RequestMapping(value = "album/artist/{artistId}/title/{titleAlbum}/year/{yearAlbum}/description/{descriptionGenre}/image/{imageAlbum}",
         method = RequestMethod.PUT)
-    public void addAlbum(
+    public ResponseEntity<Void> addAlbum(
         @PathVariable("artistId")
             Long artistId,
         @PathVariable("titleAlbum")
@@ -125,5 +140,54 @@ public class AddController {
                 .description(description)
                 .image(image)
                 .build());
+
+        return new ResponseEntity(HttpStatus.OK);
     }
+
+    @RequestMapping(value = "song/album/{albumId}/title/{titleSong}/duration/{durationSong}/price/{priceSong}",
+        method = RequestMethod.PUT)
+    public  ResponseEntity<Void> addSong(
+        @PathVariable("albumId")
+            Long albumId,
+        @PathVariable("titleSong")
+            String title,
+        @PathVariable("durationSong")
+            Time duration,
+        @PathVariable("priceSong")
+            Double price)  {
+
+        songService.create(
+            Song.builder()
+                .album(albumService.find(albumId))
+                .title(title)
+                .duration(duration)
+                .price(price)
+                .build());
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "bonus/title/{titleBonus}/description/{descriptionBonus}/discount/{discountBonus}/code/{codeBonus}",
+        method = RequestMethod.PUT)
+    public  ResponseEntity<Void> addSong(
+        @PathVariable("titleBonus")
+            String title,
+        @PathVariable("descriptionBonus")
+            String description,
+        @PathVariable("discountBonus")
+            Integer discount,
+        @PathVariable("codeBonus")
+            String code)  {
+
+        bonusService.create(
+            Bonus.builder()
+                .title(title)
+                .description(description)
+                .discount(discount)
+                .code(code)
+                .build());
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }

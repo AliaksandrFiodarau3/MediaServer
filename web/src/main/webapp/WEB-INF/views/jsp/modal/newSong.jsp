@@ -10,11 +10,9 @@
                 </center>
             </div>
             <!-- Add new user form -->
-            <form class="add-song-form" method="POST" action="javascript:void(null);" onsubmit="addSong()">
                 <div class="modal-body">
                     <div class="container">
-                        <input name="command" value="add-song" hidden>
-                        <input id="albumSong" name="albumSong" hidden>
+                        <input id="albumId" name="albumId" hidden>
                         <div class="form-group row">
                             <label for="titleSong" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.title"/>:</label>
@@ -48,13 +46,12 @@
 
                 <div class="modal-footer">
                     <center>
-                        <button id="submit" type="submit" class="btn btn-success" data-dismiss="modal"><fmt:message
+                        <button id="submit" type="submit" onclick="addSong()" class="btn btn-success" data-dismiss="modal"><fmt:message
                                 key="admin.table.sign"/></button>
                         <button class="btn btn-default" type="button" data-dismiss="modal"><fmt:message
                                 key="admin.table.close"/></button>
                     </center>
                 </div>
-            </form>
         </div>
     </div>
 </div>

@@ -15,7 +15,6 @@ public class DiscountServiceTest {
 
     @Test
     public void getPrice(){
-
         when(discountService.getPrice(50)).thenReturn(42.5);
     }
 

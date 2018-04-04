@@ -12,7 +12,7 @@
             <!-- Add new artist form -->
             <div class="modal-body">
                 <div class="container">
-                    <input id="genreArtist" name="genre" hidden>
+                    <input id="genreId" name="genre" hidden>
                     <div class="form-group row">
                         <label for="titleArtist" class="col-sm-1 col-form-label"><fmt:message
                                 key="label.title"/>:</label>
@@ -54,12 +54,13 @@
             <div class="modal-footer">
                 <center>
                     <button id="submit" type="button" class="btn btn-success" data-dismiss="modal" onclick="
+                            addArtist(
+                                getNode('genreId').value,
+                                getNode('titleArtist').value,
+                                getNode('descriptionArtist').value,
+                                getNode('imageArtist').value);
 
-                            putMethod('admin/artist' +
-                             '/genre/' + getNode('genreArtist').value +
-                              '/title/' + getNode('titleArtist').value +
-                              '/description/'+ getNode('descriptionArtist').value +
-                              '/image/'+ getNode('imageArtist').value);">
+                            getByGenre(getNode('genreId').value)">
 
                         <fmt:message key="admin.table.sign"/></button>
                     <button class="btn btn-default" type="button" data-dismiss="modal"><fmt:message

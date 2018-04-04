@@ -4,7 +4,7 @@
     <br>
     <br>
     <h1 class="page-header"><fmt:message key="admin.table.title.songs"/></h1>
-    <a data-toggle="modal" data-target="#newSong" href="#" onfocus="inputAlbum('{{album.title}}')"
+    <a data-toggle="modal" data-target="#newSong" href="#" onfocus="inputId('{{albumId}}','albumId')"
        class="btn btn-primary btn-xs pull-right"><b>+</b>
         <fmt:message key="admin.table.add.song"/></a>
 
@@ -26,7 +26,7 @@
             <td class="text-center">{{duration}}</td>
             <td class="text-center">{{price}}</td>
             <td class="text-center">
-                <a id="delete" onclick="deleteMethod('admin/song/{{id}}','#songTable','content')" href="#" class="btn btn-danger btn-xs">
+                <a id="delete" onclick="deleteMethod('admin/song/{{id}}')" href="#" class="btn btn-danger btn-xs">
                     <span class="glyphicon glyphicon-remove"></span> <fmt:message key="admin.table.delete"/>
                 </a>
             </td>

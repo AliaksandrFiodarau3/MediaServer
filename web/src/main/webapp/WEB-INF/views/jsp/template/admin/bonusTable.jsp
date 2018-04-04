@@ -26,7 +26,7 @@
             <td class="text-center">{{discount}}</td>
             <td class="text-center">{{code}}</td>
             <td class="text-center">
-                <a onclick="deleteBonus('{{id}}')" href="#" class="btn btn-danger btn-xs">
+                <a onclick="deleteMethod('admin/bonus/{{id}}')" href="#" class="btn btn-danger btn-xs">
                     <span class="glyphicon glyphicon-remove"></span><fmt:message key="admin.table.delete"/>
                 </a>
             </td>

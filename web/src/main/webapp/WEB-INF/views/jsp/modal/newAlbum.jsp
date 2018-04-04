@@ -54,14 +54,8 @@
                 <center>
                     <button id="submit" type="button" class="btn btn-success" data-dismiss="modal"
                             onclick="
-                                putMethod('admin/album/' +
-                                 'artist/'+ getNode('artistId').value +
-                                 '/title/' + getNode('titleAlbum').value +
-                                 '/year/'+ getNode('yearAlbum').value +
-                                 '/description/'+ getNode('descriptionAlbum').value +
-                                 '/image/'+ getNode('imageAlbum').value);
-
-                                getMethod('admin/genres/{{genre.id}}/artists/{{id}}/albums', '#albumList','content')">
+                            addAlbum();
+                            getByArtist('{{id}}')">
 
                         <fmt:message key="admin.table.sign"/></button>
                     <button class="btn btn-default" type="button" data-dismiss="modal"><fmt:message

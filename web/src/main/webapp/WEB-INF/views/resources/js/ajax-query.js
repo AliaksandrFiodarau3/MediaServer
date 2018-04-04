@@ -1,16 +1,22 @@
 var doc = document;
 
-
-
 function getByGenre(id) {
-    getMethod('admin/genre/'+ id +'/artists', '#artistList','content');
+    getMethod('admin/genre/' + id + '/artists', '#artistList', 'content');
 }
 
-function getNode(nameClass) {
-    if(nameClass[0] ==='.') {
-        return document.querySelector(nameClass);
+function getByArtist(id) {
+    getMethod('admin/artist/' + id + '/albums', '#albumList', 'content');
+}
+
+function getByAlbum(id) {
+    getMethod('admin/album/' + id + '/songs', '#songTable', 'content')
+}
+
+function getNode(idClass) {
+    if (idClass[0] === '.') {
+        return document.querySelector(idClass);
     }
-    return document.getElementById(nameClass);
+    return document.getElementById(idClass);
 }
 
 function getMethod(url, table, content, form) {
@@ -21,7 +27,7 @@ function postMethod(url, table, content, form) {
     ajaxRequest(url, table, "POST", content, form);
 }
 
-function putMethod(url, table, content, form) {
+function putMethod(url, data,table, content, form) {
     ajaxRequest(url, table, "PUT", content, form);
 }
 

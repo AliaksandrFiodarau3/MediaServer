@@ -10,10 +10,9 @@
                 </center>
             </div>
             <!-- Add new user form -->
-            <form class="add-bonus-form" method="POST" action="javascript:void(null);" onsubmit="addBonus()">
                 <div class="modal-body">
                     <div class="container">
-                        <input name="command" value="add-bonus" hidden>
+
                         <div class="form-group row">
                             <label for="titleBonus" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.title"/>:</label>
@@ -22,6 +21,7 @@
                                        class="form-control form-control-plaintext" required>
                             </div>
                         </div>
+
                         <div class="form-group row">
                             <label for="descriptionBonus" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.description"/>:</label>
@@ -31,6 +31,7 @@
                                        class="form-control" required>
                             </div>
                         </div>
+
                         <div class="form-group row">
                             <label for="discountBonus" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.discount"/>:</label>
@@ -40,6 +41,7 @@
                                        class="form-control" required>
                             </div>
                         </div>
+
                         <div class="form-group row">
                             <label for="codeBonus" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.code"/>:</label>
@@ -48,20 +50,18 @@
                                        class="form-control" required>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
-                <div id="errorBonus"></div>
-
                 <div class="modal-footer">
                     <center>
-                        <button id="submit" type="submit" class="btn btn-success"><fmt:message
+                        <button id="submit" type="button" onclick="addBonus()" data-dismiss="modal" class="btn btn-success"><fmt:message
                                 key="admin.table.sign"/></button>
                         <button class="btn btn-default" type="button" data-dismiss="modal"><fmt:message
                                 key="admin.table.close"/></button>
                     </center>
                 </div>
-            </form>
         </div>
     </div>
 </div>

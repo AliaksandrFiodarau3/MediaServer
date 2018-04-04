@@ -20,11 +20,14 @@
                                 <a href="#" class="btn btn-default"
                                    onclick="
                                     deleteMethod('admin/album/{{id}}');
-                                    getMethod('admin/artist/{{id}}/album')">
-                                    <span class="glyphicon glyphicon-trash"/></a>
-                                <a href="#" class="btn btn-default" onclick="getMethod(
-                                    'admin/album/{{id}}/songs', '#songTable', 'content');">
-                                    <span class="glyphicon glyphicon-search"/></a>
+                                    getByArtist('{{artist.id}}')
+                                    ">
+                                    <span class="glyphicon glyphicon-trash"/>
+                                </a>
+                                <a href="#" class="btn btn-default" onclick="
+                                    getByAlbum('{{id}}')">
+                                    <span class="glyphicon glyphicon-search"/>
+                                </a>
                             </div>
                         </center>
                     </div>

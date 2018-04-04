@@ -34,7 +34,7 @@ public class Song  {
 
     private Time duration;
 
-    private int price;
+    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "id_album", foreignKey = @ForeignKey(name = "ALBUM_ID_FK"))
