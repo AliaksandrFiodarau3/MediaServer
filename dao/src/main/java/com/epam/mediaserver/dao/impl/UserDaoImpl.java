@@ -80,7 +80,7 @@ public class UserDaoImpl extends AbstractModelDao<User, Long> implements UserDao
     }
 
     @Override
-    Long getKey(User entity) {
+    public Long getKey(User entity) {
         return null;
     }
 }

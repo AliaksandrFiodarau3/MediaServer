@@ -35,7 +35,7 @@
 
                     <span class="glyphicon glyphicon-edit"></span> <fmt:message key="admin.table.edit"/>
                 </a>
-                <a href="#" class="btn btn-danger btn-xs" onclick="deleteUser('{{id}}')">
+                <a href="#" class="btn btn-danger btn-xs" onclick="deleteMethod('admin/user/{{id}}')">
                     <span class="glyphicon glyphicon-remove"></span><fmt:message key="admin.table.delete"/>
                 </a>
                 <a href="#" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#orderList"

@@ -56,7 +56,7 @@ public class AlbumDaoImpl extends AbstractModelDao<Album, Long> implements Album
     }
 
     @Override
-    Long getKey(Album entity) {
+    public Long getKey(Album entity) {
         return null;
     }
 }

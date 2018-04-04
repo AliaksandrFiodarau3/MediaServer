@@ -192,4 +192,15 @@ public class ViewController {
 
         return new ResponseEntity<>(bonuses, HttpStatus.OK);
     }
+
+
+    @RequestMapping(value = "admin/users")
+    public ResponseEntity<Map<String, List<User>>> getUsers(){
+
+        Map<String, List<User>> users = new HashMap<>(1);
+
+        users.put("users", userService.findAll());
+
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 }

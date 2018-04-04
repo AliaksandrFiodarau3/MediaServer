@@ -5,11 +5,14 @@ import com.epam.mediaserver.entity.Artist;
 import com.epam.mediaserver.entity.Bonus;
 import com.epam.mediaserver.entity.Genre;
 import com.epam.mediaserver.entity.Song;
+import com.epam.mediaserver.entity.User;
 import com.epam.mediaserver.service.AlbumService;
 import com.epam.mediaserver.service.ArtistService;
 import com.epam.mediaserver.service.BonusService;
 import com.epam.mediaserver.service.GenreService;
+import com.epam.mediaserver.service.RoleService;
 import com.epam.mediaserver.service.SongService;
+import com.epam.mediaserver.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +48,12 @@ public class AddController {
 
     @Autowired
     private BonusService bonusService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
  /*@RequestMapping(value = "user/addGood",
         method = RequestMethod.PUT)
@@ -190,4 +199,36 @@ public class AddController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @RequestMapping(value = "user/email/{emailUser}/login/{loginUser}/name/{nameUser}/surname/{surnameUser}/password/{passwordUser}/photo/{рhotoUser}/role/{roleId}",
+        method = RequestMethod.PUT)
+    public  ResponseEntity<Void> addUser(
+        @PathVariable("emailUser")
+            String email,
+        @PathVariable("loginUser")
+            String login,
+        @PathVariable("nameUser")
+            String name,
+        @PathVariable("surnameUser")
+            String surname,
+        @PathVariable("passwordUser")
+            String password,
+        @PathVariable("рhotoUser")
+            String photo,
+        @PathVariable("roleId")
+            Long roleId)  {
+
+        userService.create(
+            User.builder()
+                .email(email)
+                .login(login)
+                .name(name)
+                .surname(surname)
+                .password(password)
+                .photo(photo)
+                .role(roleService.find(roleId))
+                .build()
+        );
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

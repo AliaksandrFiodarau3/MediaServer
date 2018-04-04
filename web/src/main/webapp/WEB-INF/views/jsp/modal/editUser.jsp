@@ -1,4 +1,4 @@
-<!-- Modal -->
+<!-- Modal --><%--
 
 <div id="editUser" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -95,4 +95,4 @@
             </form>
         </div>
     </div>
-</div>
+</div>--%>

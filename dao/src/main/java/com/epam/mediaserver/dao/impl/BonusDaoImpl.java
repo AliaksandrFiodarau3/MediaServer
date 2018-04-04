@@ -45,7 +45,7 @@ public class BonusDaoImpl extends AbstractModelDao<Bonus, Long> implements Bonus
     }
 
     @Override
-    Long getKey(Bonus entity) {
+    public Long getKey(Bonus entity) {
         return null;
     }
 }

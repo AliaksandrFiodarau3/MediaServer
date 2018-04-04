@@ -55,7 +55,7 @@ public class ArtistDaoImpl extends AbstractModelDao<Artist, Long> implements Art
     }
 
     @Override
-    Long getKey(Artist entity) {
+    public Long getKey(Artist entity) {
         return null;
     }
 }

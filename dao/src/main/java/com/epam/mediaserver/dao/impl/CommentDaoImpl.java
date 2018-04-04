@@ -44,7 +44,7 @@ public class CommentDaoImpl extends AbstractModelDao<Comment, Long> implements C
     }
 
     @Override
-    Long getKey(Comment entity) {
+    public Long getKey(Comment entity) {
         return null;
     }
 

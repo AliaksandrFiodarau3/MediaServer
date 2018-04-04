@@ -12,7 +12,7 @@ window.onload = function () {
     }
 }
 
-function inputId(id,element) {
+function inputId(id, element) {
     var album = doc.getElementById(element);
     album.value = id;
 }
@@ -20,8 +20,8 @@ function inputId(id,element) {
 function addGenre(title, description, image) {
     putMethod('admin/genre/' +
               'title/' + title +
-              '/description/'+ description +
-              '/image/'+ image);
+              '/description/' + description +
+              '/image/' + image);
 }
 
 function addArtist(idGenre, title, description, image) {
@@ -29,18 +29,9 @@ function addArtist(idGenre, title, description, image) {
     putMethod('admin/artist' +
               '/genre/' + idGenre +
               '/title/' + title +
-              '/description/'+ description +
-              '/image/'+ image)
+              '/description/' + description +
+              '/image/' + image)
 
-    /*try {
-        putMethod('admin/artist', JSON.stringify(Request));
-    } catch (error) {
-        if (error.message === '201') {
-            alert("Your artist created");
-        } else {
-            alert("Try later");
-        }
-    }*/
 }
 
 function addAlbum() {
@@ -52,11 +43,11 @@ function addAlbum() {
         image = getNode('imageAlbum').value;
 
     putMethod('admin/album/' +
-              'artist/'+ idArtist +
+              'artist/' + idArtist +
               '/title/' + title +
-              '/year/'+ year +
-              '/description/'+ description +
-              '/image/'+ image);
+              '/year/' + year +
+              '/description/' + description +
+              '/image/' + image);
 
 }
 
@@ -67,10 +58,10 @@ function addSong() {
         price = getNode('priceSong').value;
 
     putMethod('admin/song/' +
-              'album/'+ idAlbum +
+              'album/' + idAlbum +
               '/title/' + title +
-              '/duration/'+ duration +
-              '/price/'+ price);
+              '/duration/' + duration +
+              '/price/' + price);
 }
 
 function addBonus() {
@@ -80,8 +71,34 @@ function addBonus() {
         code = getNode('codeBonus').value;
 
     putMethod('admin/bonus/' +
-              'title/'+ title +
+              'title/' + title +
               '/description/' + description +
-              '/discount/'+ discount +
-              '/code/'+ code);
+              '/discount/' + discount +
+              '/code/' + code);
+}
+
+function addUser() {
+    var email = getNode('inputEmail').value,
+        name = getNode('inputName').value,
+        surname = getNode('inputSurname').value,
+        password = getNode('inputPassword').value,
+        photo = getNode('inputPhoto').value,
+        login = getNode('inputLogin').value,
+        role = getNode('inputRoot').value;
+
+    if (role === 'ADMIN') {
+        var root = 2;
+    } else {
+       root = 1;
+    }
+
+    putMethod('admin/user'
+              + '/email/'  + email
+              + '/login/' + login
+              + '/name/'  + name
+              + '/surname/' + surname
+              + '/password/'  + password
+              + '/photo/' + photo
+              + '/role/'  + root);
+
 }

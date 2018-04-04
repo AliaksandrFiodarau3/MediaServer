@@ -6,6 +6,7 @@ import com.epam.mediaserver.service.BonusService;
 import com.epam.mediaserver.service.CommentService;
 import com.epam.mediaserver.service.GenreService;
 import com.epam.mediaserver.service.SongService;
+import com.epam.mediaserver.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class DeleteController {
 
     private static final Logger LOGGER = LogManager.getLogger(DeleteController.class);
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private GenreService genreService;
@@ -92,4 +96,16 @@ public class DeleteController {
 
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @RequestMapping(value = "user/{idUser}",
+        method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteUser(
+        @PathVariable("idUser")
+            Long id) {
+
+        userService.delete(id);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }

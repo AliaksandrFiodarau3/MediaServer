@@ -42,7 +42,7 @@ public class GenreDaoImpl extends AbstractModelDao<Genre, Long> implements Genre
     }
 
     @Override
-    Long getKey(Genre entity) {
+    public Long getKey(Genre entity) {
         return null;
     }
 }

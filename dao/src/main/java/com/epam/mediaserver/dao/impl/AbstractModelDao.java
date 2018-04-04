@@ -55,6 +55,6 @@ public abstract class AbstractModelDao<T, K extends Serializable> implements Cru
         return entityManager.createQuery("select t from " + type.getSimpleName() + " t ORDER BY t.id ASC", type).getResultList();
     }
 
-    abstract K getKey(T entity);
+    public abstract K getKey(T entity);
 
 }

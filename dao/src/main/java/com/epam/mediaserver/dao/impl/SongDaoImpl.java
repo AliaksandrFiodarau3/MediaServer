@@ -60,7 +60,7 @@ public class SongDaoImpl extends AbstractModelDao<Song, Long> implements SongDao
     }
 
     @Override
-    Long getKey(Song entity) {
+    public Long getKey(Song entity) {
         return null;
     }
 }

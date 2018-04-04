@@ -11,25 +11,25 @@
                 </center>
             </div>
             <!-- Add new user form -->
-            <form class="add-user-form" method="POST" action="javascript:void(null);" onsubmit="addUser()">
                 <div class="modal-body">
                     <div class="container">
-                        <input name="command" value="add-user" hidden>
+
                         <div class="form-group row">
                             <label for="inputLogin" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.login"/>:</label>
                             <div class="col-sm-5">
-                                <input id="inputLogin" name="loginUser" placeholder="<fmt:message key="label.login"/>"
+                                <input id="inputLogin" name="inputLogin" placeholder="<fmt:message key="label.login"/>"
                                        class="form-control form-control-plaintext"
                                        pattern="^[A-Za-z]{3,40}" title="<fmt:message key="validation.registry.login"/>"
                                        required>
                             </div>
                         </div>
+
                         <div class="form-group row">
                             <label for="inputName" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.name"/>:</label>
                             <div class="col-sm-5">
-                                <input name="nameUser" id="inputName" placeholder="<fmt:message key="label.name"/>"
+                                <input name="inputName" id="inputName" placeholder="<fmt:message key="label.name"/>"
                                        class="form-control"
                                        pattern="^[A-Za-zА-Яа-я]{3,40}"
                                        title="<fmt:message key="validation.registry.name"/>"
@@ -41,7 +41,7 @@
                             <label for="inputSurname" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.surname"/>:</label>
                             <div class="col-sm-5">
-                                <input name="surnameUser" id="inputSurname"
+                                <input name="inputSurname" id="inputSurname"
                                        placeholder="<fmt:message key="label.surname"/>"
                                        class="form-control"
                                        pattern="^[A-Za-zА-Яа-я]{3,40}"
@@ -49,11 +49,12 @@
                                        required>
                             </div>
                         </div>
+
                         <div class="form-group row">
                             <label for="inputEmail" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.email"/>:</label>
                             <div class="col-sm-5">
-                                <input type="email" name="emailUser" id="inputEmail" class="form-control"
+                                <input type="email" name="inputEmail" id="inputEmail" class="form-control"
                                        placeholder="<fmt:message key="label.email"/>"
                                        title="<fmt:message key="validation.registry.email"/>" required>
                             </div>
@@ -76,7 +77,7 @@
                             <label for="inputPhoto" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.photo"/>:</label>
                             <div class="col-sm-5">
-                                <input type="text" name="photoUser" id="inputPhoto" class="form-control"
+                                <input type="text" name="inputPhoto" id="inputPhoto" class="form-control"
                                        placeholder="<fmt:message key="label.photo"/>"
                                        title="<fmt:message key="info.photo"/>">
                             </div>
@@ -86,11 +87,13 @@
                             <label for="inputRoot" class="col-sm-1 col-form-label"><fmt:message
                                     key="label.root"/>:</label>
                             <div class="col-sm-5">
-                                <input type="text" name="rootUser" id="inputRoot" class="form-control"
-                                       placeholder="<fmt:message key="label.root"/>"
-                                       title="<fmt:message key="info.root"/>">
+                            <select class="form-control" id="inputRoot">
+                                <option>ADMIN</option>
+                                <option>USER</option>
+                            </select>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -98,13 +101,13 @@
 
                 <div class="modal-footer">
                     <center>
-                        <button id="submit" type="submit" class="btn btn-success"><fmt:message
+                        <button id="submit" type="button" onclick="addUser()" data-dismiss="modal" class="btn btn-success"><fmt:message
                                 key="admin.table.sign"/></button>
                         <button class="btn btn-default" type="button" data-dismiss="modal"><fmt:message
                                 key="admin.table.close"/></button>
                     </center>
                 </div>
-            </form>
+
         </div>
     </div>
 </div>
