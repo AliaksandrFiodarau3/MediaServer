@@ -37,7 +37,7 @@ public class Order  {
     private String number;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_user", insertable = false)
+    @JoinColumn(name = "id_user")
     private User user;
 
     private Double price;

@@ -5,6 +5,7 @@ import com.epam.mediaserver.service.ArtistService;
 import com.epam.mediaserver.service.BonusService;
 import com.epam.mediaserver.service.CommentService;
 import com.epam.mediaserver.service.GenreService;
+import com.epam.mediaserver.service.OrderService;
 import com.epam.mediaserver.service.SongService;
 import com.epam.mediaserver.service.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -45,6 +46,9 @@ public class DeleteController {
 
     @Autowired
     private BonusService bonusService;
+
+    @Autowired
+    private OrderService orderService;
 
     @RequestMapping(value = "genre/{idGenre}",
         method = RequestMethod.DELETE)
@@ -108,4 +112,14 @@ public class DeleteController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @RequestMapping(value = "order/{idOrder}",
+        method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteOrder(
+        @PathVariable("idOrder")
+            Long id) {
+
+        orderService.delete(id);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

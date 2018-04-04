@@ -4,12 +4,14 @@ import com.epam.mediaserver.entity.Album;
 import com.epam.mediaserver.entity.Artist;
 import com.epam.mediaserver.entity.Bonus;
 import com.epam.mediaserver.entity.Genre;
+import com.epam.mediaserver.entity.Order;
 import com.epam.mediaserver.entity.Song;
 import com.epam.mediaserver.entity.User;
 import com.epam.mediaserver.service.AlbumService;
 import com.epam.mediaserver.service.ArtistService;
 import com.epam.mediaserver.service.BonusService;
 import com.epam.mediaserver.service.GenreService;
+import com.epam.mediaserver.service.OrderService;
 import com.epam.mediaserver.service.RoleService;
 import com.epam.mediaserver.service.SongService;
 import com.epam.mediaserver.service.UserService;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 
 
 @Controller
@@ -54,6 +57,9 @@ public class AddController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private OrderService orderService;
 
  /*@RequestMapping(value = "user/addGood",
         method = RequestMethod.PUT)
@@ -228,6 +234,31 @@ public class AddController {
                 .role(roleService.find(roleId))
                 .build()
         );
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "order/number/{numberOrder}/price/{priceOrder}/idUser/{idUser}",
+        method = RequestMethod.PUT)
+    public  ResponseEntity<Void> addSong(
+        @PathVariable("numberOrder")
+            String number,
+        @PathVariable("priceOrder")
+            Double price,
+        @PathVariable("idUser")
+            Long idUser)  {
+
+        User user = userService.find(idUser);
+
+        System.out.println(user);
+
+        orderService.create(
+            Order.builder()
+                .number(number)
+                .price(price)
+                .time(new Timestamp(System.currentTimeMillis()))
+                .user(user)
+                .build());
 
         return new ResponseEntity(HttpStatus.OK);
     }

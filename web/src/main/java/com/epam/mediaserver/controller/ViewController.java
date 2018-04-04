@@ -3,6 +3,7 @@ package com.epam.mediaserver.controller;
 import com.epam.mediaserver.entity.Bonus;
 import com.epam.mediaserver.entity.Comment;
 import com.epam.mediaserver.entity.Genre;
+import com.epam.mediaserver.entity.Order;
 import com.epam.mediaserver.entity.User;
 import com.epam.mediaserver.exception.ServiceException;
 import com.epam.mediaserver.service.AlbumService;
@@ -202,5 +203,15 @@ public class ViewController {
         users.put("users", userService.findAll());
 
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "admin/orders")
+    public ResponseEntity<Map<String, List<Order>>> getOrders(){
+
+        Map<String, List<Order>> orders = new HashMap<>(1);
+
+        orders.put("orders", orderService.findAll());
+
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 }

@@ -28,7 +28,7 @@
             <td class="text-center">{{surname}}</td>
             <td class="text-center">{{email}}</td>
             <td class="text-center"><img src="{{photo}}" class="round" style="width: 100px; height: 100px;"></td>
-            <td class="text-center">{{adminRoot}}</td>
+            <td class="text-center">{{role.name}}</td>
             <td class="text-center">
                 <a class='btn btn-info btn-xs edit' href="#" data-toggle="modal" data-target="#editUser"
                    onmouseover="editUser('{{id}}','{{login}}','{{name}}','{{surname}}','{{email}}','{{adminRoot}}')">
@@ -39,7 +39,7 @@
                     <span class="glyphicon glyphicon-remove"></span><fmt:message key="admin.table.delete"/>
                 </a>
                 <a href="#" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#orderList"
-                   onclick="userOrder('{{id}}')">
+                   onclick="getMethod('admin/ordeer')">
                     <span class="glyphicon glyphicon-shopping-cart"></span><fmt:message key="admin.table.orders"/>
                 </a>
             </td>
